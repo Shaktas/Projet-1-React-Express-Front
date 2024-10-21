@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        indigo: {
+        blue: {
           1: "#FDFDFE",
           2: "#F7F9FF",
           3: "#EDF2FE",
