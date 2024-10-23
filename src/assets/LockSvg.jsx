@@ -1,6 +1,10 @@
 import React from "react";
 
-export const IconLock = ({ color, width = "auto", height = "auto" }) => {
+export const IconLock = ({
+  color = "fill-content",
+  width = "auto",
+  height = "auto",
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
