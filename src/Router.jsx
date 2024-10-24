@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import CheckElement from "./Components/Password/CheckElement";
+import CheckElement from "./Components/password/CheckElement";
 import Layout from "./Components/Layout";
 import ErrorPage from "./Components/ErrorPage";
 
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "./Components/Password/CheckElement",
+        path: "CheckElement",
         element: <CheckElement />,
       },
     ],

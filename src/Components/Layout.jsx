@@ -1,12 +1,14 @@
 import { Outlet } from "react-router-dom";
-import SideMenu from "./SideMenu/SideMenu";
+import SideMenu from "./sideMenu/SideMenu";
 
 function Layout() {
   return (
-    <>
+    <div className="flex">
       <SideMenu />
-      <Outlet />
-    </>
+      <div className="flex-col w-4/5">
+        <Outlet />
+      </div>
+    </div>
   );
 }
 

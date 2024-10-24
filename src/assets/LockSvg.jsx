@@ -1,5 +1,3 @@
-import React from "react";
-
 export const IconLock = ({
   color = "fill-content",
   width = "auto",
