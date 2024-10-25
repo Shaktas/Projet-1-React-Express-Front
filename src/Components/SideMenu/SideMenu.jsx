@@ -8,7 +8,9 @@ function SideMenu() {
   return (
     <div className="bg-blue-10 rounded-r-3xl w-1/6 h-screen flex content-center flex-col">
       <div className="text-blue-5 flex content-flex justify-center my-3">
-        <IconLock height="60" width="60" />
+        <NavLink to="/">
+          <IconLock height="60" width="60" />
+        </NavLink>
       </div>
       <div className="flex flex-col content-center justify-around h-2/5 my-44">
         <NewData />
@@ -21,7 +23,9 @@ function SideMenu() {
           </div>
         ))}
         <div>
-          <NavLink to="/CheckElement">Vérificateur de mots de passe</NavLink>
+          <NavLink to="/CheckElement" className="font-">
+            Vérificateur de mots de passe
+          </NavLink>
         </div>
       </div>
     </div>

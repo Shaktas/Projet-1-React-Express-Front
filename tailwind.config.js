@@ -18,6 +18,10 @@ export default {
           11: "#3A5BC7",
           12: "#1F2D5C",
         },
+        fontFamily: {
+          fira: ["Fira Code", "sans-serif"],
+          roboto: ["Roboto", "sans-serif"],
+        },
       },
     },
   },

@@ -64,15 +64,16 @@ function checkLength(string) {
 
 export function checkPwd(string) {
   let valueStrength = 0;
-  if (checkNumber(string)) return valueStrength;
-  if (checkLower(string)) return valueStrength;
-  if (checkUpper(string)) return valueStrength;
-  if (checkSymbols(string)) return valueStrength;
+  let boolNull = false;
+  if (checkNumber(string)) boolNull = true;
+  if (checkLower(string)) boolNull = true;
+  if (checkUpper(string)) boolNull = true;
+  if (checkSymbols(string)) boolNull = true;
 
   valueStrength += checkLength(string);
   valueStrength += checkChar(string);
 
-  console.log(valueStrength);
+  if (boolNull) valueStrength = 0;
 
   return valueStrength;
 }

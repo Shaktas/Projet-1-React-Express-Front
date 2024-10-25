@@ -1,7 +1,7 @@
 export const lowerRegEx = /^[a-z]+$/;
 export const upperRegEx = /^[A-Z]+$/;
 export const numberRegEx = /^\d+$/;
-export const symbolsRegEx = /[^A-Za-z0-9]/;
+export const symbolsRegEx = /^[^A-Za-z0-9]+$/;
 export const lowerAndUpperRegEx = /^(?=.*[a-z])(?=.*[A-Z]).+$/;
 export const lowerAndUpperAndNumberRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 export const lowerAndUpperAndNumberAndSymbolsRegEx =
