@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import CheckElement from "./Components/password/CheckElement";
+import CheckPwd from "./Components/password/CheckPwd";
 import Layout from "./Components/Layout";
 import ErrorPage from "./Components/ErrorPage";
+import GenPwd from "./Components/password/GenPwd";
 
 const router = createBrowserRouter([
   {
@@ -10,8 +11,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "CheckElement",
-        element: <CheckElement />,
+        path: "checkPwd",
+        element: <CheckPwd />,
+      },
+      {
+        path: "genPwd",
+        element: <GenPwd />,
       },
     ],
   },

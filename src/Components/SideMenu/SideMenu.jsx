@@ -23,9 +23,8 @@ function SideMenu() {
           </div>
         ))}
         <div>
-          <NavLink to="/CheckElement" className="font-">
-            Vérificateur de mots de passe
-          </NavLink>
+          <NavLink to="/checkPwd">Vérificateur de mots de passe</NavLink>
+          <NavLink to="/genPwd">Générateur de mots de passe</NavLink>
         </div>
       </div>
     </div>

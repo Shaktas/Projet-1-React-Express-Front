@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import StrengthPwd from "./StrengthPwd";
 import MessagePwd from "./MessagePwd";
 
-function CheckElement() {
+function CheckPwd() {
   const [pwd, setPwd] = useState("");
   const [strength, setStrength] = useState("");
   const [sentence, setSentence] = useState("");
@@ -69,4 +69,4 @@ function CheckElement() {
   );
 }
 
-export default CheckElement;
+export default CheckPwd;
