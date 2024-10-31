@@ -1,4 +1,8 @@
 import {
+  lettersLower,
+  lettersUpper,
+  numbers,
+  symbols,
   lowerAndUpperAndNumberAndSymbolsRegEx,
   lowerAndUpperAndNumberRegEx,
   lowerAndUpperRegEx,
@@ -7,6 +11,8 @@ import {
   symbolsRegEx,
   upperRegEx,
 } from "./var";
+
+/* Pwd function */
 
 function checkLower(string) {
   if (lowerRegEx.test(string)) {
@@ -77,3 +83,23 @@ export function checkPwd(string) {
 
   return valueStrength;
 }
+
+export function genPwd(lowerBool, upperBool, numbersBool, symbolsBool, length) {
+  let charArr = [];
+  let pwd = "";
+
+  // if (!((lowerBool && upperBool && numbersBool && symbolsBool) || length == 0)) {
+  //   return ""
+  // }
+  if (lowerBool) charArr = [...charArr, ...lettersLower];
+  if (upperBool) charArr = [...charArr, ...lettersUpper];
+  if (numbersBool) charArr = [...charArr, ...numbers];
+  if (symbolsBool) charArr = [...charArr, ...symbols];
+
+  for (let index = 0; index <= length; index++) {
+    const indexRandom = Math.floor(Math.random() * charArr.length);
+    pwd += charArr[indexRandom];
+  }
+  return pwd;
+}
+/* Fin Pwd Fonction */
