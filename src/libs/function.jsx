@@ -84,22 +84,30 @@ export function checkPwd(string) {
   return valueStrength;
 }
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 export function genPwd(lowerBool, upperBool, numbersBool, symbolsBool, length) {
   let charArr = [];
   let pwd = "";
 
-  // if (!((lowerBool && upperBool && numbersBool && symbolsBool) || length == 0)) {
-  //   return ""
-  // }
   if (lowerBool) charArr = [...charArr, ...lettersLower];
   if (upperBool) charArr = [...charArr, ...lettersUpper];
   if (numbersBool) charArr = [...charArr, ...numbers];
   if (symbolsBool) charArr = [...charArr, ...symbols];
+  if (charArr.length != 0) {
+    charArr = shuffleArray(charArr);
 
-  for (let index = 0; index <= length; index++) {
-    const indexRandom = Math.floor(Math.random() * charArr.length);
-    pwd += charArr[indexRandom];
+    for (let index = 0; index <= length; index++) {
+      const indexRandom = Math.floor(Math.random() * charArr.length);
+      pwd += charArr[indexRandom];
+    }
   }
   return pwd;
 }
+
 /* Fin Pwd Fonction */
