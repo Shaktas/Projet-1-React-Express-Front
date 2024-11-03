@@ -1,6 +1,9 @@
 import { useState } from "react";
 import CopySvg from "../../assets/CopySvg";
 import { genPwd } from "../../libs/function";
+import ClickButton from "../ActionComponents/ClickButton";
+import Checkbox from "../ActionComponents/Checkbox";
+import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 
 function GenPwd() {
   const [length, setLength] = useState(16);
@@ -9,6 +12,25 @@ function GenPwd() {
   const [numberBool, setNumberBool] = useState(false);
   const [symbolsBool, setSymbolsBool] = useState(false);
   const [pwd, setPwd] = useState("");
+
+  const checkboxParams = [
+    {
+      id: "lowerLetter",
+      string: "Insérer des lettres minuscules",
+      onChange: setLowerLetterHandler,
+    },
+    {
+      id: "upperLetter",
+      string: "Insérer des lettres majuscules",
+      onChange: setUpperLetterHandler,
+    },
+    { id: "number", string: "Insérer des nombres", onChange: setNumberHandler },
+    {
+      id: "symbols",
+      string: "Insérer des symboles",
+      onchange: setSymbolsHandler,
+    },
+  ];
 
   function setLengthHandler(e) {
     setLength(e.target.value);
@@ -40,7 +62,7 @@ function GenPwd() {
       <div className="my-10">
         <h1 className="text-blue-12 text-2xl">Générateur de mots de passe</h1>
       </div>
-      <div className="flex justify-center w-2/3 h-5/6 bg-blue-5 shadow-lg rounded-3xl">
+      <div className="flex justify-center w-2/3 bg-blue-5 shadow-lg rounded-3xl">
         <div className="w-2/3">
           <p className="flex justify-between items-center mt-10 h-7 bg-blue-8 text-blue-12 w-full rounded-3xl indent-5">
             {pwd}
@@ -74,59 +96,18 @@ function GenPwd() {
               value={length}
               onChange={setLengthHandler}
             />
-            <div>
-              <input
-                type="checkbox"
-                name="number"
-                id="number"
-                onChange={setNumberHandler}
+            <ToggleSwitch />
+            {checkboxParams.map((param) => (
+              <Checkbox
+                key={param.id}
+                string={param.string}
+                id={param.id}
+                onChange={param.onChange}
               />
-              <label className="ml-1" htmlFor="number">
-                Insérer des nombres
-              </label>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                name="lowerLetter"
-                id="lowerLetter"
-                onChange={setLowerLetterHandler}
-              />
-              <label className="ml-1" htmlFor="lowerLetter">
-                Insérer des lettres minuscules
-              </label>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                name="upperLetter"
-                id="upperLetter"
-                onChange={setUpperLetterHandler}
-              />
-              <label className="ml-1" htmlFor="upperLetter">
-                Insérer des lettres majuscules
-              </label>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                name="symbols"
-                id="symbols"
-                onChange={setSymbolsHandler}
-              />
-              <label className="ml-1" htmlFor="symbols">
-                Insérer des caractères spéciaux
-              </label>
-            </div>
+            ))}
           </div>
           <div className="flex justify-center items-center py-2">
-            <input
-              type="button"
-              role="button"
-              onClick={setPwdHandler}
-              value="Générer"
-              className="bg-blue-10 border-none text-blue-5 py-1 px-4 text-center no-underline inline-block text-lg m-1 cursor-pointer rounded-lg hover:bg-blue-11"
-            />
+            <ClickButton value={"Générer"} setPwdHandler={setPwdHandler} />
           </div>
         </div>
       </div>
