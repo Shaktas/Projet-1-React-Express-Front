@@ -1,55 +1,60 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const ToggleSwitch = ({ properties }) => {
+const ToggleSwitch = ({
+  properties = {
+    width: "w-8",
+    height: "h-4",
+    bgColorOn: "bg-blue-9",
+    bgColorOff: "bg-blue-6",
+    toggleWidth: "w-3",
+    toggleHeight: "h-3",
+    toggleColor: "bg-white",
+    translateX: "translate-x-3",
+  },
+  isToggle,
+}) => {
   const [isToggled, setIsToggled] = useState(false);
 
-  const toggleHandler = () => {
+  const setIsToggledHandler = () => {
     setIsToggled(!isToggled);
+    isToggle(!isToggled);
   };
-
-  ToggleSwitch.propTypes = {
-    properties: PropTypes.shape({
-      width: PropTypes.string,
-      height: PropTypes.string,
-      bgColorOn: PropTypes.string,
-      bgColorOff: PropTypes.string,
-      toggleWidth: PropTypes.string,
-      toggleHeight: PropTypes.string,
-      toggleColor: PropTypes.string,
-      translateX: PropTypes.string,
-    }),
-  };
-
-  const {
-    width = "w-8",
-    height = "h-4",
-    bgColorOn = "bg-blue-9",
-    bgColorOff = "bg-blue-6",
-    toggleWidth = "w-3",
-    toggleHeight = "h-3",
-    toggleColor = "bg-white",
-    translateX = "translate-x-3",
-  } = properties;
 
   return (
     <div
-      className={`${
-        (width, height, bgColorOff)
+      className={`${properties.width} ${properties.height} ${
+        properties.bgColorOff
+      })
       } flex items-center rounded-full p-1 cursor-pointer ${
-        isToggled ? bgColorOn : bgColorOff
+        isToggled ? properties.bgColorOn : properties.bgColorOff
       }`}
-      onClick={toggleHandler}
+      onClick={setIsToggledHandler}
     >
       <div
-        className={` ${
-          (toggleColor, toggleWidth, toggleHeight)
+        className={`${properties.toggleColor} 
+        ${properties.toggleWidth} 
+        ${properties.toggleHeight}
         } rounded-full shadow-md transform duration-300 ease-in-out ${
-          isToggled ? translateX : ""
+          isToggled ? properties.translateX : ""
         }`}
       ></div>
     </div>
   );
+};
+
+ToggleSwitch.propTypes = {
+  properties: PropTypes.shape({
+    width: PropTypes.string,
+    height: PropTypes.string,
+    bgColorOn: PropTypes.string,
+    bgColorOff: PropTypes.string,
+    toggleWidth: PropTypes.string,
+    toggleHeight: PropTypes.string,
+    toggleColor: PropTypes.string,
+    translateX: PropTypes.string,
+  }),
+  isToggle: PropTypes.func,
 };
 
 export default ToggleSwitch;

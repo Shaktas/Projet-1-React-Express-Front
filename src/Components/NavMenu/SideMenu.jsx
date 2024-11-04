@@ -1,4 +1,4 @@
-import { IconLock } from "/src/assets/LockSvg.jsx";
+import { IconLock } from "/src/assets/Svg.jsx";
 import { NavLink } from "react-router-dom";
 
 import NewData from "./NewData";

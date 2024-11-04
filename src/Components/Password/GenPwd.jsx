@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CopySvg from "../../assets/CopySvg";
+import { CopySvg } from "../../assets/Svg";
 import { genPwd } from "../../libs/function";
 import ClickButton from "../ActionComponents/ClickButton";
 import Checkbox from "../ActionComponents/Checkbox";
@@ -12,6 +12,7 @@ function GenPwd() {
   const [numberBool, setNumberBool] = useState(false);
   const [symbolsBool, setSymbolsBool] = useState(false);
   const [pwd, setPwd] = useState("");
+  const [isToggled, setIsToggled] = useState(false);
 
   const checkboxParams = [
     {
@@ -28,20 +29,9 @@ function GenPwd() {
     {
       id: "symbols",
       string: "Insérer des symboles",
-      onchange: setSymbolsHandler,
+      onChange: setSymbolsHandler,
     },
   ];
-
-  const toggleProperties = {
-    width: "w-12",
-    height: "h-6",
-    bgColorOn: "bg-green-500",
-    bgColorOff: "bg-gray-300",
-    toggleWidth: "w-6",
-    toggleHeight: "h-6",
-    toggleColor: "bg-white",
-    translateX: "translate-x-6",
-  };
 
   function setLengthHandler(e) {
     setLength(e.target.value);
@@ -62,6 +52,10 @@ function GenPwd() {
     setPwd(
       genPwd(lowerLetterBool, upperLetterBool, numberBool, symbolsBool, length)
     );
+  }
+
+  function setIsToggleHandler(isToggled) {
+    setIsToggled(isToggled);
   }
 
   function PasteHandler() {
@@ -107,18 +101,23 @@ function GenPwd() {
               value={length}
               onChange={setLengthHandler}
             />
-            <div className="flex content-around">
+            <div className="flex items-center justify-between">
               <span className="text-blue-12">Mot de passe personnalisé ?</span>
-              <ToggleSwitch properties={toggleProperties} />
+              <ToggleSwitch isToggle={setIsToggleHandler} />
             </div>
-            {checkboxParams.map((param) => (
-              <Checkbox
-                key={param.id}
-                string={param.string}
-                id={param.id}
-                onChange={param.onChange}
-              />
-            ))}
+
+            {isToggled ? (
+              <p>true</p>
+            ) : (
+              checkboxParams.map((param) => (
+                <Checkbox
+                  key={param.id}
+                  string={param.string}
+                  id={param.id}
+                  onChange={param.onChange}
+                />
+              ))
+            )}
           </div>
           <div className="flex justify-center items-center py-2">
             <ClickButton value={"Générer"} setPwdHandler={setPwdHandler} />
