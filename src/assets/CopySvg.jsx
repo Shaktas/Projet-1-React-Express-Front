@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 function CopySvg({ color = "fill-current", height = "auto", width = "auto" }) {
   return (
     <svg

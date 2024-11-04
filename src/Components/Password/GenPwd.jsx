@@ -32,6 +32,17 @@ function GenPwd() {
     },
   ];
 
+  const toggleProperties = {
+    width: "w-12",
+    height: "h-6",
+    bgColorOn: "bg-green-500",
+    bgColorOff: "bg-gray-300",
+    toggleWidth: "w-6",
+    toggleHeight: "h-6",
+    toggleColor: "bg-white",
+    translateX: "translate-x-6",
+  };
+
   function setLengthHandler(e) {
     setLength(e.target.value);
   }
@@ -96,7 +107,10 @@ function GenPwd() {
               value={length}
               onChange={setLengthHandler}
             />
-            <ToggleSwitch />
+            <div className="flex content-around">
+              <span className="text-blue-12">Mot de passe personnalisé ?</span>
+              <ToggleSwitch properties={toggleProperties} />
+            </div>
             {checkboxParams.map((param) => (
               <Checkbox
                 key={param.id}
