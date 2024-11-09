@@ -91,23 +91,39 @@ function shuffleArray(array) {
   }
   return array;
 }
-export function genPwd(lowerBool, upperBool, numbersBool, symbolsBool, length) {
+export function genPwd(
+  params = {
+    lowerBool: false,
+    upperBool: false,
+    numbersBool: false,
+    symbolsBool: false,
+    length: 16,
+  },
+  isToggled = false
+) {
   let charArr = [];
   let pwd = "";
+  if (!isToggled) {
+    if (params.lowerBool) charArr = [...charArr, ...lettersLower];
+    if (params.upperBool) charArr = [...charArr, ...lettersUpper];
+    if (params.numbersBool) charArr = [...charArr, ...numbers];
+    if (params.symbolsBool) charArr = [...charArr, ...symbols];
 
-  if (lowerBool) charArr = [...charArr, ...lettersLower];
-  if (upperBool) charArr = [...charArr, ...lettersUpper];
-  if (numbersBool) charArr = [...charArr, ...numbers];
-  if (symbolsBool) charArr = [...charArr, ...symbols];
-  if (charArr.length != 0) {
-    charArr = shuffleArray(charArr);
+    if (charArr.length !== 0) {
+      charArr = shuffleArray(charArr);
 
-    for (let index = 0; index <= length; index++) {
-      const indexRandom = Math.floor(Math.random() * charArr.length);
-      pwd += charArr[indexRandom];
+      for (let index = 0; index <= params.length; index++) {
+        const indexRandom = Math.floor(Math.random() * charArr.length);
+        pwd += charArr[indexRandom];
+      }
     }
+
+    return pwd;
+  } else {
+    // Implement the actual functionality for when isToggled is true
+    // For example, you could return a default password or handle it differently
+    return "defaultPassword"; // Replace with actual implementation
   }
-  return pwd;
 }
 
 /* Fin Pwd Fonction */

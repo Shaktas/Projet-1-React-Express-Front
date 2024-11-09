@@ -1,4 +1,6 @@
-function ClickButton({ value, setPwdHandler }) {
+import PropTypes from "prop-types";
+
+const ClickButton = ({ value, setPwdHandler }) => {
   return (
     <input
       type="button"
@@ -8,6 +10,11 @@ function ClickButton({ value, setPwdHandler }) {
       className="bg-blue-10 border-none text-blue-5 py-1 px-4 text-center no-underline inline-block text-lg m-1 cursor-pointer rounded-lg hover:bg-blue-11"
     />
   );
-}
+};
+
+ClickButton.propTypes = {
+  value: PropTypes.string,
+  setPwdHandler: PropTypes.func,
+};
 
 export default ClickButton;

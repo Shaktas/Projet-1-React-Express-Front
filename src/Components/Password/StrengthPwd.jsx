@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 function StrengthPwd(strength) {
   switch (strength.strength) {
     case 0:
@@ -60,3 +62,7 @@ function StrengthPwd(strength) {
 }
 
 export default StrengthPwd;
+
+StrengthPwd.propTypes = {
+  strength: PropTypes.number,
+};

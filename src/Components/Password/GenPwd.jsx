@@ -4,6 +4,7 @@ import { genPwd } from "../../libs/function";
 import ClickButton from "../ActionComponents/ClickButton";
 import Checkbox from "../ActionComponents/Checkbox";
 import ToggleSwitch from "../ActionComponents/ToggleSwitch";
+import CustomPwd from "./CustomPwd";
 
 function GenPwd() {
   const [length, setLength] = useState(16);
@@ -13,6 +14,7 @@ function GenPwd() {
   const [symbolsBool, setSymbolsBool] = useState(false);
   const [pwd, setPwd] = useState("");
   const [isToggled, setIsToggled] = useState(false);
+  const [sentenceCustom, setSentenceCustom] = useState("");
 
   const checkboxParams = [
     {
@@ -48,10 +50,19 @@ function GenPwd() {
   function setSymbolsHandler(e) {
     setSymbolsBool(e.target.checked);
   }
+  function setSentenceCustomHandler(e) {
+    setSentenceCustom(e.target.value);
+  }
   function setPwdHandler() {
-    setPwd(
-      genPwd(lowerLetterBool, upperLetterBool, numberBool, symbolsBool, length)
-    );
+    const paramsGenPwd = {
+      lowerBool: lowerLetterBool,
+      upperBool: upperLetterBool,
+      numbersBool: numberBool,
+      symbolsBool: symbolsBool,
+      length: length,
+    };
+
+    setPwd(genPwd(paramsGenPwd, isToggled));
   }
 
   function setIsToggleHandler(isToggled) {
@@ -61,6 +72,7 @@ function GenPwd() {
   function PasteHandler() {
     navigator.clipboard.writeText(pwd);
   }
+  console.log("sentenceCustom :", sentenceCustom);
 
   return (
     <>
@@ -102,16 +114,19 @@ function GenPwd() {
               onChange={setLengthHandler}
             />
             <div className="flex items-center justify-between">
-              <span className="text-blue-12">Mot de passe personnalisé ?</span>
+              <span className="">Mot de passe personnalisé ?</span>
               <ToggleSwitch isToggle={setIsToggleHandler} />
             </div>
 
             {isToggled ? (
-              <p>true</p>
+              <CustomPwd
+                sentenceCustom={sentenceCustom}
+                setSentenceCustomHandler={setSentenceCustomHandler}
+              />
             ) : (
               checkboxParams.map((param) => (
                 <Checkbox
-                  key={param.id}
+                  key={param.id + "KeyGenPwd"}
                   string={param.string}
                   id={param.id}
                   onChange={param.onChange}

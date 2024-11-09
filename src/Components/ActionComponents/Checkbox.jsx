@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 function Checkbox({ string, id, onChange }) {
   return (
     <div>
@@ -9,3 +11,9 @@ function Checkbox({ string, id, onChange }) {
   );
 }
 export default Checkbox;
+
+Checkbox.propTypes = {
+  string: PropTypes.string,
+  id: PropTypes.string,
+  onChange: PropTypes.func,
+};

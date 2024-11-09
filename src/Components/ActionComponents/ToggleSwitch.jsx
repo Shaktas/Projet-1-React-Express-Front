@@ -6,7 +6,7 @@ const ToggleSwitch = ({
     width: "w-8",
     height: "h-4",
     bgColorOn: "bg-blue-9",
-    bgColorOff: "bg-blue-6",
+    bgColorOff: "bg-blue-2",
     toggleWidth: "w-3",
     toggleHeight: "h-3",
     toggleColor: "bg-white",
@@ -35,7 +35,7 @@ const ToggleSwitch = ({
         className={`${properties.toggleColor} 
         ${properties.toggleWidth} 
         ${properties.toggleHeight}
-        } rounded-full shadow-md transform duration-300 ease-in-out ${
+        } rounded-full border-solid border border-blue-9 transform duration-300 ease-in-out ${
           isToggled ? properties.translateX : ""
         }`}
       ></div>

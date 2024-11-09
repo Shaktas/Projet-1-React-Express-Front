@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 function MessagePwd(strength) {
   switch (strength.strength) {
     case 0:
@@ -68,5 +70,9 @@ function MessagePwd(strength) {
       break;
   }
 }
+
+MessagePwd.propTypes = {
+  strength: PropTypes.number,
+};
 
 export default MessagePwd;
