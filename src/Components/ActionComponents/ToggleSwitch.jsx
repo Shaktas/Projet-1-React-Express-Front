@@ -9,7 +9,8 @@ const ToggleSwitch = ({
     bgColorOff: "bg-blue-2",
     toggleWidth: "w-3",
     toggleHeight: "h-3",
-    toggleColor: "bg-white",
+    toggleColorOn: "bg-blue-2",
+    toggleColorOff: "bg-blue-5",
     translateX: "translate-x-3",
   },
   isToggle,
@@ -23,21 +24,21 @@ const ToggleSwitch = ({
 
   return (
     <div
-      className={`${properties.width} ${properties.height} ${
-        properties.bgColorOff
-      })
-      } flex items-center rounded-full p-1 cursor-pointer ${
-        isToggled ? properties.bgColorOn : properties.bgColorOff
-      }`}
+      className={`
+        ${properties.width} 
+        ${properties.height} 
+        ${properties.bgColorOff}
+        ${isToggled ? properties.bgColorOn : properties.bgColorOff}
+        flex items-center rounded-full p-1 cursor-pointer`}
       onClick={setIsToggledHandler}
     >
       <div
-        className={`${properties.toggleColor} 
+        className={` 
         ${properties.toggleWidth} 
         ${properties.toggleHeight}
-        } rounded-full border-solid border border-blue-9 transform duration-300 ease-in-out ${
-          isToggled ? properties.translateX : ""
-        }`}
+        ${isToggled ? properties.translateX : ""}
+        ${isToggled ? properties.toggleColorOn : properties.toggleColorOff}
+        rounded-full border-solid shadow-2xl transform duration-300 ease-in-out`}
       ></div>
     </div>
   );
@@ -51,7 +52,8 @@ ToggleSwitch.propTypes = {
     bgColorOff: PropTypes.string,
     toggleWidth: PropTypes.string,
     toggleHeight: PropTypes.string,
-    toggleColor: PropTypes.string,
+    toggleColorOn: PropTypes.string,
+    toggleColorOff: PropTypes.string,
     translateX: PropTypes.string,
   }),
   isToggle: PropTypes.func,

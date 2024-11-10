@@ -60,6 +60,7 @@ function GenPwd() {
       numbersBool: numberBool,
       symbolsBool: symbolsBool,
       length: length,
+      sentence: sentenceCustom,
     };
 
     setPwd(genPwd(paramsGenPwd, isToggled));

@@ -1,7 +1,10 @@
+export const isNumberOrSymbol = /[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/;
 export const lowerRegEx = /^[a-z]+$/;
 export const upperRegEx = /^[A-Z]+$/;
+export const letterRegEx = /^[A-Za-z]+$/; //ne capte pas les accents
 export const numberRegEx = /^\d+$/;
 export const symbolsRegEx = /^[^A-Za-z0-9]+$/;
+
 export const lowerAndUpperRegEx = /^(?=.*[a-z])(?=.*[A-Z]).+$/;
 export const lowerAndUpperAndNumberRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 export const lowerAndUpperAndNumberAndSymbolsRegEx =

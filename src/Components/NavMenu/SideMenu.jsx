@@ -6,7 +6,7 @@ import NewData from "./NewData";
 function SideMenu() {
   const filtres = ["Toutes les entrées", "Sites Web", "Applications", "Autre"];
   return (
-    <div className="bg-blue-10 rounded-r-3xl w-1/6 h-screen flex content-center flex-col">
+    <div className="bg-blue-10 rounded-r-3xl w-1/6 h-full flex content-center flex-col">
       <div className="text-blue-5 flex content-flex justify-center my-3">
         <NavLink to="/">
           <IconLock height="60" width="60" />
