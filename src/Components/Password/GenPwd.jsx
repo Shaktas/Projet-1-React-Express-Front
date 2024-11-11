@@ -104,16 +104,20 @@ function GenPwd() {
               <label htmlFor="length">Longueur du mot de passe</label>
               <span>{length}</span>
             </div>
-            <input
-              min="1"
-              max="32"
-              type="range"
-              name="length"
-              id="length"
-              className="accent-blue-8"
-              value={length}
-              onChange={setLengthHandler}
-            />
+            {isToggled ? (
+              ""
+            ) : (
+              <input
+                min="1"
+                max="32"
+                type="range"
+                name="length"
+                id="length"
+                className="accent-blue-8"
+                value={length}
+                onChange={setLengthHandler}
+              />
+            )}
             <div className="flex items-center justify-between">
               <span className="">Mot de passe personnalisé ?</span>
               <ToggleSwitch isToggle={setIsToggleHandler} />

@@ -12,6 +12,7 @@ import {
   upperRegEx,
   letterRegEx,
   isNumberOrSymbol,
+  lowerAndUpperAndSymobolsRegEx,
 } from "./var";
 
 /* Pwd function */
@@ -119,31 +120,22 @@ function shuffleArray(array) {
   return array;
 }
 
-// function returnFirstLetter(string) {
-//   if (string.test(letterRegEx)) {
-//     return string[0];
-//   }
-// }
-
+// Get first letter of each word and every number and special symbol
 function getFirstLettersAndEveryNumberAndSpecials(string) {
   const words = string.split(" ");
   let result = "";
-  // a revoir
+
   words.forEach((word) => {
-    // il aime pas les c
     if (word.length > 0) {
-      if (word.match(letterRegEx)) {
-        result += word[0];
-      } else if (word.match(numberRegEx)) {
-        result += word;
-      } else if (word.match(symbolsRegEx)) {
-        result += word;
-      } else if (word.match(lowerAndUpperAndNumberAndSymbolsRegEx)) {
-        // Problem here : ne capte pas les caratères spéciaux dans un mot
-        for (let i = 0; i < word.length; i++) {
-          if (i === 0 && word[i].match(letterRegEx)) {
-            result += word[i];
-          } else if (word[i].match(isNumberOrSymbol)) {
+      for (let i = 0; i < word.length; i++) {
+        if (i === 0 && letterRegEx.test(word[i])) {
+          result += word[i];
+        } else if (isNumberOrSymbol.test(word[i])) {
+          if (/[-_']/.test(word[i])) {
+            console.log("word[i] :", word[i]);
+
+            result += word[i] + word[i + 1];
+          } else {
             result += word[i];
           }
         }
