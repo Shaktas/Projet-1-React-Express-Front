@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { CopySvg } from "../../assets/Svg";
 import { genPwd } from "../../libs/function";
 import ClickButton from "../ActionComponents/ClickButton";
 import Checkbox from "../ActionComponents/Checkbox";
 import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import CustomPwd from "./CustomPwd";
+import CopyButton from "../ActionComponents/CopyButton";
 
 function GenPwd() {
   const [length, setLength] = useState(16);
-  const [lowerLetterBool, setLowerLetterBool] = useState(false);
-  const [upperLetterBool, setUpperLetterBool] = useState(false);
-  const [numberBool, setNumberBool] = useState(false);
-  const [symbolsBool, setSymbolsBool] = useState(false);
+  const [lengthCustom, setLengthCustom] = useState("");
+  const [lowerLetterBool, setLowerLetterBool] = useState(true);
+  const [upperLetterBool, setUpperLetterBool] = useState(true);
+  const [numberBool, setNumberBool] = useState(true);
+  const [symbolsBool, setSymbolsBool] = useState(true);
   const [pwd, setPwd] = useState("");
+  const [pwdCustom, setPwdCustom] = useState("");
   const [isToggled, setIsToggled] = useState(false);
   const [sentenceCustom, setSentenceCustom] = useState("");
 
@@ -20,17 +22,25 @@ function GenPwd() {
     {
       id: "lowerLetter",
       string: "Insérer des lettres minuscules",
+      checked: lowerLetterBool,
       onChange: setLowerLetterHandler,
     },
     {
       id: "upperLetter",
       string: "Insérer des lettres majuscules",
+      checked: upperLetterBool,
       onChange: setUpperLetterHandler,
     },
-    { id: "number", string: "Insérer des nombres", onChange: setNumberHandler },
+    {
+      id: "number",
+      string: "Insérer des nombres",
+      checked: numberBool,
+      onChange: setNumberHandler,
+    },
     {
       id: "symbols",
       string: "Insérer des symboles",
+      checked: symbolsBool,
       onChange: setSymbolsHandler,
     },
   ];
@@ -63,7 +73,13 @@ function GenPwd() {
       sentence: sentenceCustom,
     };
 
-    setPwd(genPwd(paramsGenPwd, isToggled));
+    if (isToggled) {
+      const string = genPwd(paramsGenPwd, isToggled);
+      setPwdCustom(string);
+      setLengthCustom(string.length);
+    } else {
+      setPwd(genPwd(paramsGenPwd, isToggled));
+    }
   }
 
   function setIsToggleHandler(isToggled) {
@@ -83,18 +99,15 @@ function GenPwd() {
       <div className="flex justify-center w-2/3 bg-blue-5 shadow-lg rounded-3xl">
         <div className="w-2/3">
           <p className="flex justify-between items-center mt-10 h-7 bg-blue-8 text-blue-12 w-full rounded-3xl indent-5">
-            {pwd}
-            {pwd.length != 0 ? (
-              <button
-                className="flex justify-center items-center"
-                type="button"
-                role="button"
-                onClick={PasteHandler}
-              >
-                <span className="mr-2 text-blue-12">
-                  <CopySvg height="15" width="15" />
-                </span>
-              </button>
+            {isToggled ? pwdCustom : pwd}
+            {isToggled ? (
+              pwdCustom.length != 0 ? (
+                <CopyButton PasteHandler={PasteHandler} />
+              ) : (
+                ""
+              )
+            ) : pwd.length != 0 ? (
+              <CopyButton PasteHandler={PasteHandler} />
             ) : (
               ""
             )}
@@ -102,7 +115,7 @@ function GenPwd() {
           <div className="flex flex-col justify-center mt-5">
             <div className="flex justify-between">
               <label htmlFor="length">Longueur du mot de passe</label>
-              <span>{length}</span>
+              <span>{isToggled ? lengthCustom : length}</span>
             </div>
             {isToggled ? (
               ""
@@ -134,6 +147,7 @@ function GenPwd() {
                   key={param.id + "KeyGenPwd"}
                   string={param.string}
                   id={param.id}
+                  checked={param.checked}
                   onChange={param.onChange}
                 />
               ))
