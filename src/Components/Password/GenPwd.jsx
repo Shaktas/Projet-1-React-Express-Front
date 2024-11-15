@@ -19,7 +19,6 @@ function GenPwd() {
   const [isToggled, setIsToggled] = useState(false);
   const [sentenceCustom, setSentenceCustom] = useState("");
   const [popupSuccess, setPopupSuccess] = useState(false);
-  console.log("popupSuccess", popupSuccess);
 
   const checkboxParams = [
     {

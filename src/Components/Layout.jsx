@@ -4,13 +4,11 @@ import SearchBar from "./Password/SearchBar";
 
 function Layout() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen max-h-screen">
       <SideMenu />
-      <div className=" flex flex-col w-5/6 min-h-screen content-evenly ">
-        <div className="flex-row">
-          <SearchBar />
-        </div>
-        <div className="flex flex-col h-1/2 justify-center items-center relative">
+      <div className=" flex flex-col w-5/6 h-full max-h-screen content-evenly">
+        <SearchBar />
+        <div className="flex flex-col overflow-y-scroll grow">
           <Outlet />
         </div>
       </div>
