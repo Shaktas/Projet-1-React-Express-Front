@@ -5,6 +5,7 @@ import Checkbox from "../ActionComponents/Checkbox";
 import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import CustomPwd from "./CustomPwd";
 import CopyButton from "../ActionComponents/CopyButton";
+import Modal from "../Modal";
 
 function GenPwd() {
   const [length, setLength] = useState(16);
@@ -17,6 +18,8 @@ function GenPwd() {
   const [pwdCustom, setPwdCustom] = useState("");
   const [isToggled, setIsToggled] = useState(false);
   const [sentenceCustom, setSentenceCustom] = useState("");
+  const [popupSuccess, setPopupSuccess] = useState(false);
+  console.log("popupSuccess", popupSuccess);
 
   const checkboxParams = [
     {
@@ -73,12 +76,12 @@ function GenPwd() {
       sentence: sentenceCustom,
     };
 
+    const string = genPwd(paramsGenPwd, isToggled);
     if (isToggled) {
-      const string = genPwd(paramsGenPwd, isToggled);
       setPwdCustom(string);
       setLengthCustom(string.length);
     } else {
-      setPwd(genPwd(paramsGenPwd, isToggled));
+      setPwd(string);
     }
   }
 
@@ -86,13 +89,23 @@ function GenPwd() {
     setIsToggled(isToggled);
   }
 
-  function PasteHandler() {
+  function pasteHandler() {
     navigator.clipboard.writeText(pwd);
+    setPopupSuccess(true);
+    setTimeout(() => {
+      setPopupSuccess(false);
+    }, 3000);
   }
-  console.log("sentenceCustom :", sentenceCustom);
+
+  const modalSuccess = {
+    message: "Texte copié !",
+    condtion: "success",
+    isVisible: popupSuccess,
+  };
 
   return (
     <>
+      {popupSuccess ? <Modal properties={modalSuccess} /> : ""}
       <div className="my-10">
         <h1 className="text-blue-12 text-2xl">Générateur de mots de passe</h1>
       </div>
@@ -102,12 +115,12 @@ function GenPwd() {
             {isToggled ? pwdCustom : pwd}
             {isToggled ? (
               pwdCustom.length != 0 ? (
-                <CopyButton PasteHandler={PasteHandler} />
+                <CopyButton pasteHandler={pasteHandler} />
               ) : (
                 ""
               )
             ) : pwd.length != 0 ? (
-              <CopyButton PasteHandler={PasteHandler} />
+              <CopyButton pasteHandler={pasteHandler} />
             ) : (
               ""
             )}

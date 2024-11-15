@@ -12,7 +12,6 @@ import {
   upperRegEx,
   letterRegEx,
   isNumberOrSymbol,
-  lowerAndUpperAndSymobolsRegEx,
 } from "./var";
 
 /* Pwd function */

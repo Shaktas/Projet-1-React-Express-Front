@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { checkPwd } from "../../libs/function";
-import { useEffect } from "react";
 import StrengthPwd from "./StrengthPwd";
 import MessagePwd from "./MessagePwd";
 

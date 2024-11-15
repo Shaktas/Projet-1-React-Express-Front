@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { set } from "react-hook-form";
 
 function CustomPwd({ sentenceCustom, setSentenceCustomHandler }) {
   return (
@@ -22,5 +21,5 @@ export default CustomPwd;
 
 CustomPwd.propTypes = {
   sentenceCustom: PropTypes.string,
-  setSentenceCustom: PropTypes.func,
+  setSentenceCustomHandler: PropTypes.func,
 };

@@ -1,4 +1,4 @@
-export const isNumberOrSymbol = /^[0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]+$/;
+export const isNumberOrSymbol = /^[0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?`~]+$/;
 export const lowerRegEx = /^[a-z]+$/;
 export const upperRegEx = /^[A-Z]+$/;
 export const letterRegEx = /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/;
@@ -6,7 +6,7 @@ export const numberRegEx = /^\d+$/;
 export const symbolsRegEx = /^[^A-Za-z0-9]+$/;
 export const lowerAndUpperRegEx = /^(?=.*[a-z])(?=.*[A-Z]).+$/;
 export const lowerAndUpperAndSymobolsRegEx =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]).+$/;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?`~]).+$/;
 export const lowerAndUpperAndNumberRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 export const lowerAndUpperAndNumberAndSymbolsRegEx =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
