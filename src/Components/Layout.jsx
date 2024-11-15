@@ -1,6 +1,6 @@
-import { Outlet } from "react-router-dom";
-import SideMenu from "./NavMenu/Sidemenu";
-import SearchBar from "./Password/SearchBar";
+import { Outlet } from 'react-router-dom';
+import SearchBar from './Password/SearchBar';
+import SideMenu from './NavMenu/SideMenu';
 
 function Layout() {
   return (
