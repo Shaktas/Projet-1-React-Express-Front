@@ -8,7 +8,7 @@ function Layout() {
       <SideMenu />
       <div className=" flex flex-col w-5/6 h-full max-h-screen content-evenly">
         <SearchBar />
-        <div className="flex flex-col overflow-y-scroll grow">
+        <div className="flex flex-col justify-start items-center overflow-y-scroll grow">
           <Outlet />
         </div>
       </div>

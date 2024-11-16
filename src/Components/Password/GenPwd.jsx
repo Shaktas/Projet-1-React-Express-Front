@@ -6,6 +6,7 @@ import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import CustomPwd from "./CustomPwd";
 import CopyButton from "../ActionComponents/CopyButton";
 import Modal from "../Modal";
+import UsePopup from "../Hooks/UsePopup";
 
 function GenPwd() {
   const [length, setLength] = useState(16);
@@ -18,7 +19,7 @@ function GenPwd() {
   const [pwdCustom, setPwdCustom] = useState("");
   const [isToggled, setIsToggled] = useState(false);
   const [sentenceCustom, setSentenceCustom] = useState("");
-  const [popupSuccess, setPopupSuccess] = useState(false);
+  const { popupSuccess, modals, pasteHandler } = UsePopup();
 
   const checkboxParams = [
     {
@@ -88,23 +89,9 @@ function GenPwd() {
     setIsToggled(isToggled);
   }
 
-  function pasteHandler() {
-    navigator.clipboard.writeText(pwd);
-    setPopupSuccess(true);
-    setTimeout(() => {
-      setPopupSuccess(false);
-    }, 3000);
-  }
-
-  const modalSuccess = {
-    message: "Texte copié !",
-    condtion: "success",
-    isVisible: popupSuccess,
-  };
-
   return (
     <>
-      {popupSuccess ? <Modal properties={modalSuccess} /> : ""}
+      {popupSuccess ? <Modal properties={modals.success} /> : ""}
       <div className="my-10">
         <h1 className="text-blue-12 text-2xl">Générateur de mots de passe</h1>
       </div>
@@ -114,12 +101,12 @@ function GenPwd() {
             {isToggled ? pwdCustom : pwd}
             {isToggled ? (
               pwdCustom.length != 0 ? (
-                <CopyButton pasteHandler={pasteHandler} />
+                <CopyButton pasteHandler={() => pasteHandler(pwdCustom)} />
               ) : (
                 ""
               )
             ) : pwd.length != 0 ? (
-              <CopyButton pasteHandler={pasteHandler} />
+              <CopyButton pasteHandler={() => pasteHandler(pwd)} />
             ) : (
               ""
             )}

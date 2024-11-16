@@ -1,3 +1,5 @@
+import UsePopup from "../Hooks/UsePopup";
+import Modal from "../Modal";
 import Card from "./Card";
 
 const cardsData = [
@@ -101,14 +103,6 @@ const cardsData = [
 ];
 
 const Cards = () => {
-  function pasteHandler() {
-    navigator.clipboard.writeText(pwd);
-    setPopupSuccess(true);
-    setTimeout(() => {
-      setPopupSuccess(false);
-    }, 3000);
-  }
-
   return (
     <div className="flex justify-center flex-wrap">
       {cardsData.map((card, index) => (
@@ -118,7 +112,6 @@ const Cards = () => {
           url={card.url}
           username={card.username}
           password={card.password}
-          onClick={pasteHandler}
         />
       ))}
     </div>

@@ -1,4 +1,5 @@
 import { EyeIcon } from "../../assets/Svg";
+import PropType from "prop-types";
 
 function EyeButton({ clickHandler }) {
   return (
@@ -16,3 +17,7 @@ function EyeButton({ clickHandler }) {
 }
 
 export default EyeButton;
+
+EyeButton.propTypes = {
+  clickHandler: PropType.func.isRequired,
+};
