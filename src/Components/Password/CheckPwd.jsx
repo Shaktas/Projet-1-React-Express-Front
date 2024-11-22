@@ -43,10 +43,10 @@ function CheckPwd() {
       <div className="my-10">
         <h1 className="text-blue-12 text-2xl">Vérificateur de mots de passe</h1>
       </div>
-      <div className="flex justify-center w-2/3 h-5/6 bg-blue-5 shadow-lg rounded-3xl">
+      <div className="flex justify-center w-2/3 bg-blue-5 shadow-lg rounded-3xl py-5">
         <div className="w-2/3">
           <input
-            className="mt-10 h-7 bg-blue-8 text-blue-12 w-full rounded-3xl indent-5"
+            className="mt-5 h-7 bg-blue-8 text-blue-12 w-full rounded-3xl indent-5"
             type="text"
             value={pwd}
             onChange={setPwdHandler}

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { EyeCloseIcon } from "../../assets/Svg";
 
 function EyeCloseButton({ clickHandler }) {
@@ -16,3 +17,7 @@ function EyeCloseButton({ clickHandler }) {
 }
 
 export default EyeCloseButton;
+
+EyeCloseButton.propTypes = {
+  clickHandler: PropTypes.func.isRequired,
+};

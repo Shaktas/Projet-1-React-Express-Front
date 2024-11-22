@@ -93,6 +93,255 @@ export const EyeCloseIcon = ({
   </svg>
 );
 
+export const LogOutIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-log-out"
+    viewBox="0 0 24 24"
+  >
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"></path>
+  </svg>
+);
+
+export const LogInIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-log-in"
+    viewBox="0 0 24 24"
+  >
+    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path>
+  </svg>
+);
+
+export const UserIcon = ({
+  width = "24",
+  height = "24",
+  fill = "none",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-user"
+    viewBox="0 0 24 24"
+  >
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+    <circle cx="12" cy="7" r="4"></circle>
+  </svg>
+);
+
+export const LayoutIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-layout"
+    viewBox="0 0 24 24"
+  >
+    <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+    <path d="M3 9h18M9 21V9"></path>
+  </svg>
+);
+
+export const GlobeIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-globe"
+    viewBox="0 0 24 24"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10"></path>
+  </svg>
+);
+
+export const SearchIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fiil-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-search"
+    viewBox="0 0 24 24"
+  >
+    <circle cx="11" cy="11" r="8"></circle>
+    <path d="m21 21-4.35-4.35"></path>
+  </svg>
+);
+
+export const FolderIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-folder"
+    viewBox="0 0 24 24"
+  >
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+  </svg>
+);
+
+FolderIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
+SearchIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
+GlobeIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
+LayoutIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
+UserIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
+LogInIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
+LogOutIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
 EyeCloseIcon.propTypes = {
   fill: PropTypes.string,
   height: PropTypes.string,

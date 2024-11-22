@@ -1,13 +1,33 @@
 import PropTypes from "prop-types";
 import EyeButton from "../ActionComponents/EyeButton";
 import EyeCloseButton from "../ActionComponents/EyeCloseButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UsePopup from "../Hooks/UsePopup";
 import Modal from "../Modal";
+import { FolderIcon, GlobeIcon, LayoutIcon } from "../../assets/Svg";
 
-const Card = ({ name, url, username, password }) => {
+const Card = ({ name, url, username, password, type }) => {
   const [isEye, setIsEye] = useState(true);
   const { popupSuccess, modals, pasteHandler } = UsePopup();
+  const [logo, setLogo] = useState("");
+
+  useEffect(() => {
+    switch (type) {
+      case "Application":
+        setLogo(<LayoutIcon fill="none" />);
+        break;
+      case "Website":
+        setLogo(<GlobeIcon fill="none" />);
+        break;
+      case "Other":
+        setLogo(<FolderIcon fill="none" />);
+        break;
+
+      default:
+        setLogo("Error");
+        break;
+    }
+  }, [type]);
 
   function clickHandler() {
     setIsEye(!isEye);
@@ -16,7 +36,8 @@ const Card = ({ name, url, username, password }) => {
   return (
     <>
       {popupSuccess ? <Modal properties={modals.success} /> : ""}
-      <div className="min-w- rounded-3xl overflow-hidden text-blue-12 bg-blue-4 border border-blue-12 p-8 m-4">
+      <div className="relative min-w-[30vh] rounded-3xl overflow-hidden text-blue-12 bg-white shadow-xl border border-gray-300 p-8 m-4">
+        <div className="absolute top-3 right-3">{logo}</div>
         <div className="font-bold text-xl mb-2">{name}</div>
         <p className="text-blue-9 text-base">
           <strong className="text-blue-12">URL :</strong>{" "}
@@ -25,22 +46,30 @@ const Card = ({ name, url, username, password }) => {
           </a>
         </p>
         <p className="text-blue-9 text-base">
-          <button role="button" onClick={() => pasteHandler(username)}>
+          <button
+            className="hover:scale-105 ease-in-out duration-100"
+            role="button"
+            onClick={() => pasteHandler(username)}
+          >
             <strong className="text-blue-12">Username :</strong>{" "}
             {username.length < 16 ? username : username.slice(0, 16) + "..."}
           </button>
         </p>
         <div className="text-blue-9 flex justify-between text-base">
           <div>
-            <button role="button" onClick={() => pasteHandler(password)}>
+            <button
+              className="hover:scale-105 ease-in-out duration-100"
+              role="button"
+              onClick={() => pasteHandler(password)}
+            >
               <strong className="text-blue-12">Password :</strong>{" "}
-              {password.length < 16
+              {password.length < 10
                 ? !isEye
                   ? password
                   : "•".repeat(6)
                 : !isEye
-                ? password.slice(0, 16) + "..."
-                : "•".repeat(6)}
+                ? password.slice(0, 5) + "..."
+                : "•".repeat(8)}
             </button>
           </div>
           {isEye ? (
@@ -61,4 +90,5 @@ Card.propTypes = {
   url: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };

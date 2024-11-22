@@ -10,6 +10,12 @@ export const lowerAndUpperAndSymobolsRegEx =
 export const lowerAndUpperAndNumberRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 export const lowerAndUpperAndNumberAndSymbolsRegEx =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
+export const filtres = [
+  "Toutes les entrées",
+  "Sites Web",
+  "Applications",
+  "Autre",
+];
 export const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 export const lettersUpper = [
   "A",

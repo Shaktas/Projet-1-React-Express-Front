@@ -131,8 +131,6 @@ function getFirstLettersAndEveryNumberAndSpecials(string) {
           result += word[i];
         } else if (isNumberOrSymbol.test(word[i])) {
           if (/[-_']/.test(word[i])) {
-            console.log("word[i] :", word[i]);
-
             result += word[i] + word[i + 1];
           } else {
             result += word[i];
@@ -170,7 +168,7 @@ export function genPwd(
     if (charArr.length !== 0) {
       charArr = shuffleArray(charArr);
 
-      for (let index = 0; index <= params.length; index++) {
+      for (let index = 0; index < params.length; index++) {
         const indexRandom = Math.floor(Math.random() * charArr.length);
         pwd += charArr[indexRandom];
       }
