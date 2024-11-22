@@ -27,15 +27,15 @@ const router = createBrowserRouter([
       },
       {
         path: "website",
-        element: <Cards />,
+        element: <Cards filter="Website" />,
       },
       {
         path: "application",
-        element: <Cards />,
+        element: <Cards filter="Application" />,
       },
       {
         path: "other",
-        element: <Cards />,
+        element: <Cards filter="Other" />,
       },
       {
         path: "auth",

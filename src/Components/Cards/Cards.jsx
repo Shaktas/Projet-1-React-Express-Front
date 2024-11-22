@@ -1,4 +1,8 @@
+import { useState } from "react";
+import { SearchContext } from "../../Context/SearchContext";
 import Card from "./Card";
+import { useContext } from "react";
+import { useEffect } from "react";
 
 const cardsData = [
   {
@@ -115,17 +119,41 @@ const cardsData = [
   },
 ];
 
-const Cards = ({filtre = ""}) => {
+const Cards = ({ filter = "" }) => {
+  const { searchTerm } = useContext(SearchContext);
+  const [filterCards, setFilterCards] = useState([]);
+
+  const filterCard = (cards) => {
+    let filtered = [...cards];
+
+    if (filter !== "") {
+      filtered = filtered.filter((card) => card.type === filter);
+    }
+
+    if (searchTerm.length >= 3) {
+      filtered = filtered.filter(
+        (card) =>
+          card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          card.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          card.url.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    console.log(filtered);
+
+    setFilterCards(filtered);
+  };
+
+  useEffect(() => {
+    filterCard(cardsData);
+  }, [searchTerm, filter]);
+
   return (
     <>
       <h1>Cards</h1>
       <div className="relative flex justify-center flex-wrap">
-        {cardsData.map((card, index) => (
-          if (filtre != "" && card.type = filtre) {
-            
-          }
+        {filterCards.map((card, index) => (
           <Card
-            key={index + "Card"}
+            key={`${index}-${card.name}`}
             name={card.name}
             url={card.url}
             username={card.username}

@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import EyeButton from "../ActionComponents/EyeButton";
 import EyeCloseButton from "../ActionComponents/EyeCloseButton";
-import { useState, useEffect } from "react";
 import UsePopup from "../Hooks/UsePopup";
 import Modal from "../Modal";
+import { useState, useEffect } from "react";
 import { FolderIcon, GlobeIcon, LayoutIcon } from "../../assets/Svg";
 
 const Card = ({ name, url, username, password, type }) => {
