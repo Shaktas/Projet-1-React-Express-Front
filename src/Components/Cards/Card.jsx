@@ -1,85 +1,43 @@
+import { useState } from "react";
+import FrontCard from "./FrontCard";
+import BackCard from "./BackCard";
 import PropTypes from "prop-types";
-import EyeButton from "../ActionComponents/EyeButton";
-import EyeCloseButton from "../ActionComponents/EyeCloseButton";
-import UsePopup from "../Hooks/UsePopup";
-import Modal from "../Modal";
-import { useState, useEffect } from "react";
-import { FolderIcon, GlobeIcon, LayoutIcon } from "../../assets/Svg";
 
 const Card = ({ name, url, username, password, type }) => {
-  const [isEye, setIsEye] = useState(true);
-  const { popupSuccess, modals, pasteHandler } = UsePopup();
-  const [logo, setLogo] = useState("");
+  const [isFlipped, setIsFlipped] = useState(false);
 
-  useEffect(() => {
-    switch (type) {
-      case "Application":
-        setLogo(<LayoutIcon fill="none" />);
-        break;
-      case "Website":
-        setLogo(<GlobeIcon fill="none" />);
-        break;
-      case "Other":
-        setLogo(<FolderIcon fill="none" />);
-        break;
+  const handleFlip = () => {
+    console.log("flip");
 
-      default:
-        setLogo("Error");
-        break;
-    }
-  }, [type]);
-
-  function clickHandler() {
-    setIsEye(!isEye);
-  }
+    setIsFlipped(!isFlipped);
+  };
 
   return (
-    <>
-      {popupSuccess ? <Modal properties={modals.success} /> : ""}
-      <div className="relative min-w-[30vh] rounded-3xl overflow-hidden text-blue-12 bg-white shadow-xl border border-gray-300 p-8 m-4">
-        <div className="absolute top-3 right-3">{logo}</div>
-        <div className="font-bold text-xl mb-2">{name}</div>
-        <p className="text-blue-9 text-base">
-          <strong className="text-blue-12">URL :</strong>{" "}
-          <a href={url} target="_blank" className="text-blue-500">
-            {url.length < 16 ? url : url.slice(0, 16) + "..."}
-          </a>
-        </p>
-        <p className="text-blue-9 text-base">
-          <button
-            className="hover:scale-105 ease-in-out duration-100"
-            role="button"
-            onClick={() => pasteHandler(username)}
-          >
-            <strong className="text-blue-12">Username :</strong>{" "}
-            {username.length < 16 ? username : username.slice(0, 16) + "..."}
-          </button>
-        </p>
-        <div className="text-blue-9 flex justify-between text-base">
-          <div>
-            <button
-              className="hover:scale-105 ease-in-out duration-100"
-              role="button"
-              onClick={() => pasteHandler(password)}
-            >
-              <strong className="text-blue-12">Password :</strong>{" "}
-              {password.length < 10
-                ? !isEye
-                  ? password
-                  : "•".repeat(6)
-                : !isEye
-                ? password.slice(0, 5) + "..."
-                : "•".repeat(8)}
-            </button>
-          </div>
-          {isEye ? (
-            <EyeButton clickHandler={clickHandler} />
-          ) : (
-            <EyeCloseButton clickHandler={clickHandler} />
-          )}
+    <div className="relative [perspective:1000px]">
+      <div
+        className={`relative w-full transition-transform duration-500 [transform-style:preserve-3d] ${
+          isFlipped ? "[transform:rotateY(180deg)]" : ""
+        }`}
+      >
+        <div className="w-full [backface-visibility:hidden]">
+          <FrontCard
+            name={name}
+            url={url}
+            username={username}
+            password={password}
+            type={type}
+            clickFlipHandler={handleFlip}
+          />
+        </div>
+        <div className="absolute -top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <BackCard
+            onModify={() => console.log("modify")}
+            onDelete={() => console.log("delete")}
+            clickFlipHandler={handleFlip}
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

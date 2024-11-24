@@ -3,6 +3,7 @@ import { SearchContext } from "../../Context/SearchContext";
 import Card from "./Card";
 import { useContext } from "react";
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 
 const cardsData = [
   {
@@ -123,27 +124,27 @@ const Cards = ({ filter = "" }) => {
   const { searchTerm } = useContext(SearchContext);
   const [filterCards, setFilterCards] = useState([]);
 
-  const filterCard = (cards) => {
-    let filtered = [...cards];
-
-    if (filter !== "") {
-      filtered = filtered.filter((card) => card.type === filter);
-    }
-
-    if (searchTerm.length >= 3) {
-      filtered = filtered.filter(
-        (card) =>
-          card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          card.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          card.url.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-    console.log(filtered);
-
-    setFilterCards(filtered);
-  };
-
   useEffect(() => {
+    const filterCard = (cards) => {
+      let filtered = [...cards];
+
+      if (filter !== "") {
+        filtered = filtered.filter((card) => card.type === filter);
+      }
+
+      if (searchTerm.length >= 3) {
+        filtered = filtered.filter(
+          (card) =>
+            card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            card.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            card.url.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+      console.log(filtered);
+
+      setFilterCards(filtered);
+    };
+
     filterCard(cardsData);
   }, [searchTerm, filter]);
 
@@ -167,3 +168,7 @@ const Cards = ({ filter = "" }) => {
 };
 
 export default Cards;
+
+Cards.propTypes = {
+  filter: PropTypes.string,
+};

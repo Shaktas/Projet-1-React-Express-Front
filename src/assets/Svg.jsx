@@ -272,6 +272,80 @@ export const FolderIcon = ({
   </svg>
 );
 
+export const MoreIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-more-horizontal"
+    viewBox="0 0 24 24"
+  >
+    <circle cx="12" cy="12" r="1"></circle>
+    <circle cx="19" cy="12" r="1"></circle>
+    <circle cx="5" cy="12" r="1"></circle>
+  </svg>
+);
+
+export const MoreVerticalIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-more-vertical"
+    viewBox="0 0 24 24"
+  >
+    <circle cx="12" cy="12" r="1"></circle>
+    <circle cx="12" cy="5" r="1"></circle>
+    <circle cx="12" cy="19" r="1"></circle>
+  </svg>
+);
+
+MoreVerticalIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
+MoreIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
 FolderIcon.propTypes = {
   fill: PropTypes.string,
   height: PropTypes.string,
