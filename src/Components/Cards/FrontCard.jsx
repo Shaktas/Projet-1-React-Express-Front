@@ -44,7 +44,7 @@ const FrontCard = ({
   return (
     <>
       {popupSuccess ? <Modal properties={modals.success} /> : ""}
-      <div className="relative min-w-[30vh] min-h-[53vh] rounded-3xl text-blue-12 bg-white shadow-xl border border-gray-300 p-8 m-4">
+      <div className="relative min-w-[10vw] min-h-[35vh] rounded-3xl text-blue-12 bg-white shadow-xl border border-gray-300 p-8 m-4">
         <div className="absolute top-3 left-3">{logo}</div>
         <div className="absolute top-3 right-3">
           <MoreVerticalButton clickHandler={clickFlipHandler} />

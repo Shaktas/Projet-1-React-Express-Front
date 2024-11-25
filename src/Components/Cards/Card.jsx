@@ -29,7 +29,7 @@ const Card = ({ name, url, username, password, type }) => {
             clickFlipHandler={handleFlip}
           />
         </div>
-        <div className="absolute -top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        <div className="absolute top-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <BackCard
             onModify={() => console.log("modify")}
             onDelete={() => console.log("delete")}
