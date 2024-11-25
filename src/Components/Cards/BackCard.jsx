@@ -3,7 +3,7 @@ import MoreVerticalButton from "../ActionComponents/MoreVerticalButton";
 
 const BackCard = ({ onModify, onDelete, clickFlipHandler }) => {
   return (
-    <div className="relative min-w-[10vw] min-h-[10vh] flex flex-col justify-center items-center rounded-3xl shadow-xl border bg-white border-gray-300 p-12 mx-4">
+    <div className="relative flex flex-col justify-center items-center rounded-3xl shadow-xl border bg-white border-gray-300 p-[2.85rem] mx-4">
       <div className="absolute top-2 right-2">
         <MoreVerticalButton clickHandler={clickFlipHandler} />
       </div>
