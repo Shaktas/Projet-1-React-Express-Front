@@ -5,12 +5,13 @@ import MessagePwd from "./MessagePwd";
 
 function CheckPwd() {
   const [pwd, setPwd] = useState("");
-  const [strength, setStrength] = useState("");
   const [sentence, setSentence] = useState("");
+  const [strength, setStrength] = useState("");
 
   const setPwdHandler = (e) => {
     setPwd(e.target.value);
     setStrength(checkPwd(e.target.value));
+    console.log(checkPwd(e.target.value));
   };
 
   useEffect(() => {

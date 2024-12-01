@@ -5,7 +5,7 @@ import ErrorPage from "./Components/ErrorPage";
 import GenPwd from "./Components/password/GenPwd";
 import Cards from "./Components/Cards/Cards";
 import Login from "./Components/Authentification/Login";
-import User from "./Components/Authentification/User";
+import Profil from "./Components/Users/Profil";
 
 const router = createBrowserRouter([
   {
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: "account",
-        element: <User />,
+        element: <Profil />,
       },
     ],
   },

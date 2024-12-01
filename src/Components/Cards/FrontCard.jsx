@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import EyeButton from "../ActionComponents/EyeButton";
 import EyeCloseButton from "../ActionComponents/EyeCloseButton";
-import UsePopup from "../Hooks/UsePopup";
+import UsePopup from "../../Hooks/UsePopup";
 import Modal from "../Modal";
 import { useState, useEffect } from "react";
 import { FolderIcon, GlobeIcon, LayoutIcon } from "../../assets/Svg";

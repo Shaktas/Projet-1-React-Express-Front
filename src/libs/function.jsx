@@ -119,6 +119,29 @@ function shuffleArray(array) {
   return array;
 }
 
+// Count the number of weak, normal and strong passwords
+export function countStrengthPassword(passwords) {
+  let count = {
+    weak: 0,
+    normal: 0,
+    strong: 0,
+  };
+
+  passwords.forEach((pwd) => {
+    let strength = checkPwd(pwd);
+
+    if (strength < 3) {
+      count.weak++;
+    } else if (strength <= 4) {
+      count.normal++;
+    } else {
+      count.strong++;
+    }
+  });
+
+  return count;
+}
+
 // Get first letter of each word and every number and special symbol
 function getFirstLettersAndEveryNumberAndSpecials(string) {
   const words = string.split(" ");

@@ -6,7 +6,7 @@ import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import CustomPwd from "./CustomPwd";
 import CopyButton from "../ActionComponents/CopyButton";
 import Modal from "../Modal";
-import UsePopup from "../Hooks/UsePopup";
+import UsePopup from "../../Hooks/UsePopup";
 
 function GenPwd() {
   const [length, setLength] = useState(16);
