@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { countStrengthPassword } from "../../libs/function";
-import { SearchIcon } from "../../assets/Svg";
+import EditButton from "../ActionComponents/EditButton";
+import Vault from "../Vaults/Vault";
 
 const weakPasswords = [
   "123456",
@@ -17,13 +18,21 @@ const weakPasswords = [
 
 const Profil = () => {
   const [pseudo, setPseudo] = useState("JohnDoe");
-  const [password, setPassword] = useState("");
-  const [isModify, setIsModify] = useState(false);
+  const [password, setPassword] = useState("HelloWorld");
+  const [isModifyPseudo, setIsModifyPseudo] = useState(false);
+  const [isModifyPwd, setIsModifyPwd] = useState(false);
   const pwd = countStrengthPassword(weakPasswords);
   console.log(pwd);
 
+  function clickPseudoHandler() {
+    setIsModifyPseudo(!isModifyPseudo);
+  }
+  function clickPwdHandler() {
+    setIsModifyPwd(!isModifyPwd);
+  }
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-2">
+    <div className="flex justify-center items-center min-h-screen w-2/3 bg-blue-2">
       <div className="bg-blue-1 p-8 rounded-3xl shadow-lg w-full max-w-2xl">
         <div className="flex justify-center mb-8">
           <img
@@ -38,67 +47,63 @@ const Profil = () => {
             <label htmlFor="pseudo" className="text-blue-12 font-semibold">
               Pseudo
             </label>
-            {isModify ? (
-              <div className="flex justify-center items-centerp-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
+            {isModifyPseudo ? (
+              <div className="relative flex justify-center items-centerp-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
                 <input
                   type="text"
                   id="pseudo"
                   value={pseudo}
                   onChange={(e) => setPseudo(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      setIsModifyPseudo(!isModifyPseudo);
+                    }
+                  }}
                   className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
                 />
+                <div className="absolute top-1 right-2 z-10">
+                  <EditButton clickHandler={clickPseudoHandler} />
+                </div>
               </div>
             ) : (
               <div className="relative">
                 <p className="text-blue-12 font-semibold">{pseudo}</p>
                 <div className="absolute top-0 right-2">
-                  <SearchIcon fill="none" />
+                  <EditButton clickHandler={clickPseudoHandler} />
                 </div>
               </div>
             )}
           </div>
-
-          <div className="space-y-2">
+          <div className="relative space-y-2">
             <label htmlFor="password" className="text-blue-12 font-semibold">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={() => {
-                console.log("hello");
-              }}
-              className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
-            />
-          </div>
-        </div>
 
-        <div className="mt-8 grid grid-cols-3 gap-4">
-          <div className="p-4 rounded-lg transition-colors bg-red-400">
-            <h3 className="font-semibold flex items-center justify-center mb-1">
-              Weak Password
-            </h3>
-            <p className="text-sm flex items-center justify-center">
-              {pwd.weak}
-            </p>
+            {isModifyPwd ? (
+              <>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
+                />
+                <div className="absolute top-0 right-2">
+                  <EditButton clickHandler={clickPwdHandler} />
+                </div>
+              </>
+            ) : (
+              <div className="relative">
+                <p className="text-blue-12 font-semibold">{password}</p>
+                <div className="absolute top-0 right-2">
+                  <EditButton clickHandler={clickPwdHandler} />
+                </div>
+              </div>
+            )}
           </div>
-          <div className="p-4 rounded-lg transition-colors bg-white border-2 border-blue-5">
-            <h3 className="flex items-center justify-center font-semibold mb-1">
-              Normal Password
-            </h3>
-            <p className="flex items-center justify-center text-sm">
-              {pwd.normal}
-            </p>
-          </div>
-          <div className="p-4 rounded-lg transition-colors bg-green-300">
-            <h3 className="flex items-center justify-center font-semibold mb-1">
-              Strong Password
-            </h3>
-            <p className="flex items-center justify-center text-sm">
-              {pwd.strong}
-            </p>
-          </div>
+          <Vault name="My Vault" passwordCount={5} userCount={3} />
         </div>
       </div>
     </div>

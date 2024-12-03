@@ -326,6 +326,41 @@ export const MoreVerticalIcon = ({
   </svg>
 );
 
+export const EditIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-edit-3"
+    viewBox="0 0 24 24"
+  >
+    <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"></path>
+  </svg>
+);
+
+EditIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
 MoreVerticalIcon.propTypes = {
   fill: PropTypes.string,
   height: PropTypes.string,
