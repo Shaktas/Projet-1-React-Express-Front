@@ -45,6 +45,10 @@ const router = createBrowserRouter([
         path: "account",
         element: <Profil />,
       },
+      {
+        path: "myVault",
+        element: <Cards />,
+      },
     ],
   },
 ]);

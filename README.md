@@ -4,6 +4,6 @@
 
 ## To do :
 
-- modify card
-- create new card
-- login and register
+- responsive + menu mobile
+- check user input
+- finish vaults
