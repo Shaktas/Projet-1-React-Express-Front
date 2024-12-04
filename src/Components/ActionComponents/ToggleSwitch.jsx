@@ -27,7 +27,6 @@ const ToggleSwitch = ({
       className={`
         ${properties.width} 
         ${properties.height} 
-        ${properties.bgColorOff}
         ${isToggled ? properties.bgColorOn : properties.bgColorOff}
         flex items-center rounded-full p-1 cursor-pointer`}
       onClick={setIsToggledHandler}

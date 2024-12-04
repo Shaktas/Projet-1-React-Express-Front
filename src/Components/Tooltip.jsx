@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-function Modal({
+function Tooltip({
   properties = {
     message: "Hello World",
     condtion: "",
@@ -33,9 +33,9 @@ function Modal({
   );
 }
 
-export default Modal;
+export default Tooltip;
 
-Modal.propTypes = {
+Tooltip.propTypes = {
   properties: PropTypes.shape({
     message: PropTypes.string,
     condtion: PropTypes.string,

@@ -5,7 +5,7 @@ import Checkbox from "../ActionComponents/Checkbox";
 import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import CustomPwd from "./CustomPwd";
 import CopyButton from "../ActionComponents/CopyButton";
-import Modal from "../Modal";
+import Tooltip from "../Tooltip";
 import UsePopup from "../../Hooks/UsePopup";
 
 function GenPwd() {
@@ -19,7 +19,7 @@ function GenPwd() {
   const [pwdCustom, setPwdCustom] = useState("");
   const [isToggled, setIsToggled] = useState(false);
   const [sentenceCustom, setSentenceCustom] = useState("");
-  const { popupSuccess, modals, pasteHandler } = UsePopup();
+  const { popupSuccess, tooltips, pasteHandler } = UsePopup();
 
   const checkboxParams = [
     {
@@ -91,7 +91,7 @@ function GenPwd() {
 
   return (
     <>
-      {popupSuccess ? <Modal properties={modals.success} /> : ""}
+      {popupSuccess ? <Tooltip properties={tooltips.success} /> : ""}
       <div className="my-10">
         <h1 className="text-blue-12 text-2xl">Générateur de mots de passe</h1>
       </div>

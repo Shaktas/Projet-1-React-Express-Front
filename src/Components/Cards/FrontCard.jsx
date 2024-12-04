@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import EyeButton from "../ActionComponents/EyeButton";
 import EyeCloseButton from "../ActionComponents/EyeCloseButton";
 import UsePopup from "../../Hooks/UsePopup";
-import Modal from "../Modal";
+import Tooltip from "../Tooltip";
 import { useState, useEffect } from "react";
 import { FolderIcon, GlobeIcon, LayoutIcon } from "../../assets/Svg";
 import MoreVerticalButton from "../ActionComponents/MoreVerticalButton";
@@ -16,7 +16,7 @@ const FrontCard = ({
   clickFlipHandler,
 }) => {
   const [isEye, setIsEye] = useState(true);
-  const { popupSuccess, modals, pasteHandler } = UsePopup();
+  const { popupSuccess, tooltips, pasteHandler } = UsePopup();
   const [logo, setLogo] = useState("");
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const FrontCard = ({
 
   return (
     <>
-      {popupSuccess ? <Modal properties={modals.success} /> : ""}
+      {popupSuccess ? <Tooltip properties={tooltips.success} /> : ""}
       <div className="relative rounded-3xl text-blue-12 bg-white shadow-xl border border-gray-300 p-8 m-4">
         <div className="absolute top-3 left-3">{logo}</div>
         <div className="absolute top-3 right-3">

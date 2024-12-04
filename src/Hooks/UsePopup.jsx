@@ -11,7 +11,7 @@ function UsePopup() {
     }, 3000);
   };
 
-  const modals = {
+  const tooltips = {
     success: {
       message: "Texte copié !",
       condtion: "success",
@@ -19,7 +19,7 @@ function UsePopup() {
     },
   };
 
-  return { popupSuccess, modals, pasteHandler };
+  return { popupSuccess, tooltips, pasteHandler };
 }
 
 export default UsePopup;

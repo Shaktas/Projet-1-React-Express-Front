@@ -1,7 +1,13 @@
-function NewData() {
+function NewData({ clickHandler }) {
   return (
-    <button className="bg-blue-6 text-blue-12 mx-3 py-2 px-4 rounded-3xl">
-      <span className="text-blue-12 text-xl">+</span> Nouveau
+    <button
+      onClick={clickHandler}
+      className="flex justify-center items-center bg-blue-6 text-blue-12 mb-4 py-1 px-8 rounded-3xl"
+    >
+      <span className="flex justify-center items-center mb-1 text-blue-12 text-xl">
+        +
+      </span>{" "}
+      Nouveau
     </button>
   );
 }
