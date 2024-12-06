@@ -151,7 +151,7 @@ const Cards = ({ filter = "" }) => {
   return (
     <>
       <h1>Cards</h1>
-      <div className="relative flex justify-center flex-wrap">
+      <div className="relative flex justify-center items-center flex-wrap">
         {filterCards.map((card, index) => (
           <Card
             key={`${index}-${card.name}`}

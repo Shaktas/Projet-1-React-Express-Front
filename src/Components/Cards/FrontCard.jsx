@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import EyeButton from "../ActionComponents/EyeButton";
 import EyeCloseButton from "../ActionComponents/EyeCloseButton";
-import UsePopup from "../../Hooks/UsePopup";
+import UsePopup from "../../Hooks/UseTooltip";
 import Tooltip from "../Tooltip";
 import { useState, useEffect } from "react";
 import { FolderIcon, GlobeIcon, LayoutIcon } from "../../assets/Svg";
@@ -14,9 +14,9 @@ const FrontCard = ({
   password,
   type,
   clickFlipHandler,
+  pasteHandler,
 }) => {
   const [isEye, setIsEye] = useState(true);
-  const { popupSuccess, tooltips, pasteHandler } = UsePopup();
   const [logo, setLogo] = useState("");
 
   useEffect(() => {
@@ -43,7 +43,6 @@ const FrontCard = ({
 
   return (
     <>
-      {popupSuccess ? <Tooltip properties={tooltips.success} /> : ""}
       <div className="relative rounded-3xl text-blue-12 bg-white shadow-xl border border-gray-300 p-8 m-4">
         <div className="absolute top-3 left-3">{logo}</div>
         <div className="absolute top-3 right-3">
@@ -103,4 +102,5 @@ FrontCard.propTypes = {
   password: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   clickFlipHandler: PropTypes.func.isRequired,
+  pasteHandler: PropTypes.func.isRequired,
 };

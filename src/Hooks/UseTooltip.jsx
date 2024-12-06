@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function UsePopup() {
+function useTooltip() {
   const [popupSuccess, setPopupSuccess] = useState(false);
 
   const pasteHandler = (string) => {
@@ -22,4 +22,4 @@ function UsePopup() {
   return { popupSuccess, tooltips, pasteHandler };
 }
 
-export default UsePopup;
+export default useTooltip;
