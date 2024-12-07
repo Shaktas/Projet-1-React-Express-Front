@@ -111,6 +111,13 @@ export function checkPwd(string) {
   return valueStrength;
 }
 
+export function isPwdValid(string) {
+  if (checkPwd(string) >= 5) {
+    return true;
+  }
+  return false;
+}
+
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

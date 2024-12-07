@@ -4,16 +4,16 @@ function ErrorPage() {
       <div className="text-center">
         <h1 className="text-9xl font-bold text-gray-800">404</h1>
         <h2 className="text-4xl font-semibold text-gray-600 mt-4">
-          Page Not Found
+          Page Non Trouvée
         </h2>
         <p className="text-gray-500 mt-4 mb-8">
-          Sorry, we couldn`&apos`t find the page you`&apos`re looking for.
+          Désolé, nous n&apos;avons pas pu trouver la page que vous recherchez.
         </p>
         <a
           href="/"
           className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
-          Go Home
+          Retour à l&apos;Accueil
         </a>
       </div>
     </div>

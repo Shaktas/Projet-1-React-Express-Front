@@ -3,7 +3,7 @@ import { filtres } from "../../libs/var";
 import PropTypes from "prop-types";
 
 function Filters() {
-  var arg = ["", "website", "application", "other"];
+  const arg = ["MyVault", "website", "application", "other"];
 
   return (
     <>

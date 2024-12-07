@@ -1,67 +1,156 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { isPwdValid } from "../../libs/function";
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    name: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = (e) => {
+  function onSubmit(e, data) {
     e.preventDefault();
-    // Add your authentication logic here
-  };
+    console.log(data);
+  }
 
-  const toggleForm = () => setIsLogin(!isLogin);
+  function onError(errors) {
+    console.log(errors);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center gap-8 p-8">
-      <h2 className="text-3xl font-bold">{isLogin ? "Login" : "Sign Up"}</h2>
+      <h2 className="text-3xl font-bold">
+        {isLogin ? "Connexion" : "Inscription"}
+      </h2>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit, onError)}
         className="flex flex-col gap-4 w-full max-w-md"
       >
-        {!isLogin && (
-          <input
-            type="text"
-            placeholder="Pseudo"
-            value={formData.pseudo}
-            onChange={(e) =>
-              setFormData({ ...formData, pseudo: e.target.value })
-            }
-            className="p-2 border rounded focus:outline-none focus:border-blue-500"
-          />
+        {!isLogin ? (
+          <>
+            <div className="flex flex-col text-center">
+              <input
+                {...register("pseudo", {
+                  required: true,
+                  minLength: {
+                    value: 3,
+                    message: "Le pseudo doit contenir au moins 3 caractères",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "Le pseudo doit contenir au maximum 20 caractères",
+                  },
+                })}
+                type="text"
+                placeholder="Pseudo *"
+                className="p-2 border rounded focus:outline-none focus:border-blue-9"
+              />
+              {errors.pseudo && (
+                <span className="text-red-500 text-sm">
+                  {errors.pseudo.message}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col text-center">
+              <input
+                {...register("email", {
+                  required: { value: true, message: "L'email est requis" },
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: "L'email n'est pas valide",
+                  },
+                  // validate: checkEmail,
+                })}
+                type="email"
+                placeholder="Email *"
+                className="p-2 border rounded focus:outline-none focus:border-blue-9"
+              />
+              {errors.email && (
+                <span className="text-red-500 text-sm">
+                  {errors.email.message}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col text-center">
+              <input
+                {...register("pwd", {
+                  required: {
+                    value: true,
+                    message: "Le mot de passe est requis",
+                  },
+                  validate: {
+                    isPwdValid,
+                    message: "Le mot de passe n'est pas valide",
+                  },
+                })}
+                type="password"
+                placeholder="Mot de passe *"
+                className="p-2 border rounded focus:outline-none focus:border-blue-9"
+              />
+              {errors.pwd && (
+                <span className="text-red-500 text-sm">
+                  {errors.pwd.message}
+                </span>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <input
+              {...register("emailRegister", {
+                required: true,
+                pattern: {
+                  value: /^\S+@\S+\.\S+$/,
+                  message: "L'email n'est pas valide",
+                },
+                // validate: isEmailBdd,
+              })}
+              type="email"
+              placeholder="Email *"
+              className="p-2 border rounded focus:outline-none focus:border-blue-9"
+            />
+            <div className="flex flex-col text-center">
+              <input
+                {...register("pwdRegister", {
+                  required: true,
+                  // validate: isPwdBdd,
+                })}
+                type="password"
+                placeholder="Mot de passe *"
+                className="p-2 border rounded focus:outline-none focus:border-blue-9"
+              />
+              {errors.emailRegister && (
+                <span className="text-red-500 text-sm">
+                  {errors.emailRegister.message}
+                </span>
+              )}
+              {errors.pwdRegister && (
+                <span className="text-red-500 text-sm">
+                  {errors.pwdRegister.message}
+                </span>
+              )}
+            </div>
+          </>
         )}
-        <input
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="p-2 border rounded focus:outline-none focus:border-blue-500"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
-          className="p-2 border rounded focus:outline-none focus:border-blue-500"
-        />
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors"
+          className="bg-blue-9 text-white py-2 px-4 rounded hover:bg-blue-10 transition-colors"
         >
-          {isLogin ? "Login" : "Sign Up"}
+          {isLogin ? "Connexion" : "Inscription"}
         </button>
       </form>
-      <button onClick={toggleForm} className="text-blue-500 hover:underline">
+      <button
+        onClick={() => setIsLogin(!isLogin)}
+        className="text-blue-9 hover:underline"
+      >
         {isLogin
-          ? "Need an account? Sign up"
-          : "Already have an account? Login"}
+          ? "Besoin d'un compte? Inscrivez-vous"
+          : "Vous avez déjà un compte? Connectez-vous"}
       </button>
     </div>
   );
 }
+
 export default Login;

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
 const Vault = ({ name, passwordCount, userCount }) => {
@@ -21,3 +22,9 @@ const Vault = ({ name, passwordCount, userCount }) => {
 };
 
 export default Vault;
+
+Vault.propTypes = {
+  name: PropTypes.string.isRequired,
+  passwordCount: PropTypes.number.isRequired,
+  userCount: PropTypes.number.isRequired,
+};

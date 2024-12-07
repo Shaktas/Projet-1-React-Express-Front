@@ -4,7 +4,7 @@
 
 ## To do :
 
-- responsive + menu mobile
-- check user input
-- finish vaults
--
+- check user input -> use checkpassword
+- finish vaults -> gestion utilisateurs
+- corect tooltips
+- optionnel -> landing page

@@ -23,11 +23,9 @@ const Profil = () => {
   const [password, setPassword] = useState("HelloWorld");
   const [isModifyPseudo, setIsModifyPseudo] = useState(false);
   const [isModifyPwd, setIsModifyPwd] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
   const [avatar, setAvatar] = useState(() => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
-  const pwd = countStrengthPassword(weakPasswords);
 
   const handleFileSelect = (e) => {
     const file = e.target.files[0];

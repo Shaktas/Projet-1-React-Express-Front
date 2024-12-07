@@ -351,6 +351,76 @@ export const EditIcon = ({
   </svg>
 );
 
+export const BurgerIcon = ({
+  width = "24",
+  height = "24",
+  fill = "fill-current",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-menu"
+    viewBox="0 0 24 24"
+  >
+    <path d="M3 12h18M3 6h18M3 18h18"></path>
+  </svg>
+);
+
+export const CloseIcon = ({
+  width = "24",
+  height = "24",
+  fill = "none",
+  stroke = "currentColor",
+  strokeWidth = "2",
+  strokeLinecap = "round",
+  strokeLinejoin = "round",
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    fill={fill}
+    stroke={stroke}
+    strokeLinecap={strokeLinecap}
+    strokeLinejoin={strokeLinejoin}
+    strokeWidth={strokeWidth}
+    className="feather feather-x"
+    viewBox="0 0 24 24"
+  >
+    <path d="M18 6 6 18M6 6l12 12"></path>
+  </svg>
+);
+
+CloseIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
+BurgerIcon.propTypes = {
+  fill: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  stroke: PropTypes.string,
+  strokeLinecap: PropTypes.string,
+  strokeLinejoin: PropTypes.string,
+  strokeWidth: PropTypes.string,
+};
+
 EditIcon.propTypes = {
   fill: PropTypes.string,
   height: PropTypes.string,

@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 function NewData({ clickHandler }) {
   return (
     <button
@@ -13,3 +15,7 @@ function NewData({ clickHandler }) {
 }
 
 export default NewData;
+
+NewData.propTypes = {
+  clickHandler: PropTypes.func.isRequired,
+};
