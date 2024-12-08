@@ -13,7 +13,9 @@ const Modal = ({ isOpen, onClose, title, children }) => {
             <h3 className="text-xl font-semibold">{title}</h3>
             <CloseButton clickHandler={onClose} />
           </div>
-          <div className="relative p-6 flex-auto">{children}</div>
+          <div className="relative p-6 flex-auto max-h-[80vh] overflow-hidden">
+            {children}
+          </div>
         </div>
       </div>
     </div>

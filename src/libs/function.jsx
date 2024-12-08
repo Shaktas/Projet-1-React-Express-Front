@@ -112,10 +112,19 @@ export function checkPwd(string) {
 }
 
 export function isPwdValid(string) {
-  if (checkPwd(string) >= 5) {
-    return true;
+  const score = checkPwd(string);
+  console.log(score);
+
+  if (score === 0) {
+    return `Le mot de passe doit contenir différents types de caractères.`;
   }
-  return false;
+  if (score <= 3) {
+    return "Le mot de passe est trop faible.";
+  }
+  if (score <= 4) {
+    return "Le mot de passe pourrait être plus fort.";
+  }
+  return true;
 }
 
 function shuffleArray(array) {

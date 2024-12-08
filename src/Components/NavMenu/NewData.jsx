@@ -6,7 +6,7 @@ function NewData({ clickHandler }) {
       onClick={clickHandler}
       className="flex justify-center items-center bg-blue-6 text-blue-12 mb-4 py-1 px-8 rounded-3xl"
     >
-      <span className="flex justify-center items-center mb-1 text-blue-12 text-xl">
+      <span className="flex justify-center items-center mr-1 text-blue-12 text-xl">
         +
       </span>{" "}
       Nouveau

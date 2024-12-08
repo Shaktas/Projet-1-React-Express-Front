@@ -4,7 +4,4 @@
 
 ## To do :
 
-- check user input -> use checkpassword
-- finish vaults -> gestion utilisateurs
-- corect tooltips
 - optionnel -> landing page

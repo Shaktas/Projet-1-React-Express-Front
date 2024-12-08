@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { genPwd } from "../../libs/function";
 import ClickButton from "../ActionComponents/ClickButton";
 import Checkbox from "../ActionComponents/Checkbox";
 import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import CustomPwd from "./CustomPwd";
 import CopyButton from "../ActionComponents/CopyButton";
-import Tooltip from "../Tooltip";
-import UsePopup from "../../Hooks/UseTooltip";
+import { TooltipContext } from "../../Context/TooltipContext";
 
 function GenPwd() {
   const [length, setLength] = useState(16);
@@ -19,8 +18,7 @@ function GenPwd() {
   const [pwdCustom, setPwdCustom] = useState("");
   const [isToggled, setIsToggled] = useState(false);
   const [sentenceCustom, setSentenceCustom] = useState("");
-  const { popupSuccess, tooltips, pasteHandler } = UsePopup();
-
+  const { pasteHandler } = useContext(TooltipContext);
   const checkboxParams = [
     {
       id: "lowerLetter",
@@ -91,13 +89,12 @@ function GenPwd() {
 
   return (
     <>
-      {popupSuccess ? <Tooltip properties={tooltips.success} /> : ""}
       <div className="my-10">
         <h1 className="text-blue-12 text-2xl">Générateur de mots de passe</h1>
       </div>
       <div className="flex justify-center w-2/3 bg-blue-5 shadow-lg rounded-3xl">
         <div className="w-2/3">
-          <p className="flex justify-between items-center mt-10 h-7 bg-blue-8 text-blue-12 w-full rounded-3xl indent-5">
+          <p className="flex justify-between items-center mt-10 h-7 bg-blue-8 text-blue-12 w-full rounded-3xl indent-5 text-xs lg:text-base">
             {isToggled ? pwdCustom : pwd}
             {isToggled ? (
               pwdCustom.length != 0 ? (

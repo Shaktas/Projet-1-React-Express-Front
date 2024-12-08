@@ -54,10 +54,10 @@ function SideMenu() {
           <Filters />
         </div>
         <div className="flex gap-4 flex-col item-center justify-arround">
-          <NavLink className="text-blue-3" to="/checkPwd">
+          <NavLink className="text-blue-3 mx-3 text-center" to="/checkPwd">
             Vérificateur de mots de passe
           </NavLink>
-          <NavLink className="text-blue-3" to="/genPwd">
+          <NavLink className="text-blue-3 mx-3 text-center" to="/genPwd">
             Générateur de mots de passe
           </NavLink>
         </div>

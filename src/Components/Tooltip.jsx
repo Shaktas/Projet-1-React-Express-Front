@@ -24,11 +24,11 @@ function Tooltip({
 
   return (
     <div
-      className={`${bgColor} absolute -top-0 left-[1vh] text-white px-4 py-2 rounded-md shadow-lg duration-300 ease-in-out transition-opacity ${
+      className={`${bgColor} absolute text-white flex justify-center items-center w-32 px-4 py-2 rounded-md shadow-lg duration-300 ease-in-out transition-opacity ${
         properties.isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <p>{properties.message}</p>
+      <p className="">{properties.message}</p>
     </div>
   );
 }

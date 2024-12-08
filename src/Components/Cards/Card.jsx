@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { TooltipContext } from "../../Context/TooltipContext";
 import FrontCard from "./FrontCard";
 import BackCard from "./BackCard";
 import PropTypes from "prop-types";
 import Modal from "../Modals/Modal";
 import UpdateEntry from "../Modals/UpdateEntry";
-import UsePopup from "../../Hooks/UseTooltip";
-import Tooltip from "../Tooltip";
 
 const Card = ({ name, url, username, password, type }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
-  const { popupSuccess, tooltips, pasteHandler } = UsePopup();
+  const { pasteHandler } = useContext(TooltipContext);
 
   function handleFlip() {
     setIsFlipped(!isFlipped);
@@ -26,13 +25,6 @@ const Card = ({ name, url, username, password, type }) => {
 
   return (
     <>
-      {popupSuccess ? (
-        <div className="absolute -top-8 left-10 z-50">
-          <Tooltip properties={tooltips.success} />
-        </div>
-      ) : (
-        ""
-      )}
       <Modal
         isOpen={isOpened}
         onClose={setCloseHandler}
@@ -67,7 +59,7 @@ const Card = ({ name, url, username, password, type }) => {
           <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
             <BackCard
               onModify={setModifyHandler}
-              onDelete={() => console.log("delete")}
+              onDelete={() => alert("Voulez vraiment supprimer cette carte ?")}
               clickFlipHandler={handleFlip}
             />
           </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { isPwdValid } from "../../libs/function";
+import { NavLink } from "react-router-dom";
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -81,8 +82,7 @@ function Login() {
                     message: "Le mot de passe est requis",
                   },
                   validate: {
-                    isPwdValid,
-                    message: "Le mot de passe n'est pas valide",
+                    strength: (value) => isPwdValid(value),
                   },
                 })}
                 type="password"
@@ -91,7 +91,14 @@ function Login() {
               />
               {errors.pwd && (
                 <span className="text-red-500 text-sm">
-                  {errors.pwd.message}
+                  {errors.pwd.message}.<br />
+                  Nous vous recommandons d&apos;utiliser le{" "}
+                  <NavLink
+                    to={"/genPwd"}
+                    className="text-red-800 hover:underline"
+                  >
+                    Générateur de mot de passe
+                  </NavLink>
                 </span>
               )}
             </div>
@@ -105,7 +112,7 @@ function Login() {
                   value: /^\S+@\S+\.\S+$/,
                   message: "L'email n'est pas valide",
                 },
-                // validate: isEmailBdd,
+                // validate: {isEmailBdd, "Vos informations de connexions sont incorrectes"}
               })}
               type="email"
               placeholder="Email *"
@@ -115,7 +122,7 @@ function Login() {
               <input
                 {...register("pwdRegister", {
                   required: true,
-                  // validate: isPwdBdd,
+                  // validate: {isPwdBdd, "Vos informations de connexions sont incorrectes"}
                 })}
                 type="password"
                 placeholder="Mot de passe *"

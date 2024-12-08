@@ -1,31 +1,22 @@
 import { useState } from "react";
-import { countStrengthPassword } from "../../libs/function";
 import EditButton from "../ActionComponents/EditButton";
 import Vault from "../Vaults/Vault";
 import baseAvatar from "../../assets/base-avatar.jpg";
 import { EditIcon } from "../../assets/Svg";
-
-const weakPasswords = [
-  "123456",
-  "password",
-  "qwerty",
-  "abc123",
-  "letmein",
-  "admin",
-  "welcome",
-  "monkey",
-  "football",
-  "12345",
-];
+import Modal from "../Modals/Modal";
+import UserControl from "../Modals/UserControl";
 
 const Profil = () => {
   const [pseudo, setPseudo] = useState("JohnDoe");
   const [password, setPassword] = useState("HelloWorld");
   const [isModifyPseudo, setIsModifyPseudo] = useState(false);
   const [isModifyPwd, setIsModifyPwd] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const [avatar, setAvatar] = useState(() => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
+
+  // Entrée utilisateur a vérifie
 
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
@@ -54,7 +45,7 @@ const Profil = () => {
 
   function isModifyPseudoHandler(e) {
     if (e.key === "Enter") {
-      setIsModifyPseudo(!isModifyPwd);
+      setIsModifyPseudo(!isModifyPseudo);
     }
   }
 
@@ -64,98 +55,119 @@ const Profil = () => {
     }
   }
 
+  function clickHandler() {
+    setIsModal(true);
+  }
+  function closeHandler() {
+    setIsModal(false);
+  }
+
   return (
-    <div className="flex justify-center items-center min-h-screen w-2/3 bg-blue-2">
-      <div className="bg-blue-1 p-8 rounded-3xl shadow-lg w-full max-w-2xl">
-        <div className="flex justify-center mb-8">
-          <div className="relative">
-            <img
-              src={avatar}
-              alt="Profile"
-              className="w-32 h-32 rounded-full border-4 border-blue-6 object-cover"
-            />
-            <label
-              htmlFor="avatar-upload"
-              className="absolute bottom-0 right-0 blue bg-blue-6 p-2 rounded-full cursor-pointer hover:bg-blue-7"
-            >
-              <EditIcon fill="white" />
-            </label>
-            <input
-              id="avatar-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleFileSelect}
-              className="hidden"
-            />
+    <>
+      <div className="flex justify-center items-center min-h-screen w-2/3 bg-blue-2">
+        <div className="bg-blue-1 p-8 rounded-3xl shadow-lg w-full max-w-2xl">
+          <div className="flex justify-center mb-8">
+            <div className="relative">
+              <img
+                src={avatar}
+                alt="Profile"
+                className="w-32 h-32 rounded-full border-4 border-blue-6 object-cover"
+              />
+              <label
+                htmlFor="avatar-upload"
+                className="absolute bottom-0 right-0 blue bg-blue-6 p-2 rounded-full cursor-pointer hover:bg-blue-7"
+              >
+                <EditIcon fill="white" />
+              </label>
+              <input
+                id="avatar-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                className="hidden"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <label htmlFor="pseudo" className="text-blue-12 font-semibold">
-              Pseudo
-            </label>
-            {isModifyPseudo ? (
-              <div className="relative flex justify-center items-centerp-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
-                <input
-                  type="text"
-                  id="pseudo"
-                  value={pseudo}
-                  onChange={(e) => setPseudo(e.target.value)}
-                  onKeyDown={isModifyPseudoHandler}
-                  className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
-                />
-                <div className="absolute top-2 right-2 z-10">
-                  <EditButton clickHandler={clickPseudoHandler} />
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <label htmlFor="pseudo" className="text-blue-12 font-semibold">
+                Pseudo
+              </label>
+              {isModifyPseudo ? (
+                <div className="relative flex justify-center items-centerp-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
+                  <input
+                    type="text"
+                    id="pseudo"
+                    value={pseudo}
+                    onChange={(e) => setPseudo(e.target.value)}
+                    onKeyDown={isModifyPseudoHandler}
+                    className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
+                  />
+                  <div className="absolute top-2 right-2 z-10">
+                    <EditButton clickHandler={clickPseudoHandler} />
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="relative">
-                <p className="text-blue-12 font-semibold">{pseudo}</p>
-                <div className="absolute top-0 right-2">
-                  <EditButton clickHandler={clickPseudoHandler} />
+              ) : (
+                <div className="relative">
+                  <p className="text-blue-12 font-semibold">{pseudo}</p>
+                  <div className="absolute top-0 right-2">
+                    <EditButton clickHandler={clickPseudoHandler} />
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-          <div className="relative space-y-1">
-            <label htmlFor="password" className="text-blue-12 font-semibold">
-              Mot de passe
-            </label>
+              )}
+            </div>
+            <div className="relative space-y-1">
+              <label htmlFor="password" className="text-blue-12 font-semibold">
+                Mot de passe
+              </label>
 
-            {isModifyPwd ? (
-              <div className="relative">
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  onKeyDown={isModifyPwdHandler}
-                  className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
-                />
-                <div className="absolute top-2 right-2">
-                  <EditButton clickHandler={clickPwdHandler} />
+              {isModifyPwd ? (
+                <div className="relative">
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    onKeyDown={isModifyPwdHandler}
+                    className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <EditButton clickHandler={clickPwdHandler} />
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="relative">
-                <p className="text-blue-12 font-semibold">
-                  {"•".repeat(password.length)}
-                </p>
-                <div className="absolute top-0 right-2">
-                  <EditButton clickHandler={clickPwdHandler} />
+              ) : (
+                <div className="relative">
+                  <p className="text-blue-12 font-semibold">
+                    {"•".repeat(password.length)}
+                  </p>
+                  <div className="absolute top-0 right-2">
+                    <EditButton clickHandler={clickPwdHandler} />
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Vault name="My Vault" passwordCount={5} userCount={3} />
+              )}
+            </div>
+            <div className="space-y-2">
+              <Vault
+                name="My Vault"
+                passwordCount={5}
+                userCount={3}
+                clickHandler={clickHandler}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Modal
+        isOpen={isModal}
+        onClose={closeHandler}
+        title={"Gestion des utilisateurs"}
+      >
+        <UserControl />
+      </Modal>
+    </>
   );
 };
 export default Profil;
