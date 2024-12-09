@@ -4,6 +4,7 @@ import Card from "./Card";
 import { useContext } from "react";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
+import { VaultContext } from "../../Context/VaultContext";
 
 const cardsData = [
   {
@@ -122,6 +123,7 @@ const cardsData = [
 
 const Cards = ({ filter = "" }) => {
   const { searchTerm } = useContext(SearchContext);
+  const { vaultName } = useContext(VaultContext);
   const [filterCards, setFilterCards] = useState([]);
 
   useEffect(() => {
@@ -150,7 +152,7 @@ const Cards = ({ filter = "" }) => {
 
   return (
     <>
-      <h1>Cards</h1>
+      <h1>{vaultName}</h1>
       <div className="relative flex justify-center items-center flex-wrap">
         {filterCards.map((card, index) => (
           <Card

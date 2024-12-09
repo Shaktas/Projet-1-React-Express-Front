@@ -27,7 +27,9 @@ function Login() {
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="flex flex-col gap-4 w-full max-w-md"
+        className={`flex flex-col gap-4 w-full max-w-md ${
+          !isLogin && "min-w-[28rem]"
+        }`}
       >
         {!isLogin ? (
           <>

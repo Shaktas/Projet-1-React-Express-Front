@@ -9,13 +9,13 @@ export const TooltipContext = createContext({
 });
 
 export const TooltipProvider = ({ children }) => {
-  const [popupSuccess, setPopupSuccess] = useState(false);
+  const [tooltipSuccess, setTooltipSuccess] = useState(false);
 
   const pasteHandler = (string) => {
     navigator.clipboard.writeText(string);
-    setPopupSuccess(true);
+    setTooltipSuccess(true);
     setTimeout(() => {
-      setPopupSuccess(false);
+      setTooltipSuccess(false);
     }, 2000);
   };
 
@@ -23,13 +23,13 @@ export const TooltipProvider = ({ children }) => {
     success: {
       message: "Texte copié !",
       condtion: "success",
-      isVisible: popupSuccess,
+      isVisible: tooltipSuccess,
     },
   };
 
   return (
     <TooltipContext.Provider
-      value={{ popupSuccess, setPopupSuccess, pasteHandler, tooltips }}
+      value={{ tooltipSuccess, setTooltipSuccess, pasteHandler, tooltips }}
     >
       {children}
     </TooltipContext.Provider>

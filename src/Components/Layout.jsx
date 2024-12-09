@@ -4,6 +4,7 @@ import SearchBar from "./Password/SearchBar";
 import AuthNav from "./NavMenu/AuthNav";
 import { SearchProvider } from "../Context/SearchContext";
 import { TooltipProvider } from "../Context/TooltipContext";
+import { VaultProvider } from "../Context/VaultContext";
 
 function Layout() {
   return (
@@ -17,7 +18,9 @@ function Layout() {
               <AuthNav />
             </div>
             <div className="relative flex flex-col justify-start items-center overflow-y-scroll grow">
-              <Outlet />
+              <VaultProvider>
+                <Outlet />
+              </VaultProvider>
             </div>
           </TooltipProvider>
         </SearchProvider>

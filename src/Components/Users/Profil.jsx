@@ -5,6 +5,8 @@ import baseAvatar from "../../assets/base-avatar.jpg";
 import { EditIcon } from "../../assets/Svg";
 import Modal from "../Modals/Modal";
 import UserControl from "../Modals/UserControl";
+import { useContext } from "react";
+import { VaultContext } from "../../Context/VaultContext";
 
 const Profil = () => {
   const [pseudo, setPseudo] = useState("JohnDoe");
@@ -15,6 +17,7 @@ const Profil = () => {
   const [avatar, setAvatar] = useState(() => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
+  const { vaultName } = useContext(VaultContext);
 
   // Entrée utilisateur a vérifie
 
@@ -151,7 +154,7 @@ const Profil = () => {
             </div>
             <div className="space-y-2">
               <Vault
-                name="My Vault"
+                name={vaultName}
                 passwordCount={5}
                 userCount={3}
                 clickHandler={clickHandler}
