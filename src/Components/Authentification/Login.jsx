@@ -7,13 +7,19 @@ function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const {
     register,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  function onSubmit(e, data) {
-    e.preventDefault();
-    console.log(data);
+  function onSubmit() {
+    if (isLogin) {
+      const data = getValues(["emailRegister", "pwdRegister"]);
+      console.log(data);
+    } else {
+      const data = getValues(["pseudo", "email", "pwd"]);
+      console.log(data);
+    }
   }
 
   function onError(errors) {

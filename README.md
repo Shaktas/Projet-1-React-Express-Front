@@ -5,3 +5,4 @@
 ## To do :
 
 - optionnel -> landing page
+- Verifier que les pwd ne sont pas en double
