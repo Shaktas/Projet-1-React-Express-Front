@@ -16,7 +16,7 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  function onSubmit() {
+  async function onSubmit() {
     if (isLogin) {
       const form = getValues(["emailRegister", "pwdRegister"]);
 
@@ -24,11 +24,7 @@ function Login() {
         email: form[0],
         pwd: form[1],
       };
-      const login = api.auth.login(data);
-      console.log(login);
-      if (login.token) {
-        setIsAuthenticate(true);
-      }
+      const login = await api.auth.login(data);
     } else {
       const form = getValues(["pseudo", "email", "pwd"]);
 
@@ -38,7 +34,7 @@ function Login() {
         pwd: form[2],
       };
 
-      const register = api.auth.register(data);
+      const register = await api.auth.register(data);
     }
   }
 
