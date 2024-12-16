@@ -4,17 +4,20 @@ const user = {
   async getUsers() {
     return fetchAPI("/users");
   },
-  async getOneUser() {
-    return fetchAPI("/user/:id");
+  async getOneUser(id) {
+    return fetchAPI(`/user/${id}`);
   },
-  async updateUser(pseudo, email, password) {
-    return fetchAPI("/user", {
+  async getVaultsbyUser(id) {
+    return fetchAPI(`/user/${id}/vaults`);
+  },
+  async updateUser(id, pseudo, email, password) {
+    return fetchAPI(`/user/${id}`, {
       method: "PUT",
       body: JSON.stringify({ pseudo, email, password }),
     });
   },
-  async deleteUser() {
-    return fetchAPI("/user", {
+  async deleteUser(id) {
+    return fetchAPI(`/user/${id}`, {
       method: "DELETE",
     });
   },

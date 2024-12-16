@@ -4,8 +4,9 @@ import Layout from "./Components/Layout";
 import ErrorPage from "./Components/ErrorPage";
 import GenPwd from "./Components/password/GenPwd";
 import Cards from "./Components/Cards/Cards";
-import Login from "./Components/Authentification/Login";
+import Login from "./Components/Authentication/Login";
 import Profil from "./Components/Users/Profil";
+import Test from "./Components/Test";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "myVault",
         element: <Cards />,
+      },
+      {
+        path: "test",
+        element: <Test />,
       },
     ],
   },

@@ -2,8 +2,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { isPwdValid } from "../../libs/function";
 import { NavLink } from "react-router-dom";
+import { api } from "../../api/api";
+import { AuthenticateContext } from "../../Context/AuthenticateContext";
+import { useContext } from "react";
 
 function Login() {
+  const { setIsAuthenticate } = useContext(AuthenticateContext);
   const [isLogin, setIsLogin] = useState(true);
   const {
     register,
@@ -14,11 +18,27 @@ function Login() {
 
   function onSubmit() {
     if (isLogin) {
-      const data = getValues(["emailRegister", "pwdRegister"]);
-      console.log(data);
+      const form = getValues(["emailRegister", "pwdRegister"]);
+
+      const data = {
+        email: form[0],
+        pwd: form[1],
+      };
+      const login = api.auth.login(data);
+      console.log(login);
+      if (login.token) {
+        setIsAuthenticate(true);
+      }
     } else {
-      const data = getValues(["pseudo", "email", "pwd"]);
-      console.log(data);
+      const form = getValues(["pseudo", "email", "pwd"]);
+
+      const data = {
+        pseudo: form[0],
+        email: form[1],
+        pwd: form[2],
+      };
+
+      const register = api.auth.register(data);
     }
   }
 

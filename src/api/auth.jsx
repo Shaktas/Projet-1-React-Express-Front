@@ -1,19 +1,21 @@
 import { fetchAPI } from "./api";
 
 const auth = {
-  async login(email, password) {
-    return fetchAPI("/auth/login", {
+  async login(data) {
+    const { email, pwd } = data;
+    return fetchAPI("/login", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, pwd }),
     });
   },
   async logout() {
-    return fetchAPI("/auth/logout");
+    return fetchAPI("/logout");
   },
-  async register(pseudo, email, password) {
-    return fetchAPI("/auth/register", {
+  async register(data) {
+    const { pseudo, email, pwd } = data;
+    return fetchAPI("/register", {
       method: "POST",
-      body: JSON.stringify({ pseudo, email, password }),
+      body: JSON.stringify({ pseudo, email, pwd }),
     });
   },
 };
