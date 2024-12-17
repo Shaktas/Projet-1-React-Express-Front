@@ -5,9 +5,10 @@ import { NavLink } from "react-router-dom";
 import { api } from "../../api/api";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const { setIsAuthenticate } = useContext(AuthenticateContext);
+  const { setIsAuthenticate, setId } = useContext(AuthenticateContext);
   const [isLogin, setIsLogin] = useState(true);
   const {
     register,
@@ -15,6 +16,7 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
   async function onSubmit() {
     if (isLogin) {
@@ -25,6 +27,13 @@ function Login() {
         pwd: form[1],
       };
       const login = await api.auth.login(data);
+      console.log(login.success);
+
+      if (login.success == true) {
+        setIsAuthenticate(true);
+        setId(login.user.id);
+        navigate("/account");
+      }
     } else {
       const form = getValues(["pseudo", "email", "pwd"]);
 
@@ -33,8 +42,12 @@ function Login() {
         email: form[1],
         pwd: form[2],
       };
-
       const register = await api.auth.register(data);
+
+      if (register.success == true) {
+        setIsAuthenticate(true);
+        navigate("/account");
+      }
     }
   }
 

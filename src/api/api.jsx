@@ -11,7 +11,6 @@ export async function fetchAPI(endpoint, options = {}) {
     ...options,
     headers: {
       "Content-Type": "application/json",
-
       ...options.headers,
     },
   });

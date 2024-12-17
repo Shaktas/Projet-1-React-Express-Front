@@ -18,6 +18,11 @@ const auth = {
       body: JSON.stringify({ pseudo, email, pwd }),
     });
   },
+  async verifyToken() {
+    return fetchAPI("/verify", {
+      method: "POST",
+    });
+  },
 };
 
 export default auth;

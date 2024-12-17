@@ -2,7 +2,7 @@ import { fetchAPI } from "./api";
 
 const user = {
   async getUsers() {
-    return fetchAPI("/users");
+    return fetchAPI("/users", {});
   },
   async getOneUser(id) {
     return fetchAPI(`/user/${id}`);
