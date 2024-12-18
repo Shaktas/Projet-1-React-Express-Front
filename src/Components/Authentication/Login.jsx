@@ -27,7 +27,6 @@ function Login() {
         pwd: form[1],
       };
       const login = await api.auth.login(data);
-      console.log(login.success);
 
       if (login.success == true) {
         setIsAuthenticate(true);
