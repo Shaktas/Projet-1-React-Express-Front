@@ -7,8 +7,8 @@ const BASE_URL = "http://localhost:4000";
 
 export async function fetchAPI(endpoint, options = {}) {
   const response = await fetch(`${BASE_URL}${endpoint}`, {
-    credentials: "include",
     ...options,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...options.headers,

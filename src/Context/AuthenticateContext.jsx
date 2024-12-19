@@ -15,6 +15,21 @@ export const AuthenticateProvider = ({ children }) => {
   const [id, setId] = useState(null);
 
   useEffect(() => {
+    const refresh = async () => {
+      try {
+        const response = await api.auth.refreshToken();
+        if (response.success) {
+          setIsAuthenticate(true);
+          setId(response.id);
+        }
+      } catch (error) {
+        console.error("Auth initialization failed:", error);
+      }
+    };
+    refresh();
+  }, []);
+
+  useEffect(() => {
     if (isAuthenticate) {
       checkTokenValidity();
       const interval = setInterval(checkTokenValidity, 60000);

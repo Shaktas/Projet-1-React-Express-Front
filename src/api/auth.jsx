@@ -23,6 +23,11 @@ const auth = {
       method: "POST",
     });
   },
+  async refreshToken() {
+    return fetchAPI("/refresh", {
+      method: "POST",
+    });
+  },
 };
 
 export default auth;
