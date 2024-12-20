@@ -18,6 +18,7 @@ export const AuthenticateProvider = ({ children }) => {
     const refresh = async () => {
       try {
         const response = await api.auth.refreshToken();
+        console.log(response);
         if (response.success) {
           setIsAuthenticate(true);
           setId(response.id);

@@ -25,6 +25,11 @@ export const TooltipProvider = ({ children }) => {
       condtion: "success",
       isVisible: tooltipSuccess,
     },
+    deco: {
+      message: "Vous avez été déconnecté car vous avez été inactif",
+      condtion: "error",
+      isVisible: tooltipSuccess,
+    },
   };
 
   return (

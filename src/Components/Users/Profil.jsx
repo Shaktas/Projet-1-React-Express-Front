@@ -14,11 +14,15 @@ import { api } from "../../api/api";
 const Profil = () => {
   const { isAuthenticate, id } = useContext(AuthenticateContext);
   const [data, setData] = useState({ UserPseudo: "", UserEmail: "" });
+  const [newsletter, setNewletter] = useState(true);
+  const [marketing, setMarketing] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.user.getOneUser(id);
+        console.log("response", response);
+
         setData(response);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -40,9 +44,9 @@ const Profil = () => {
   const { vaultName } = useContext(VaultContext);
 
   useEffect(() => {
-    if (data && data.UserPseudo && data.UserEmail) {
-      setPseudo(data.UserPseudo);
-      setEmail(data.UserEmail);
+    if (data && data.userPseudo && data.userEmail) {
+      setPseudo(data.userPseudo);
+      setEmail(data.userEmail);
     }
   }, [data]);
 
@@ -185,6 +189,43 @@ const Profil = () => {
                 userCount={3}
                 clickHandler={clickHandler}
               />
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="newsletter"
+                checked={newsletter}
+                onChange={() => {
+                  setNewletter(!newsletter);
+                }}
+                className="w-4 h-4 rounded border-blue-5 text-blue-9 focus:ring-blue-6"
+              />
+              <label
+                htmlFor="newsletter-consent"
+                className="text-sm text-blue-12"
+              >
+                J&apos;accepte de recevoir des NewsLetters a titre
+                d&apos;informations
+              </label>
+            </div>
+            <div className="flex  items-center space-x-2">
+              <input
+                type="checkbox"
+                id="marketing-consent"
+                className="w-4 h-4 rounded border-blue-5 text-blue-9 focus:ring-blue-6"
+                checked={marketing}
+                onChange={() => {
+                  setMarketing(!marketing);
+                }}
+              />
+              <label
+                htmlFor="marketing-consent"
+                className="text-sm text-blue-12"
+              >
+                J&apos;accepte de recevoir des communications commercials par
+                email
+              </label>
             </div>
           </div>
         </div>

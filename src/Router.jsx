@@ -7,6 +7,7 @@ import Cards from "./Components/Cards/Cards";
 import Login from "./Components/Authentication/Login";
 import Profil from "./Components/Users/Profil";
 import Test from "./Components/Test";
+import Rgpd from "./Components/RGPD/Rgpd";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "test",
         element: <Test />,
+      },
+      {
+        path: "rgpd",
+        element: <Rgpd />,
       },
     ],
   },

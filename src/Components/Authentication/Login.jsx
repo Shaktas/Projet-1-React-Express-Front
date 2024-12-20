@@ -11,6 +11,7 @@ function Login() {
   const { isAuthenticate, setIsAuthenticate, setId } =
     useContext(AuthenticateContext);
   const [isLogin, setIsLogin] = useState(true);
+  const [rgpd, setRgpd] = useState(false);
   const {
     register,
     getValues,
@@ -60,8 +61,6 @@ function Login() {
   function onError(errors) {
     console.log(errors);
   }
-
-  console.log(isAuthenticate);
 
   return (
     <>
@@ -188,12 +187,34 @@ function Login() {
               </div>
             </>
           )}
+
           <button
             type="submit"
             className="bg-blue-9 text-white py-2 px-4 rounded hover:bg-blue-10 transition-colors"
           >
             {isLogin ? "Connexion" : "Inscription"}
           </button>
+          {isLogin ? (
+            ""
+          ) : (
+            <div className="flex justify-center items-center space-x-2">
+              <input
+                type="checkbox"
+                id="rgpd"
+                className="w-4 h-4 rounded border-blue-5 text-blue-9 focus:ring-blue-6"
+                checked={rgpd}
+                onChange={() => {
+                  setRgpd(!rgpd);
+                }}
+              />
+              <label htmlFor="rgpd" className="text-sm text-blue-12">
+                En ciquant j&apos;accepte la{" "}
+                <NavLink to="/rgpd" className="text-blue-9 hover:underline">
+                  politique de protection des données
+                </NavLink>
+              </label>
+            </div>
+          )}
         </form>
         <button
           onClick={() => setIsLogin(!isLogin)}
