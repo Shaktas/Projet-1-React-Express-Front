@@ -9,30 +9,12 @@ import { useContext, useEffect } from "react";
 import { VaultContext } from "../../Context/VaultContext";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { Navigate } from "react-router-dom";
-import { api } from "../../api/api";
+import { useUserData } from "../../hooks/user/useUserData";
 
 const Profil = () => {
   const { isAuthenticate, id } = useContext(AuthenticateContext);
-  const [data, setData] = useState({ UserPseudo: "", UserEmail: "" });
   const [newsletter, setNewletter] = useState(true);
   const [marketing, setMarketing] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.user.getOneUser(id);
-        console.log("response", response);
-
-        setData(response);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    if (id) {
-      fetchData();
-    }
-  }, [id]);
-
   const [pseudo, setPseudo] = useState("");
   const [email, setEmail] = useState("");
   const [isModifyPseudo, setIsModifyPseudo] = useState(false);
@@ -43,12 +25,13 @@ const Profil = () => {
   });
   const { vaultName } = useContext(VaultContext);
 
-  useEffect(() => {
-    if (data && data.userPseudo && data.userEmail) {
-      setPseudo(data.userPseudo);
-      setEmail(data.userEmail);
-    }
-  }, [data]);
+  const data = useUserData();
+  console.log(data);
+
+  if (data && data.userPseudo && data.userEmail) {
+    setPseudo(data.userPseudo);
+    setEmail(data.userEmail);
+  }
 
   // Entrée utilisateur a vérifie
 
