@@ -1,30 +1,19 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "../../api/api";
-import PropTypes from "prop-types";
 import { useContext } from "react";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 
 export function useUserData() {
-  const [data, setData] = useState({ userPseudo: "", userEmail: "" });
   const { id } = useContext(AuthenticateContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.user.getOneUser(id);
-        console.log("response", response);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["userData", id],
+    queryFn: () => api.user.getOneUser(id),
+    enabled: !!id,
+  });
 
-        setData(response);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    if (id) {
-      fetchData();
-    }
-  }, [id]);
-
-  console.log(data);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return { data };
 }

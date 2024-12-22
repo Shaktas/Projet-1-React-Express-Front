@@ -7,7 +7,7 @@ import Cards from "./Components/Cards/Cards";
 import Login from "./Components/Authentication/Login";
 import Profil from "./Components/Users/Profil";
 import Test from "./Components/Test";
-import Rgpd from "./Components/RGPD/Rgpd";
+import PolitiqueProtection from "./Components/RGPD/PolitiqueProtection";
 
 const router = createBrowserRouter([
   {
@@ -56,8 +56,8 @@ const router = createBrowserRouter([
         element: <Test />,
       },
       {
-        path: "rgpd",
-        element: <Rgpd />,
+        path: "PolitiqueProtection",
+        element: <PolitiqueProtection />,
       },
     ],
   },

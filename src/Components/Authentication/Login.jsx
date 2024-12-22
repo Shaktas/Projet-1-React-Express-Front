@@ -20,6 +20,8 @@ function Login() {
   } = useForm();
   const navigate = useNavigate();
 
+  console.log(isAuthenticate);
+
   if (isAuthenticate) {
     return <Navigate to="/account" replace />;
   }

@@ -12,7 +12,7 @@ import { Navigate } from "react-router-dom";
 import { useUserData } from "../../hooks/user/useUserData";
 
 const Profil = () => {
-  const { isAuthenticate, id } = useContext(AuthenticateContext);
+  const { isAuthenticate } = useContext(AuthenticateContext);
   const [newsletter, setNewletter] = useState(true);
   const [marketing, setMarketing] = useState(false);
   const [pseudo, setPseudo] = useState("");
@@ -24,14 +24,16 @@ const Profil = () => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
   const { vaultName } = useContext(VaultContext);
+  const { data } = useUserData();
 
-  const data = useUserData();
   console.log(data);
 
-  if (data && data.userPseudo && data.userEmail) {
-    setPseudo(data.userPseudo);
-    setEmail(data.userEmail);
-  }
+  useEffect(() => {
+    if (data && data.userPseudo && data.userEmail) {
+      setPseudo(data.userPseudo);
+      setEmail(data.userEmail);
+    }
+  }, [data]);
 
   // Entrée utilisateur a vérifie
 
