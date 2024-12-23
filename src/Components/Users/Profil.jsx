@@ -13,6 +13,7 @@ import { useUserData } from "../../hooks/user/useUserData";
 
 const Profil = () => {
   const { isAuthenticate } = useContext(AuthenticateContext);
+  const { vaultName } = useContext(VaultContext);
   const [newsletter, setNewletter] = useState(true);
   const [marketing, setMarketing] = useState(false);
   const [pseudo, setPseudo] = useState("");
@@ -23,10 +24,7 @@ const Profil = () => {
   const [avatar, setAvatar] = useState(() => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
-  const { vaultName } = useContext(VaultContext);
   const { data } = useUserData();
-
-  console.log(data);
 
   useEffect(() => {
     if (data && data.userPseudo && data.userEmail) {

@@ -9,7 +9,9 @@ const auth = {
     });
   },
   async logout() {
-    return fetchAPI("/logout");
+    return fetchAPI("/logout", {
+      method: "POST",
+    });
   },
   async register(data) {
     const { pseudo, email, pwd } = data;

@@ -1,6 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 import { api } from "../api/api";
 import { useMutation } from "@tanstack/react-query";
 
@@ -11,11 +10,11 @@ export const AuthenticateContext = createContext({
   setId: () => {},
 });
 
-export const AuthenticateProvider = ({ children }) => {
+export function AuthenticateProvider({ children }) {
   const [isAuthenticate, setIsAuthenticate] = useState(false);
   const [id, setId] = useState(null);
 
-  const response = useMutation({
+  const refresh = useMutation({
     mutationFn: () => api.auth.refreshToken(),
     retry: false,
     onSuccess: (data) => {
@@ -34,8 +33,35 @@ export const AuthenticateProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    response.mutate();
-  }, []);
+    refresh.mutate();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const verifyAuthentication = useMutation({
+    mutationFn: () => api.auth.verifyToken(),
+    retry: false,
+    onSuccess: (data) => {
+      if (data && !data.success) {
+        setIsAuthenticate(false);
+        setId(null);
+      }
+    },
+    onError: (error) => {
+      console.error("Authentication error:", error);
+      setIsAuthenticate(false);
+      setId(null);
+    },
+  });
+
+  useEffect(() => {
+    if (isAuthenticate) {
+      verifyAuthentication.mutate();
+      const interval = setInterval(() => {
+        verifyAuthentication.mutate();
+      }, 60000);
+      return () => clearInterval(interval);
+    }
+    return () => {};
+  }, [isAuthenticate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // useEffect(() => {
   //   const refresh = async () => {
@@ -53,28 +79,28 @@ export const AuthenticateProvider = ({ children }) => {
   //   refresh();
   // }, []);
 
-  useEffect(() => {
-    if (isAuthenticate) {
-      checkTokenValidity();
-      const interval = setInterval(checkTokenValidity, 60000);
-      return () => clearInterval(interval);
-    }
-    return () => {};
-  }, [isAuthenticate]);
+  // useEffect(() => {
+  //   if (isAuthenticate) {
+  //     checkTokenValidity();
+  //     const interval = setInterval(checkTokenValidity, 60000);
+  //     return () => clearInterval(interval);
+  //   }
+  //   return () => {};
+  // }, [isAuthenticate]);
 
-  const checkTokenValidity = async () => {
-    try {
-      const checkToken = await api.auth.verifyToken();
-      if (!checkToken.success) {
-        setIsAuthenticate(false);
-        setId(null);
-      }
-    } catch (error) {
-      setIsAuthenticate(false);
-      setId(null);
-      console.error(error);
-    }
-  };
+  // const checkTokenValidity = async () => {
+  //   try {
+  //     const checkToken = await api.auth.verifyToken();
+  //     if (!checkToken.success) {
+  //       setIsAuthenticate(false);
+  //       setId(null);
+  //     }
+  //   } catch (error) {
+  //     setIsAuthenticate(false);
+  //     setId(null);
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <AuthenticateContext.Provider
@@ -83,8 +109,8 @@ export const AuthenticateProvider = ({ children }) => {
       {children}
     </AuthenticateContext.Provider>
   );
-};
+}
 
 AuthenticateProvider.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
