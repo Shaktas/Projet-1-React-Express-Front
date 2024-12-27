@@ -56,7 +56,7 @@ const router = createBrowserRouter([
         element: <Test />,
       },
       {
-        path: "PolitiqueProtection",
+        path: "politiqueProtection",
         element: <PolitiqueProtection />,
       },
     ],

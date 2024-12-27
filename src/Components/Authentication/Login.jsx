@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { isPwdValid } from "../../libs/function";
 import { NavLink } from "react-router-dom";
@@ -17,8 +17,13 @@ function Login() {
     getValues,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    reset();
+  }, [isLogin, reset]);
 
   console.log(isAuthenticate);
 
@@ -28,7 +33,7 @@ function Login() {
 
   async function onSubmit() {
     if (isLogin) {
-      const form = getValues(["emailRegister", "pwdRegister"]);
+      const form = getValues(["emailAuth", "pwdAuth"]);
 
       const data = {
         email: form[0],
@@ -44,7 +49,11 @@ function Login() {
         navigate("/account");
       }
     } else {
-      const form = getValues(["pseudo", "email", "pwd"]);
+      const form = getValues([
+        "pseudoRegister",
+        "emailRegister",
+        "pwdRegister",
+      ]);
 
       const data = {
         pseudo: form[0],
@@ -80,7 +89,7 @@ function Login() {
             <>
               <div className="flex flex-col text-center">
                 <input
-                  {...register("pseudo", {
+                  {...register("pseudoRegister", {
                     required: true,
                     minLength: {
                       value: 3,
@@ -96,15 +105,15 @@ function Login() {
                   placeholder="Pseudo *"
                   className="p-2 border rounded focus:outline-none focus:border-blue-9"
                 />
-                {errors.pseudo && (
+                {errors.pseudoRegister && (
                   <span className="text-red-500 text-sm">
-                    {errors.pseudo.message}
+                    {errors.pseudoRegister.message}
                   </span>
                 )}
               </div>
               <div className="flex flex-col text-center">
                 <input
-                  {...register("email", {
+                  {...register("emailRegister", {
                     required: { value: true, message: "L'email est requis" },
                     pattern: {
                       value: /^\S+@\S+\.\S+$/,
@@ -116,15 +125,15 @@ function Login() {
                   placeholder="Email *"
                   className="p-2 border rounded focus:outline-none focus:border-blue-9"
                 />
-                {errors.email && (
+                {errors.emailRegister && (
                   <span className="text-red-500 text-sm">
-                    {errors.email.message}
+                    {errors.emailRegister.message}
                   </span>
                 )}
               </div>
               <div className="flex flex-col text-center">
                 <input
-                  {...register("pwd", {
+                  {...register("pwdRegister", {
                     required: {
                       value: true,
                       message: "Le mot de passe est requis",
@@ -137,9 +146,9 @@ function Login() {
                   placeholder="Mot de passe *"
                   className="p-2 border rounded focus:outline-none focus:border-blue-9"
                 />
-                {errors.pwd && (
+                {errors.pwdRegister && (
                   <span className="text-red-500 text-sm">
-                    {errors.pwd.message}.<br />
+                    {errors.pwdRegister.message}.<br />
                     Nous vous recommandons d&apos;utiliser le{" "}
                     <NavLink
                       to={"/genPwd"}
@@ -154,13 +163,12 @@ function Login() {
           ) : (
             <>
               <input
-                {...register("emailRegister", {
+                {...register("emailAuth", {
                   required: true,
                   pattern: {
                     value: /^\S+@\S+\.\S+$/,
                     message: "L'email n'est pas valide",
                   },
-                  // validate: {isEmailBdd, "Vos informations de connexions sont incorrectes"}
                 })}
                 type="email"
                 placeholder="Email *"
@@ -168,22 +176,21 @@ function Login() {
               />
               <div className="flex flex-col text-center">
                 <input
-                  {...register("pwdRegister", {
+                  {...register("pwdAuth", {
                     required: true,
-                    // validate: {isPwdBdd, "Vos informations de connexions sont incorrectes"}
                   })}
                   type="password"
                   placeholder="Mot de passe *"
                   className="p-2 border rounded focus:outline-none focus:border-blue-9"
                 />
-                {errors.emailRegister && (
+                {errors.emailAuth && (
                   <span className="text-red-500 text-sm">
-                    {errors.emailRegister.message}
+                    {errors.emailAuth.message}
                   </span>
                 )}
-                {errors.pwdRegister && (
+                {errors.pwdAuth && (
                   <span className="text-red-500 text-sm">
-                    {errors.pwdRegister.message}
+                    {errors.pwdAuth.message}
                   </span>
                 )}
               </div>
@@ -211,7 +218,10 @@ function Login() {
               />
               <label htmlFor="rgpd" className="text-sm text-blue-12">
                 En ciquant j&apos;accepte la{" "}
-                <NavLink to="/rgpd" className="text-blue-9 hover:underline">
+                <NavLink
+                  to="/politiqueProtection"
+                  className="text-blue-9 hover:underline"
+                >
                   politique de protection des données
                 </NavLink>
               </label>
