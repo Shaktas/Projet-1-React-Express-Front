@@ -24,14 +24,15 @@ const Profil = () => {
   const [avatar, setAvatar] = useState(() => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
-  const { data } = useUserData();
+  const userData = useUserData();
+  console.log("userData", userData);
 
   useEffect(() => {
-    if (data && data.userPseudo && data.userEmail) {
-      setPseudo(data.userPseudo);
-      setEmail(data.userEmail);
+    if (userData && userData.userPseudo && userData.userEmail) {
+      setPseudo(userData.userPseudo);
+      setEmail(userData.userEmail);
     }
-  }, [data]);
+  }, [userData]);
 
   // Entrée utilisateur a vérifie
 

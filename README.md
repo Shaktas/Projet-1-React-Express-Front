@@ -106,3 +106,8 @@ server {
 - Créer un fichier .env
 
 - Changer les valeurs du fichier .env pour coller au port ouvert plus haut
+
+# BUG
+
+- Logout plante au bout d'un certain temps ??
+- regler le storage de l'id user

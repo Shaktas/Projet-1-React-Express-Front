@@ -25,8 +25,6 @@ function Login() {
     reset();
   }, [isLogin, reset]);
 
-  console.log(isAuthenticate);
-
   if (isAuthenticate) {
     return <Navigate to="/account" replace />;
   }
@@ -40,12 +38,13 @@ function Login() {
         pwd: form[1],
       };
       const login = await api.auth.login(data);
+      console.log(login);
 
       if (login.success == true) {
-        console.log(login);
-
+        console.log(login.user.id);
         setIsAuthenticate(true);
         setId(login.user.id);
+        sessionStorage.setItem("id", login.user.id);
         navigate("/account");
       }
     } else {

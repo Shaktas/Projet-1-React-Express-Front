@@ -21,6 +21,7 @@ export function AuthenticateProvider({ children }) {
       if (data && data.success) {
         setIsAuthenticate(true);
         setId(data.id);
+        sessionStorage.setItem("id", data.id);
       } else {
         throw new Error("Authentication failed");
       }

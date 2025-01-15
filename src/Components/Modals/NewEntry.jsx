@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import { useForm } from "react-hook-form";
+import { api } from "../../api/api";
+import { useMutation } from "@tanstack/react-query";
 
 const NewEntry = () => {
   const [isCard, setIsCard] = useState(false);
@@ -14,8 +16,14 @@ const NewEntry = () => {
     setIsCard(bool);
   }
 
-  function onSubmit(data) {
-    console.log(data);
+  async function onSubmit(data) {
+    if (data.vaultName) {
+      const vaultData = await api.vault.createVault(data.vaultName);
+
+      if (vaultData.success) {
+        console.log("Vault created");
+      }
+    }
   }
 
   function onError(errors) {
