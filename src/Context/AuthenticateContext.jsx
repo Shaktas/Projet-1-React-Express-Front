@@ -6,13 +6,17 @@ import { useMutation } from "@tanstack/react-query";
 export const AuthenticateContext = createContext({
   isAuthenticate: false,
   setIsAuthenticate: () => {},
-  id: null,
+  userId: null,
   setId: () => {},
 });
 
 export function AuthenticateProvider({ children }) {
-  const [isAuthenticate, setIsAuthenticate] = useState(false);
-  const [id, setId] = useState(null);
+  const [isAuthenticate, setIsAuthenticate] = useState(() => {
+    return sessionStorage.getItem("id") ? true : false;
+  });
+  const [userId, setUserId] = useState(() => {
+    return sessionStorage.getItem("id");
+  });
 
   const refresh = useMutation({
     mutationFn: () => api.auth.refreshToken(),
@@ -20,7 +24,7 @@ export function AuthenticateProvider({ children }) {
     onSuccess: (data) => {
       if (data && data.success) {
         setIsAuthenticate(true);
-        setId(data.id);
+        setUserId(data.id);
         sessionStorage.setItem("id", data.id);
       } else {
         throw new Error("Authentication failed");
@@ -29,7 +33,8 @@ export function AuthenticateProvider({ children }) {
     onError: (error) => {
       console.error("Authentication error:", error);
       setIsAuthenticate(false);
-      setId(null);
+      setUserId(null);
+      sessionStorage.removeItem("id");
     },
   });
 
@@ -43,13 +48,13 @@ export function AuthenticateProvider({ children }) {
     onSuccess: (data) => {
       if (data && !data.success) {
         setIsAuthenticate(false);
-        setId(null);
+        setUserId(null);
       }
     },
     onError: (error) => {
       console.error("Authentication error:", error);
       setIsAuthenticate(false);
-      setId(null);
+      setUserId(null);
     },
   });
 
@@ -105,7 +110,7 @@ export function AuthenticateProvider({ children }) {
 
   return (
     <AuthenticateContext.Provider
-      value={{ isAuthenticate, setIsAuthenticate, id, setId }}
+      value={{ isAuthenticate, setIsAuthenticate, userId, setUserId }}
     >
       {children}
     </AuthenticateContext.Provider>

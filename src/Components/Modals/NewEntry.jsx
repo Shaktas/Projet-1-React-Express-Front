@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import { useForm } from "react-hook-form";
 import { api } from "../../api/api";
-import { useMutation } from "@tanstack/react-query";
+import { useGetVaultsByUser } from "../../hooks/vault/useVaultData";
 
 const NewEntry = () => {
   const [isCard, setIsCard] = useState(false);
+  const { userId } = useContext(AuthenticateContext);
+  const { vaults } = useGetVaultsByUser(userId);
   const {
     register,
     handleSubmit,
@@ -53,7 +56,11 @@ const NewEntry = () => {
         <div className="flex flex-col gap-4 mt-4">
           <div className="flex flex-col">
             <select className="px-4 py-2 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-9">
-              <option value="MyVault">MyVault</option>
+              {Object.entries(vaults).map(([key, vault]) => (
+                <option key={key} value={vault.vaultId}>
+                  {vault.vaultName}
+                </option>
+              ))}
             </select>
           </div>
 
