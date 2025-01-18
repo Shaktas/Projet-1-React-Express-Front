@@ -12,10 +12,10 @@ export const AuthenticateContext = createContext({
 
 export function AuthenticateProvider({ children }) {
   const [isAuthenticate, setIsAuthenticate] = useState(() => {
-    return sessionStorage.getItem("id") ? true : false;
+    return sessionStorage.getItem("userId") ? true : false;
   });
   const [userId, setUserId] = useState(() => {
-    return sessionStorage.getItem("id");
+    return sessionStorage.getItem("userId");
   });
 
   const refresh = useMutation({

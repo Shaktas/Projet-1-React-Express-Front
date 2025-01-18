@@ -41,6 +41,7 @@ function Login() {
 
       if (login.success) {
         sessionStorage.setItem("userId", login.user.userId);
+        setIsAuthenticate(true);
         navigate("/account");
       }
     } else {

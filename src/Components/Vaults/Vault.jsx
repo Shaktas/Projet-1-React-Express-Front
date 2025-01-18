@@ -1,18 +1,26 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { countStrengthPassword } from "../../libs/function";
 import PwdLevels from "../Users/PwdLevels";
 import { KeyIcon } from "../../assets/Svg";
+import card from "../../api/card";
 
-const Vault = ({ name, passwordCount, userCount, clickHandler }) => {
-  // const pwd = countStrengthPassword();
+const Vault = ({ cards, passwordCount, userCount, clickHandler }) => {
+  const [vaultTitle, setVaultTitle] = useState(cards.vaultTitle);
+  const cardsData = Object.values(Object.values(cards)[1]);
+  const pwds = cardsData.map((card) => {
+    return card.cardPassword;
+  });
+  console.log(pwds);
+  const pwd = countStrengthPassword(pwds);
 
   return (
     <div className="bg-blue-3 rounded-lg p-4 shadow-lg">
       <div className="flex justify-center items-center">
         <NavLink to="/MyVault">
           <h3 className="relative flex text-xl font-bold mb-3 text-blue-10">
-            {name}{" "}
+            {vaultTitle}{" "}
             <span className="ml-3">
               <KeyIcon fill="none" />
             </span>
@@ -34,7 +42,7 @@ const Vault = ({ name, passwordCount, userCount, clickHandler }) => {
           <span className="font-medium text-blue-12">{passwordCount}</span>
         </div>
       </div>
-      {/* <PwdLevels pwd={pwd} /> */}
+      <PwdLevels pwd={pwd} />
     </div>
   );
 };
@@ -42,8 +50,8 @@ const Vault = ({ name, passwordCount, userCount, clickHandler }) => {
 export default Vault;
 
 Vault.propTypes = {
-  name: PropTypes.string.isRequired,
-  passwordCount: PropTypes.number.isRequired,
+  cards: PropTypes.object.isRequired,
+  passwordCount: PropTypes.number,
   userCount: PropTypes.number.isRequired,
   clickHandler: PropTypes.func.isRequired,
 };

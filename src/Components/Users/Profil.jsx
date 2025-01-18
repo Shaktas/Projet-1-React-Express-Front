@@ -6,7 +6,6 @@ import { EditIcon } from "../../assets/Svg";
 import Modal from "../Modals/Modal";
 import UserControl from "../Modals/UserControl";
 import { useContext, useEffect } from "react";
-import { VaultContext } from "../../Context/VaultContext";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { Navigate } from "react-router-dom";
 import { useUserData } from "../../hooks/user/useUserData";
@@ -17,7 +16,6 @@ import {
 
 const Profil = () => {
   const { userId, isAuthenticate } = useContext(AuthenticateContext);
-  const { vaultName } = useContext(VaultContext);
   const [newsletter, setNewletter] = useState(true);
   const [marketing, setMarketing] = useState(false);
   const [pseudo, setPseudo] = useState("");
@@ -25,20 +23,14 @@ const Profil = () => {
   const [isModifyPseudo, setIsModifyPseudo] = useState(false);
   const [isModifyEmail, setIsModifyEmail] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [avatar, setAvatar] = useState(() => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
   const userData = useUserData();
   const { vaults } = useGetVaultsByUser(userId);
-  const { data: cardsVaults = [] } = useCardsQueries(vaults);
-
-  for (const cards of cardsVaults) {
-    for (const vault of Object.entries(vaults)) {
-      if (cards.vaultId === vault[0]) {
-        cards.vaultName = vault[1].vaultName;
-      }
-    }
-  }
+  const { data: cardsVaults } = useCardsQueries(vaults);
+  console.log(cardsVaults);
 
   useEffect(() => {
     if (userData && userData.userPseudo && userData.userEmail) {
@@ -46,6 +38,25 @@ const Profil = () => {
       setEmail(userData.userEmail);
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (
+      vaults != undefined &&
+      vaults != null &&
+      cardsVaults != null &&
+      cardsVaults != undefined &&
+      cardsVaults.every((card) => card !== undefined)
+    ) {
+      for (const vault of Object.entries(vaults)) {
+        for (const card of cardsVaults) {
+          if (card.vaultId == vault[0]) {
+            card.vaultTitle = vault[1].vaultName;
+          }
+        }
+      }
+      setIsLoading(true);
+    }
+  }, [cardsVaults, vaults]);
 
   // Entrée utilisateur a vérifie
 
@@ -96,8 +107,8 @@ const Profil = () => {
   return (
     <>
       {!isAuthenticate && <Navigate to="/auth" />}
-      <div className="flex justify-center items-center min-h-screen w-2/3 bg-blue-2">
-        <div className="bg-blue-1 p-8 rounded-3xl shadow-lg w-full max-w-2xl">
+      <div className="absolute -top-36 p-0 flex justify-center items-center min-h-screen w-2/3 bg-blue-2">
+        <div className="bg-blue-1 p-8 rounded-3xl shadow-lg w-full max-w-2xl m">
           <div className="flex justify-center mb-8">
             <div className="relative">
               <img
@@ -127,19 +138,21 @@ const Profil = () => {
                 Pseudo
               </label>
               {isModifyPseudo ? (
-                <div className="relative flex justify-center items-centerp-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
-                  <input
-                    type="text"
-                    id="pseudo"
-                    value={pseudo}
-                    onChange={(e) => setPseudo(e.target.value)}
-                    onKeyDown={isModifyPseudoHandler}
-                    className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
-                  />
-                  <div className="absolute top-2 right-2 z-10">
-                    <EditButton clickHandler={clickPseudoHandler} />
+                isLoading && (
+                  <div className="relative flex justify-center items-centerp-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
+                    <input
+                      type="text"
+                      id="pseudo"
+                      value={pseudo}
+                      onChange={(e) => setPseudo(e.target.value)}
+                      onKeyDown={isModifyPseudoHandler}
+                      className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
+                    />
+                    <div className="absolute top-2 right-2 z-10">
+                      <EditButton clickHandler={clickPseudoHandler} />
+                    </div>
                   </div>
-                </div>
+                )
               ) : (
                 <div className="relative">
                   <p className="text-blue-12 font-semibold">{pseudo}</p>
@@ -155,21 +168,23 @@ const Profil = () => {
               </label>
 
               {isModifyEmail ? (
-                <div className="relative">
-                  <input
-                    type="teaxt"
-                    id="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                    onKeyDown={isModifyEmailHandler}
-                    className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
-                  />
-                  <div className="absolute top-2 right-2">
-                    <EditButton clickHandler={clickEmailHandler} />
+                isLoading && (
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                      onKeyDown={isModifyEmailHandler}
+                      className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
+                    />
+                    <div className="absolute top-2 right-2">
+                      <EditButton clickHandler={clickEmailHandler} />
+                    </div>
                   </div>
-                </div>
+                )
               ) : (
                 <div className="relative">
                   <p className="text-blue-12 font-semibold">{email}</p>
@@ -179,13 +194,17 @@ const Profil = () => {
                 </div>
               )}
             </div>
-            <div className="space-y-2">
-              <Vault
-                name={vaultName}
-                passwordCount={5}
-                userCount={3}
-                clickHandler={clickHandler}
-              />
+            <div className="space-y-6">
+              {isLoading &&
+                cardsVaults.map((cards) => (
+                  <Vault
+                    key={"Vaut" + cards.vaultId}
+                    cards={cards}
+                    passwordCount={Object.keys(cards.data).length}
+                    userCount={3}
+                    clickHandler={clickHandler}
+                  />
+                ))}
             </div>
 
             <div className="flex items-center space-x-2">

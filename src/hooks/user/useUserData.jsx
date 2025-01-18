@@ -4,8 +4,6 @@ import { api } from "../../api/api";
 export function useUserData() {
   const id = sessionStorage.getItem("userId");
 
-  console.log(id);
-
   const { data } = useQuery({
     queryKey: ["userData", id],
     queryFn: () => api.user.getOneUser(id),
