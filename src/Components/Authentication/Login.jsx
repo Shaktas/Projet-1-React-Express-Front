@@ -38,13 +38,9 @@ function Login() {
         pwd: form[1],
       };
       const login = await api.auth.login(data);
-      console.log(login);
 
-      if (login.success == true) {
-        console.log(login.user.id);
-        setIsAuthenticate(true);
-        setId(login.user.id);
-        sessionStorage.setItem("id", login.user.id);
+      if (login.success) {
+        sessionStorage.setItem("userId", login.user.userId);
         navigate("/account");
       }
     } else {

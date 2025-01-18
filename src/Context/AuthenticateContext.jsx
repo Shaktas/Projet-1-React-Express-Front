@@ -23,9 +23,9 @@ export function AuthenticateProvider({ children }) {
     retry: false,
     onSuccess: (data) => {
       if (data && data.success) {
+        sessionStorage.setItem("userId", data.userId);
         setIsAuthenticate(true);
-        setUserId(data.id);
-        sessionStorage.setItem("id", data.id);
+        setUserId(data.userId);
       } else {
         throw new Error("Authentication failed");
       }
@@ -34,7 +34,7 @@ export function AuthenticateProvider({ children }) {
       console.error("Authentication error:", error);
       setIsAuthenticate(false);
       setUserId(null);
-      sessionStorage.removeItem("id");
+      sessionStorage.removeItem("userId");
     },
   });
 
@@ -47,12 +47,14 @@ export function AuthenticateProvider({ children }) {
     retry: false,
     onSuccess: (data) => {
       if (data && !data.success) {
+        sessionStorage.removeItem("userId");
         setIsAuthenticate(false);
         setUserId(null);
       }
     },
     onError: (error) => {
       console.error("Authentication error:", error);
+      sessionStorage.removeItem("userId");
       setIsAuthenticate(false);
       setUserId(null);
     },

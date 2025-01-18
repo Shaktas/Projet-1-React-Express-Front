@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "../../api/api";
 
 export function useUserData() {
-  const id = sessionStorage.getItem("id");
+  const id = sessionStorage.getItem("userId");
 
   console.log(id);
 

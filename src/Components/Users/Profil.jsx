@@ -10,9 +10,13 @@ import { VaultContext } from "../../Context/VaultContext";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { Navigate } from "react-router-dom";
 import { useUserData } from "../../hooks/user/useUserData";
+import {
+  useCardsQueries,
+  useGetVaultsByUser,
+} from "../../hooks/vault/useVaultData";
 
 const Profil = () => {
-  const { isAuthenticate } = useContext(AuthenticateContext);
+  const { userId, isAuthenticate } = useContext(AuthenticateContext);
   const { vaultName } = useContext(VaultContext);
   const [newsletter, setNewletter] = useState(true);
   const [marketing, setMarketing] = useState(false);
@@ -25,7 +29,16 @@ const Profil = () => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
   const userData = useUserData();
-  console.log("userData", userData);
+  const { vaults } = useGetVaultsByUser(userId);
+  const { data: cardsVaults = [] } = useCardsQueries(vaults);
+
+  for (const cards of cardsVaults) {
+    for (const vault of Object.entries(vaults)) {
+      if (cards.vaultId === vault[0]) {
+        cards.vaultName = vault[1].vaultName;
+      }
+    }
+  }
 
   useEffect(() => {
     if (userData && userData.userPseudo && userData.userEmail) {

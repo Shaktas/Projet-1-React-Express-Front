@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import { api } from "../../api/api";
 
 const useCreateVault = (vaultName) => {
@@ -32,4 +32,22 @@ const useGetVaultsByUser = (id) => {
   };
 };
 
-export { useGetVaultsByUser, useCreateVault };
+const useCardsQueries = (vaults) => {
+  let cardsQueries = useQueries({
+    queries: Object.entries(vaults || {}).map((vault) => ({
+      queryKey: ["VaultCards", vault[0]],
+      queryFn: () => api.vault.getCardsbyVault(parseInt(vault[0])),
+      enabled: !!vault[0],
+    })),
+    combine: (results) => {
+      return {
+        data: results.map((result) => result.data),
+        pending: results.some((result) => result.isPending),
+      };
+    },
+  });
+
+  return cardsQueries;
+};
+
+export { useGetVaultsByUser, useCreateVault, useCardsQueries };

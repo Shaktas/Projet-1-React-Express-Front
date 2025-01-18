@@ -5,15 +5,7 @@ import PwdLevels from "../Users/PwdLevels";
 import { KeyIcon } from "../../assets/Svg";
 
 const Vault = ({ name, passwordCount, userCount, clickHandler }) => {
-  const passwords = [
-    "123456",
-    "password123",
-    "User@2023",
-    "P@ssw0rd!2023",
-    "xK9#mP$vL2@nQ8&",
-  ];
-
-  const pwd = countStrengthPassword(passwords);
+  // const pwd = countStrengthPassword();
 
   return (
     <div className="bg-blue-3 rounded-lg p-4 shadow-lg">
@@ -38,11 +30,11 @@ const Vault = ({ name, passwordCount, userCount, clickHandler }) => {
 
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <span className="text-blue-12">Passwords:</span>
+          <span className="text-blue-12">Cards:</span>
           <span className="font-medium text-blue-12">{passwordCount}</span>
         </div>
       </div>
-      <PwdLevels pwd={pwd} />
+      {/* <PwdLevels pwd={pwd} /> */}
     </div>
   );
 };

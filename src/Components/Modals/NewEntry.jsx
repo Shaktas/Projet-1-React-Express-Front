@@ -4,6 +4,7 @@ import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import { useForm } from "react-hook-form";
 import { api } from "../../api/api";
 import { useGetVaultsByUser } from "../../hooks/vault/useVaultData";
+import { useQueries } from "@tanstack/react-query";
 
 const NewEntry = () => {
   const [isCard, setIsCard] = useState(false);
@@ -14,6 +15,16 @@ const NewEntry = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  if (vaults) {
+    const cardsQueries = useQueries({
+      queries: Object.entries(vaults).map(([key, vault]) => ({
+        queryKey: ["Vaults", vault.vaultId],
+        queryFn: () => api.vault.getCardsbyVault(vault.vaultId),
+        enabled: !!vault.vaultId,
+      })),
+    });
+    console.log(cardsQueries);
+  }
 
   function setToggleHandler(bool) {
     setIsCard(bool);
@@ -24,8 +35,20 @@ const NewEntry = () => {
       const vaultData = await api.vault.createVault(data.vaultName);
 
       if (vaultData.success) {
+        // fermer le modal et lancer le tooltip pour le succes de la creation
         console.log("Vault created");
       }
+    } else if (data) {
+      console.log(data);
+
+      const cardData = await api.vault.createCardForVault(data.vaultId, data);
+
+      if (cardData.success) {
+        // fermer le modal et lancer le tooltip pour le succes de la creation
+        console.log("Entry created");
+      }
+    } else {
+      console.log("Error");
     }
   }
 
@@ -55,9 +78,14 @@ const NewEntry = () => {
       {isCard ? (
         <div className="flex flex-col gap-4 mt-4">
           <div className="flex flex-col">
-            <select className="px-4 py-2 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-9">
+            <select
+              {...register("vaultId", {
+                required: "Le type est requis",
+              })}
+              className="px-4 py-2 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-9"
+            >
               {Object.entries(vaults).map(([key, vault]) => (
-                <option key={key} value={vault.vaultId}>
+                <option key={`vault + ${key}`} value={`${key}`}>
                   {vault.vaultName}
                 </option>
               ))}
@@ -142,11 +170,21 @@ const NewEntry = () => {
           </div>
 
           <div className="flex flex-col">
-            <select className="px-4 py-2 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-9">
+            <select
+              {...register("type", {
+                required: "Le type est requis",
+              })}
+              className="px-4 py-2 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-9"
+            >
               <option value="Website">Website</option>
               <option value="Application">Application</option>
               <option value="Other">Other</option>
             </select>
+            {errors.type && (
+              <span className="ml-1 text-red-500 text-sm">
+                {errors.type.message}
+              </span>
+            )}
           </div>
         </div>
       ) : (
