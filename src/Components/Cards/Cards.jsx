@@ -6,67 +6,65 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { VaultContext } from "../../Context/VaultContext";
 
-//// BUGGGGGGG /////////
-
 const Cards = ({ filter = "" }) => {
-  // const { searchTerm } = useContext(SearchContext);
+  const { searchTerm } = useContext(SearchContext);
   const { cardsFromVault, actualVaultId } = useContext(VaultContext);
-  // const [filterCards, setFilterCards] = useState([]);
+  const [filterCards, setFilterCards] = useState([]);
   const [vault, setVault] = useState("");
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
     if (cardsFromVault.length > 0) {
       cardsFromVault.find((vault) => {
-        console.log(vault.vaultId, actualVaultId);
+        console.log(vault, actualVaultId);
         if (vault.vaultId === actualVaultId) {
-          setVault(vault);
-          setCards(vault.data);
-          return;
+          setVault({ vaultId: vault.vaultId, vaultTitle: vault.vaultTitle });
+
+          for (let [card] of Object.entries(vault.data)) {
+            console.log(card, "card", vault.data);
+            Object.assign(vault.data[card[0]], { cardId: card[0] });
+          }
+          setCards(Object.values(vault.data));
         }
       });
     }
   }, [cardsFromVault, actualVaultId]);
-  console.log("vault:", vault, "cards:", cards);
 
-  // useEffect(() => {
-  //   const filterCard = (cards) => {
-  //     let filtered = [...cards];
+  useEffect(() => {
+    const filterCard = (cards) => {
+      if (filter !== "") {
+        cards = cards.filter((card) => card.cardType === filter);
+      }
 
-  //     if (filter !== "") {
-  //       filtered = filtered.filter((card) => card.type === filter);
-  //     }
+      if (searchTerm.length >= 3) {
+        cards = cards.filter(
+          (card) =>
+            card.cardTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            card.cardLogin.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            card.cardUrl.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
 
-  //     if (searchTerm.length >= 3) {
-  //       filtered = filtered.filter(
-  //         (card) =>
-  //           card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //           card.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //           card.url.toLowerCase().includes(searchTerm.toLowerCase())
-  //       );
-  //     }
-  //     console.log(filtered);
+      setFilterCards(cards);
+    };
 
-  //     setFilterCards(filtered);
-  //   };
-
-  //   filterCard(cardsData);
-  // }, [searchTerm, filter]);
+    filterCard(cards);
+  }, [searchTerm, filter, cards]);
 
   return (
     <>
-      <h1>{}</h1>
+      <h1>{vault.vaultTitle}</h1>
       <div className="relative flex justify-center items-center flex-wrap">
-        {/* {filterCards.map((card, index) => (
+        {filterCards.map((card, index) => (
           <Card
-            key={`${index}-${card.name}`}
-            name={card.name}
-            url={card.url}
-            username={card.username}
-            password={card.password}
-            type={card.type}
+            key={`${index}-${card.cardTitle}`}
+            name={card.cardTitle}
+            url={card.cardUrl}
+            username={card.cardLogin}
+            password={card.cardPassword}
+            type={card.cardType}
           />
-        ))} */}
+        ))}
       </div>
     </>
   );

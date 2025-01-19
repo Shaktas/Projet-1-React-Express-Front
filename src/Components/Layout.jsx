@@ -15,22 +15,22 @@ function Layout() {
     <QueryClientProvider client={queryClient}>
       <AuthenticateProvider>
         <div className="flex h-screen max-h-screen">
-          <SideMenu />
-          <div className=" flex flex-col w-full lg:w-5/6 h-full max-h-screen content-evenly">
-            <SearchProvider>
-              <TooltipProvider>
-                <div className="flex items-center justify-start">
-                  <SearchBar />
-                  <AuthNav />
-                </div>
-                <div className="relative flex flex-col justify-start items-center overflow-y-scroll grow">
-                  <VaultProvider>
+          <VaultProvider>
+            <SideMenu />
+            <div className=" flex flex-col w-full lg:w-5/6 h-full max-h-screen content-evenly">
+              <SearchProvider>
+                <TooltipProvider>
+                  <div className="flex items-center justify-start">
+                    <SearchBar />
+                    <AuthNav />
+                  </div>
+                  <div className="relative flex flex-col justify-start items-center overflow-y-scroll grow">
                     <Outlet />
-                  </VaultProvider>
-                </div>
-              </TooltipProvider>
-            </SearchProvider>
-          </div>
+                  </div>
+                </TooltipProvider>
+              </SearchProvider>
+            </div>
+          </VaultProvider>
         </div>
       </AuthenticateProvider>
     </QueryClientProvider>
