@@ -4,7 +4,6 @@ import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import { useForm } from "react-hook-form";
 import { api } from "../../api/api";
 import { useGetVaultsByUser } from "../../hooks/vault/useVaultData";
-import { useQueries } from "@tanstack/react-query";
 
 const NewEntry = () => {
   const [isCard, setIsCard] = useState(false);
@@ -15,16 +14,6 @@ const NewEntry = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  if (vaults) {
-    const cardsQueries = useQueries({
-      queries: Object.entries(vaults).map(([key, vault]) => ({
-        queryKey: ["Vaults", vault.vaultId],
-        queryFn: () => api.vault.getCardsbyVault(vault.vaultId),
-        enabled: !!vault.vaultId,
-      })),
-    });
-    console.log(cardsQueries);
-  }
 
   function setToggleHandler(bool) {
     setIsCard(bool);

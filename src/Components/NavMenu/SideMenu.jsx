@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { IconLock } from "/src/assets/Svg.jsx";
 import { NavLink } from "react-router-dom";
 import Filters from "./Filter";
@@ -6,10 +6,32 @@ import NewData from "./NewData";
 import Modal from "../Modals/Modal";
 import NewEntry from "../Modals/NewEntry";
 import { BurgerIcon, CloseIcon } from "../../assets/Svg";
+import { AuthenticateContext } from "../../Context/AuthenticateContext";
+import { VaultContext } from "../../Context/VaultContext";
+import { useGetVaultsByUser } from "../../hooks/vault/useVaultData";
 
 function SideMenu() {
   const [isOpened, setIsOpened] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { userId, isAuthenticate } = useContext(AuthenticateContext);
+  const { vaults } = useGetVaultsByUser(userId);
+  const [vaultId, setVaultId] = useState(null);
+  const { setActualVaultId } = useContext(VaultContext);
+  const [isSetVault, setIsSetVault] = useState(false);
+
+  function selectHandler(e) {
+    setVaultId(e.target.value);
+  }
+
+  useEffect(() => {
+    console.log(vaultId, "vaultId");
+    if (vaultId) {
+      setActualVaultId(vaultId);
+      setIsSetVault(true);
+    } else {
+      setIsSetVault(false);
+    }
+  }, [vaultId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -49,10 +71,31 @@ function SideMenu() {
             <IconLock height="60" width="60" />
           </NavLink>
         </div>
-        <div className="flex flex-col justify-between items-center">
-          <NewData clickHandler={() => setIsOpened(true)} />
-          <Filters />
-        </div>
+        {isAuthenticate && (
+          <div className="flex flex-col justify-between items-center">
+            <NewData clickHandler={() => setIsOpened(true)} />
+            {vaults && (
+              <select
+                onChange={selectHandler}
+                className="px-6 min-w-9 py-1 mb-4 border border-gray-300 bg-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-9 text-center"
+              >
+                <option value="" className="text-center">
+                  Choisir un coffre
+                </option>
+                {Object.entries(vaults).map(([key, vault]) => (
+                  <option
+                    key={`vault + ${key}`}
+                    value={`${key}`}
+                    className="text-center"
+                  >
+                    {vault.vaultName}
+                  </option>
+                ))}
+              </select>
+            )}
+            {isSetVault && <Filters />}
+          </div>
+        )}
         <div className="flex gap-4 flex-col item-center justify-arround">
           <NavLink className="text-blue-3 mx-3 text-center" to="/checkPwd">
             Vérificateur de mots de passe

@@ -32,9 +32,5 @@ function PwdLevels({ pwd }) {
 export default PwdLevels;
 
 PwdLevels.propTypes = {
-  pwd: PropTypes.shape({
-    weak: PropTypes.number,
-    normal: PropTypes.number,
-    strong: PropTypes.number,
-  }),
+  pwd: PropTypes.object,
 };

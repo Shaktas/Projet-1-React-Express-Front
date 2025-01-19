@@ -7,14 +7,14 @@ import { NavLink } from "react-router-dom";
 import { api } from "../../api/api";
 
 function AuthNav() {
-  const { isAuthenticate, setIsAuthenticate, setId } =
+  const { isAuthenticate, setIsAuthenticate, setUserId } =
     useContext(AuthenticateContext);
 
   async function setClickHandler() {
     const logout = await api.auth.logout();
     if (logout?.success) {
       setIsAuthenticate(false);
-      setId(null);
+      setUserId(null);
     }
   }
   return (

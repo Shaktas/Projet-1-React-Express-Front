@@ -7,7 +7,7 @@ export const AuthenticateContext = createContext({
   isAuthenticate: false,
   setIsAuthenticate: () => {},
   userId: null,
-  setId: () => {},
+  setUserId: () => {},
 });
 
 export function AuthenticateProvider({ children }) {
@@ -50,6 +50,9 @@ export function AuthenticateProvider({ children }) {
         sessionStorage.removeItem("userId");
         setIsAuthenticate(false);
         setUserId(null);
+      } else {
+        setIsAuthenticate(true);
+        setUserId(sessionStorage.getItem("userId"));
       }
     },
     onError: (error) => {
@@ -70,45 +73,6 @@ export function AuthenticateProvider({ children }) {
     }
     return () => {};
   }, [isAuthenticate]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // useEffect(() => {
-  //   const refresh = async () => {
-  //     try {
-  //       const response = await api.auth.refreshToken();
-  //       console.log(response);
-  //       if (response.success) {
-  //         setIsAuthenticate(true);
-  //         setId(response.id);
-  //       }
-  //     } catch (error) {
-  //       console.error("Auth initialization failed:", error);
-  //     }
-  //   };
-  //   refresh();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (isAuthenticate) {
-  //     checkTokenValidity();
-  //     const interval = setInterval(checkTokenValidity, 60000);
-  //     return () => clearInterval(interval);
-  //   }
-  //   return () => {};
-  // }, [isAuthenticate]);
-
-  // const checkTokenValidity = async () => {
-  //   try {
-  //     const checkToken = await api.auth.verifyToken();
-  //     if (!checkToken.success) {
-  //       setIsAuthenticate(false);
-  //       setId(null);
-  //     }
-  //   } catch (error) {
-  //     setIsAuthenticate(false);
-  //     setId(null);
-  //     console.error(error);
-  //   }
-  // };
 
   return (
     <AuthenticateContext.Provider

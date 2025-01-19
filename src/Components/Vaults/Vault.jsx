@@ -4,16 +4,18 @@ import { NavLink } from "react-router-dom";
 import { countStrengthPassword } from "../../libs/function";
 import PwdLevels from "../Users/PwdLevels";
 import { KeyIcon } from "../../assets/Svg";
-import card from "../../api/card";
+import { useEffect } from "react";
 
 const Vault = ({ cards, passwordCount, userCount, clickHandler }) => {
-  const [vaultTitle, setVaultTitle] = useState(cards.vaultTitle);
-  const cardsData = Object.values(Object.values(cards)[1]);
-  const pwds = cardsData.map((card) => {
-    return card.cardPassword;
-  });
-  console.log(pwds);
-  const pwd = countStrengthPassword(pwds);
+  const [vaultTitle, setVaultTitle] = useState("");
+  const [pwdStrength, setPwdStrength] = useState(0);
+  const [cardsData] = useState(Object.values(Object.values(cards)[1]));
+
+  useEffect(() => {
+    setVaultTitle(cards.vaultTitle);
+    const passwords = cardsData.map((card) => card.cardPassword);
+    setPwdStrength(countStrengthPassword(passwords));
+  }, [cards.vaultTitle, cardsData]);
 
   return (
     <div className="bg-blue-3 rounded-lg p-4 shadow-lg">
@@ -42,7 +44,7 @@ const Vault = ({ cards, passwordCount, userCount, clickHandler }) => {
           <span className="font-medium text-blue-12">{passwordCount}</span>
         </div>
       </div>
-      <PwdLevels pwd={pwd} />
+      <PwdLevels pwd={pwdStrength} />
     </div>
   );
 };

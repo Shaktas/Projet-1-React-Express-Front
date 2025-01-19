@@ -8,8 +8,7 @@ import { useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 
 function Login() {
-  const { isAuthenticate, setIsAuthenticate, setId } =
-    useContext(AuthenticateContext);
+  const { isAuthenticate, setIsAuthenticate } = useContext(AuthenticateContext);
   const [isLogin, setIsLogin] = useState(true);
   const [rgpd, setRgpd] = useState(false);
   const {

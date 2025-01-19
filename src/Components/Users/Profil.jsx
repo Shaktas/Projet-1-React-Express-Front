@@ -9,28 +9,23 @@ import { useContext, useEffect } from "react";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { Navigate } from "react-router-dom";
 import { useUserData } from "../../hooks/user/useUserData";
-import {
-  useCardsQueries,
-  useGetVaultsByUser,
-} from "../../hooks/vault/useVaultData";
+import { VaultContext } from "../../Context/VaultContext";
 
 const Profil = () => {
-  const { userId, isAuthenticate } = useContext(AuthenticateContext);
+  const { isAuthenticate } = useContext(AuthenticateContext);
   const [newsletter, setNewletter] = useState(true);
   const [marketing, setMarketing] = useState(false);
   const [pseudo, setPseudo] = useState("");
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isModifyPseudo, setIsModifyPseudo] = useState(false);
   const [isModifyEmail, setIsModifyEmail] = useState(false);
   const [isModal, setIsModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [avatar, setAvatar] = useState(() => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
   const userData = useUserData();
-  const { vaults } = useGetVaultsByUser(userId);
-  const { data: cardsVaults } = useCardsQueries(vaults);
-  console.log(cardsVaults);
+  const { cardsFromVault: cardsVaults } = useContext(VaultContext);
 
   useEffect(() => {
     if (userData && userData.userPseudo && userData.userEmail) {
@@ -40,23 +35,8 @@ const Profil = () => {
   }, [userData]);
 
   useEffect(() => {
-    if (
-      vaults != undefined &&
-      vaults != null &&
-      cardsVaults != null &&
-      cardsVaults != undefined &&
-      cardsVaults.every((card) => card !== undefined)
-    ) {
-      for (const vault of Object.entries(vaults)) {
-        for (const card of cardsVaults) {
-          if (card.vaultId == vault[0]) {
-            card.vaultTitle = vault[1].vaultName;
-          }
-        }
-      }
-      setIsLoading(true);
-    }
-  }, [cardsVaults, vaults]);
+    setIsLoading(cardsVaults && cardsVaults.length > 0);
+  }, [cardsVaults]);
 
   // Entrée utilisateur a vérifie
 
@@ -103,11 +83,12 @@ const Profil = () => {
   function closeHandler() {
     setIsModal(false);
   }
+  console.log(isLoading);
 
   return (
     <>
       {!isAuthenticate && <Navigate to="/auth" />}
-      <div className="absolute -top-36 p-0 flex justify-center items-center min-h-screen w-2/3 bg-blue-2">
+      <div className="absolute p-0 flex justify-center items-center min-h-screen w-2/3 bg-blue-2">
         <div className="bg-blue-1 p-8 rounded-3xl shadow-lg w-full max-w-2xl m">
           <div className="flex justify-center mb-8">
             <div className="relative">
