@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { VaultContext } from "../../Context/VaultContext";
+import card from "../../api/card";
 
 const Cards = ({ filter = "" }) => {
   const { searchTerm } = useContext(SearchContext);
@@ -50,6 +51,7 @@ const Cards = ({ filter = "" }) => {
 
     filterCard(cards);
   }, [searchTerm, filter, cards]);
+  console.log(filterCards, "cards");
 
   return (
     <>
@@ -63,7 +65,7 @@ const Cards = ({ filter = "" }) => {
             username={card.cardLogin}
             password={card.cardPassword}
             type={card.cardType}
-            id={parseInt(card.cardId)}
+            cardId={parseInt(card.cardId)}
             vaultId={parseInt(actualVaultId)}
           />
         ))}

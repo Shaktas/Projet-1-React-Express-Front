@@ -29,6 +29,8 @@ const UpdateEntry = ({
   function onSubmit(data) {
     data.vaultId = vaultId;
     data.cardId = cardId;
+    console.log(data);
+
     try {
       updateEntry.mutate({ data });
     } catch (error) {
