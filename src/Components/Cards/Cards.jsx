@@ -63,6 +63,8 @@ const Cards = ({ filter = "" }) => {
             username={card.cardLogin}
             password={card.cardPassword}
             type={card.cardType}
+            id={parseInt(card.cardId)}
+            vaultId={parseInt(actualVaultId)}
           />
         ))}
       </div>

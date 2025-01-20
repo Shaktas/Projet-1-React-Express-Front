@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 function Tooltip({
   properties = {
     message: "Hello World",
-    condtion: "",
+    condition: "",
     isVisible: true,
   },
 }) {
   let bgColor = "";
-  switch (properties.condtion) {
+  switch (properties.condition) {
     case "success":
       bgColor = "bg-green-400";
       break;
@@ -38,6 +38,6 @@ export default Tooltip;
 Tooltip.propTypes = {
   properties: PropTypes.shape({
     message: PropTypes.string,
-    condtion: PropTypes.string,
+    condition: PropTypes.string,
   }),
 };

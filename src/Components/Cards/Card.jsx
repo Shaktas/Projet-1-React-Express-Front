@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Modal from "../Modals/Modal";
 import UpdateEntry from "../Modals/UpdateEntry";
 
-const Card = ({ name, url, username, password, type }) => {
+const Card = ({ name, url, username, password, type, cardId, vaultId }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const { pasteHandler } = useContext(TooltipContext);
@@ -36,6 +36,8 @@ const Card = ({ name, url, username, password, type }) => {
           username={username}
           password={password}
           type={type}
+          cardId={cardId}
+          vaultId={vaultId}
         />
       </Modal>
 
@@ -77,4 +79,6 @@ Card.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  cardId: PropTypes.number.isRequired,
+  vaultId: PropTypes.number.isRequired,
 };

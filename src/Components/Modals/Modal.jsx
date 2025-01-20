@@ -1,7 +1,7 @@
 import CloseButton from "../ActionComponents/CloseButton";
 import PropTypes from "prop-types";
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
 
   return (
@@ -20,7 +20,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Modal;
 

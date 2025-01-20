@@ -58,6 +58,7 @@ function Login() {
       const register = await api.auth.register(data);
 
       if (register.success == true) {
+        sessionStorage.setItem("userId", register.user.userId);
         setIsAuthenticate(true);
         navigate("/account");
       }

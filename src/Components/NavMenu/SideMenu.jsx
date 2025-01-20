@@ -9,6 +9,7 @@ import { BurgerIcon, CloseIcon } from "../../assets/Svg";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { VaultContext } from "../../Context/VaultContext";
 import { useGetVaultsByUser } from "../../hooks/vault/useVaultData";
+import Tooltip from "../Tooltip";
 
 function SideMenu() {
   const [isOpened, setIsOpened] = useState(false);
@@ -18,13 +19,28 @@ function SideMenu() {
   const [vaultId, setVaultId] = useState(null);
   const { setActualVaultId } = useContext(VaultContext);
   const [isSetVault, setIsSetVault] = useState(false);
+  const [tooltip, setTooltip] = useState({ message: "", condition: "" });
 
   function selectHandler(e) {
     setVaultId(e.target.value);
   }
 
+  function handleNewEntrySuccess(data) {
+    if (data.success) {
+      setIsOpened(false);
+      setTooltip({
+        message: data.message,
+        condition: "success",
+      });
+    } else {
+      setTooltip({
+        message: data.message,
+        condition: "error",
+      });
+    }
+  }
+
   useEffect(() => {
-    console.log(vaultId, "vaultId");
     if (vaultId) {
       setActualVaultId(vaultId);
       setIsSetVault(true);
@@ -35,12 +51,13 @@ function SideMenu() {
 
   return (
     <>
+      <Tooltip properties={tooltip} />
       <Modal
         isOpen={isOpened}
         onClose={() => setIsOpened(false)}
         title={"Créer une nouvelle entrée"}
       >
-        <NewEntry />
+        <NewEntry successHandler={handleNewEntrySuccess} />
       </Modal>
       <button
         className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-blue-10 text-white"

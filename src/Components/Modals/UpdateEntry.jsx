@@ -1,7 +1,17 @@
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
+import { useUpdateCardByVault } from "../../hooks/vault/useVaultData";
 
-const UpdateEntry = ({ name, url, username, password, type }) => {
+const UpdateEntry = ({
+  name,
+  url,
+  username,
+  password,
+  type,
+  cardId,
+  vaultId,
+}) => {
+  const updateEntry = useUpdateCardByVault();
   const {
     register,
     handleSubmit,
@@ -17,7 +27,13 @@ const UpdateEntry = ({ name, url, username, password, type }) => {
   });
 
   function onSubmit(data) {
-    console.log(data);
+    data.vaultId = vaultId;
+    data.cardId = cardId;
+    try {
+      updateEntry.mutate({ data });
+    } catch (error) {
+      console.error("Error occurred during card update:", error);
+    }
   }
 
   function onError(errors) {
@@ -122,4 +138,6 @@ UpdateEntry.propTypes = {
   username: PropTypes.string,
   password: PropTypes.string,
   type: PropTypes.string,
+  cardId: PropTypes.number,
+  vaultId: PropTypes.number,
 };

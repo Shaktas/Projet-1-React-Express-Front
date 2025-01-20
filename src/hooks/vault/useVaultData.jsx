@@ -1,23 +1,10 @@
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { api } from "../../api/api";
-
-const useCreateVault = (vaultName) => {
-  const mutation = useMutation({
-    mutationFn: () => {
-      return api.vault.createVault(vaultName);
-    },
-    onSuccess: (data) => {
-      // Handle successful vault creation
-      console.log("Vault created successfully:", data);
-    },
-    onError: (error) => {
-      console.error("Error creating vault:", error);
-    },
-  });
-  console.log("mutation:", mutation);
-
-  return mutation;
-};
 
 const useGetVaultsByUser = (id) => {
   const { data, error } = useQuery({
@@ -50,4 +37,47 @@ const useCardsQueries = (vaults) => {
   return cardsQueries;
 };
 
-export { useGetVaultsByUser, useCreateVault, useCardsQueries };
+function useUpdateVault() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ title, id }) =>
+      api.vault.updateVault(id, { vaultName: title }),
+    onSuccess: (_, variables) => {
+      // Invalidate user data : force the refetch of data
+      queryClient.invalidateQueries(["vault", variables.id]);
+
+      // Optimistic update : update the data in the cache directly
+      queryClient.setQueryData(["vault", variables.id], (oldData) => ({
+        ...oldData,
+        vaultName: variables.title,
+      }));
+    },
+  });
+}
+function useUpdateCardByVault() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ data }) =>
+      api.vault.updateCardByVault(data.vaultId, data.cardId, { ...data }),
+    // onSuccess: (_, variables) => {
+    //   // Invalidate user data : force the refetch of data
+    //   // queryClient.invalidateQueries(["card", variables.id]);
+
+    //   // Optimistic update : update the data in the cache directly
+    //   // queryClient.setQueryData(["card", variables.id], (oldData) => ({
+    //   //   ...oldData,
+    //   //   userPseudo: variables.pseudo,
+    //   //   userEmail: variables.email,
+    //   // }));
+    // },
+  });
+}
+
+export {
+  useGetVaultsByUser,
+  useCardsQueries,
+  useUpdateVault,
+  useUpdateCardByVault,
+};

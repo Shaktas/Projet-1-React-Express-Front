@@ -4,8 +4,9 @@ import ToggleSwitch from "../ActionComponents/ToggleSwitch";
 import { useForm } from "react-hook-form";
 import { api } from "../../api/api";
 import { useGetVaultsByUser } from "../../hooks/vault/useVaultData";
+import PropTypes from "prop-types";
 
-const NewEntry = () => {
+const NewEntry = ({ successHandler }) => {
   const [isCard, setIsCard] = useState(false);
   const { userId } = useContext(AuthenticateContext);
   const { vaults } = useGetVaultsByUser(userId);
@@ -21,11 +22,20 @@ const NewEntry = () => {
 
   async function onSubmit(data) {
     if (data.vaultName) {
-      const vaultData = await api.vault.createVault(data.vaultName);
+      console.log(data.vaultName);
+
+      const vaultData = await api.vault.createVault({
+        name: data.vaultName,
+      });
 
       if (vaultData.success) {
-        // fermer le modal et lancer le tooltip pour le succes de la creation
-        console.log("Vault created");
+        successHandler({ success: true, message: "Vault created" });
+      } else {
+        console.log("Error creating vault");
+        successHandler({
+          success: false,
+          message: "Error when creating vault",
+        });
       }
     } else if (data) {
       console.log(data);
@@ -33,8 +43,10 @@ const NewEntry = () => {
       const cardData = await api.vault.createCardForVault(data.vaultId, data);
 
       if (cardData.success) {
-        // fermer le modal et lancer le tooltip pour le succes de la creation
-        console.log("Entry created");
+        successHandler({ success: true, message: "Card created" });
+      } else {
+        console.log("Error creating card");
+        successHandler({ success: false, message: "Error when creating card" });
       }
     } else {
       console.log("Error");
@@ -100,7 +112,6 @@ const NewEntry = () => {
               </span>
             )}
           </div>
-
           <div className="flex flex-col">
             <input
               {...register("url", {
@@ -207,6 +218,10 @@ const NewEntry = () => {
       </button>
     </form>
   );
+};
+
+NewEntry.propTypes = {
+  successHandler: PropTypes.func.isRequired,
 };
 
 export default NewEntry;

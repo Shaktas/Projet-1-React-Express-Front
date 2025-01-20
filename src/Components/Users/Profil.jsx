@@ -8,11 +8,11 @@ import UserControl from "../Modals/UserControl";
 import { useContext, useEffect } from "react";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { Navigate } from "react-router-dom";
-import { useUserData } from "../../hooks/user/useUserData";
+import { useUpdateUser, useUserData } from "../../hooks/user/useUserData";
 import { VaultContext } from "../../Context/VaultContext";
 
 const Profil = () => {
-  const { isAuthenticate } = useContext(AuthenticateContext);
+  const { userId, isAuthenticate } = useContext(AuthenticateContext);
   const [newsletter, setNewletter] = useState(true);
   const [marketing, setMarketing] = useState(false);
   const [pseudo, setPseudo] = useState("");
@@ -21,10 +21,12 @@ const Profil = () => {
   const [isModifyPseudo, setIsModifyPseudo] = useState(false);
   const [isModifyEmail, setIsModifyEmail] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [update, setUpdate] = useState(false);
   const [avatar, setAvatar] = useState(() => {
     return localStorage.getItem("userAvatar") || baseAvatar;
   });
   const userData = useUserData();
+  const updateUser = useUpdateUser();
   const { cardsFromVault: cardsVaults } = useContext(VaultContext);
 
   useEffect(() => {
@@ -37,8 +39,6 @@ const Profil = () => {
   useEffect(() => {
     setIsLoading(cardsVaults && cardsVaults.length > 0);
   }, [cardsVaults]);
-
-  // Entrée utilisateur a vérifie
 
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
@@ -58,22 +58,41 @@ const Profil = () => {
     }
   };
 
-  function clickPseudoHandler() {
+  async function clickPseudoHandler() {
+    try {
+      updateUser.mutate({
+        id: userId,
+        pseudo: pseudo,
+        email: email,
+      });
+      setIsModifyPseudo(false);
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
     setIsModifyPseudo(!isModifyPseudo);
   }
-  function clickEmailHandler() {
+  async function clickEmailHandler() {
+    try {
+      updateUser.mutate({
+        id: userId,
+        pseudo: pseudo,
+        email: email,
+      });
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
     setIsModifyEmail(!isModifyEmail);
   }
 
   function isModifyPseudoHandler(e) {
     if (e.key === "Enter") {
-      setIsModifyPseudo(!isModifyPseudo);
+      clickPseudoHandler();
     }
   }
 
   function isModifyEmailHandler(e) {
     if (e.key === "Enter") {
-      setIsModifyEmail(!isModifyEmail);
+      setIsModifyEmail();
     }
   }
 
@@ -138,7 +157,9 @@ const Profil = () => {
                 <div className="relative">
                   <p className="text-blue-12 font-semibold">{pseudo}</p>
                   <div className="absolute top-0 right-2">
-                    <EditButton clickHandler={clickPseudoHandler} />
+                    <EditButton
+                      clickHandler={() => setIsModifyPseudo(!isModifyPseudo)}
+                    />
                   </div>
                 </div>
               )}
@@ -155,9 +176,7 @@ const Profil = () => {
                       type="text"
                       id="email"
                       value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
+                      onChange={(e) => setEmail(e.target.value)}
                       onKeyDown={isModifyEmailHandler}
                       className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
                     />
@@ -170,7 +189,9 @@ const Profil = () => {
                 <div className="relative">
                   <p className="text-blue-12 font-semibold">{email}</p>
                   <div className="absolute top-0 right-2">
-                    <EditButton clickHandler={clickEmailHandler} />
+                    <EditButton
+                      clickHandler={() => setIsModifyEmail(!isModifyEmail)}
+                    />
                   </div>
                 </div>
               )}

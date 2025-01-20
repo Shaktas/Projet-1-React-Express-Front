@@ -7,10 +7,10 @@ const user = {
   async getVaultsbyUser(id) {
     return fetchAPI(`/user/${id}/vaults`);
   },
-  async updateUser(id, pseudo, email, password) {
+  async updateUser(id, pseudo, email) {
     return fetchAPI(`/user/${id}`, {
       method: "PUT",
-      body: JSON.stringify({ pseudo, email, password }),
+      body: JSON.stringify({ pseudo, email }),
     });
   },
   async deleteUser(id) {
