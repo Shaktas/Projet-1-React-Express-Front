@@ -56,7 +56,7 @@ function useUpdateVault() {
   });
 }
 function useUpdateCardByVault() {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ data }) =>
@@ -75,9 +75,33 @@ function useUpdateCardByVault() {
   });
 }
 
+function useDeleteVault() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ vaultId, cardId }) => api.vault.deleteVault(vaultId, cardId),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries(["VaultCards", variables.vaultId]);
+    },
+  });
+}
+function useDeleteCardByVault() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ vaultId, cardId }) =>
+      api.vault.deleteCardByVault(vaultId, cardId),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries(["VaultCards", variables.vaultId]);
+    },
+  });
+}
+
 export {
   useGetVaultsByUser,
   useCardsQueries,
   useUpdateVault,
+  useDeleteVault,
   useUpdateCardByVault,
+  useDeleteCardByVault,
 };

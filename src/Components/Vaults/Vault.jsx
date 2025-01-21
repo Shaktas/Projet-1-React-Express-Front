@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { countStrengthPassword } from "../../libs/function";
@@ -6,16 +6,37 @@ import PwdLevels from "../Users/PwdLevels";
 import { KeyIcon } from "../../assets/Svg";
 import { useEffect } from "react";
 import EditButton from "../ActionComponents/EditButton";
-import { useUpdateVault } from "../../hooks/vault/useVaultData";
+import { useDeleteVault, useUpdateVault } from "../../hooks/vault/useVaultData";
+import MoreVerticalButton from "../ActionComponents/MoreVerticalButton";
+// import { AuthenticateContext } from "../../Context/AuthenticateContext";
 
-const Vault = ({ cards, passwordCount, userCount, clickHandler }) => {
+const Vault = ({ cards, passwordCount, userCount, vaultId, clickHandler }) => {
+  // const { userId } = useContext(AuthenticateContext);
   const [isModify, setIsModify] = useState(true);
-  const [update, setUpdate] = useState(false);
+  // const [isAutorized, setIsAutorized] = useState(
+  //   if (condition) {
+
+  // });
   const [vaultTitle, setVaultTitle] = useState("");
   const [pwdStrength, setPwdStrength] = useState(0);
   const [cardsData] = useState(Object.values(Object.values(cards)[1]));
+  const [isOpen, setIsOpen] = useState(false);
   const vaultUpdate = useUpdateVault();
-  console.log(cards);
+  const vaultDelete = useDeleteVault();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   function updateVaultHandler() {
     console.log("update vault");
@@ -29,6 +50,16 @@ const Vault = ({ cards, passwordCount, userCount, clickHandler }) => {
     setIsModify(!isModify);
   }
 
+  function deleteHandler() {
+    const confirmation = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer ce Coffre-fort ?\nCette action supprimera tout les cartes liées au coffre-fort et est irréversible."
+    );
+    if (confirmation) {
+      vaultDelete.mutate({ vaultId });
+      setIsOpen(false);
+    }
+  }
+
   function isModifyHandler(e) {
     if (e.key === "Enter") {
       updateVaultHandler();
@@ -40,10 +71,27 @@ const Vault = ({ cards, passwordCount, userCount, clickHandler }) => {
     const passwords = cardsData.map((card) => card.cardPassword);
     setPwdStrength(countStrengthPassword(passwords));
   }, [cards.vaultTitle, cardsData]);
+  console.log(isOpen, "isOpen");
 
   return (
     <div className="bg-blue-3 rounded-lg p-4 shadow-lg">
       <div className="relative flex justify-center items-center">
+        <div className="absolute top-0 left-0">
+          <MoreVerticalButton clickHandler={() => setIsOpen(!isOpen)} />
+        </div>
+        {isOpen && (
+          <div
+            ref={dropdownRef}
+            className="absolute top-0 left-0 bg-white p-3 rounded-lg shadow-lg"
+          >
+            <button
+              onClick={deleteHandler}
+              className="w-full py-1 px-2 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Delete
+            </button>
+          </div>
+        )}
         {isModify ? (
           <>
             <h3 className="flex text-xl font-bold mb-3 text-blue-10">
@@ -75,13 +123,10 @@ const Vault = ({ cards, passwordCount, userCount, clickHandler }) => {
         )}
       </div>
 
-      <button
-        className="flex justify-between items-center w-full hover:font-medium"
-        onClick={clickHandler}
-      >
+      <div className="flex justify-between items-center w-full">
         <span className="text-blue-12">Users:</span>
         <span className="font-medium text-blue-12">{userCount}</span>
-      </button>
+      </div>
 
       <div className="space-y-2">
         <div className="flex justify-between items-center">
@@ -101,4 +146,5 @@ Vault.propTypes = {
   passwordCount: PropTypes.number,
   userCount: PropTypes.number.isRequired,
   clickHandler: PropTypes.func.isRequired,
+  vaultId: PropTypes.number.isRequired,
 };

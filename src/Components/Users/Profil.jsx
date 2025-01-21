@@ -10,6 +10,8 @@ import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { Navigate } from "react-router-dom";
 import { useUpdateUser, useUserData } from "../../hooks/user/useUserData";
 import { VaultContext } from "../../Context/VaultContext";
+import { useForm } from "react-hook-form";
+import { useUploadFile } from "../../hooks/upload/useUploadFile";
 
 const Profil = () => {
   const { userId, isAuthenticate } = useContext(AuthenticateContext);
@@ -21,12 +23,17 @@ const Profil = () => {
   const [isModifyPseudo, setIsModifyPseudo] = useState(false);
   const [isModifyEmail, setIsModifyEmail] = useState(false);
   const [isModal, setIsModal] = useState(false);
-  const [update, setUpdate] = useState(false);
   const [avatar, setAvatar] = useState(() => {
-    return localStorage.getItem("userAvatar") || baseAvatar;
+    return baseAvatar;
   });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const userData = useUserData();
   const updateUser = useUpdateUser();
+  const uploadAvatar = useUploadFile();
   const { cardsFromVault: cardsVaults } = useContext(VaultContext);
 
   useEffect(() => {
@@ -40,46 +47,45 @@ const Profil = () => {
     setIsLoading(cardsVaults && cardsVaults.length > 0);
   }, [cardsVaults]);
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith("image/")) {
-        alert("Please select an image file");
-        return;
-      }
+  async function onSubmit(data) {
+    console.log(data.avatar[0]);
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result;
-        localStorage.setItem("userAvatar", base64String);
-        setAvatar(base64String);
-      };
-      reader.readAsDataURL(file);
+    const file = data.avatar[0];
+    if (file) {
+      try {
+        uploadAvatar.mutate(file);
+      } catch (error) {
+        console.error("Upload failed:", error);
+      }
     }
-  };
+  }
 
   async function clickPseudoHandler() {
-    try {
-      updateUser.mutate({
-        id: userId,
-        pseudo: pseudo,
-        email: email,
-      });
-      setIsModifyPseudo(false);
-    } catch (error) {
-      console.error("Update failed:", error);
+    if (userData.userPseudo !== pseudo) {
+      try {
+        updateUser.mutate({
+          id: userId,
+          pseudo: pseudo,
+          email: email,
+        });
+        setIsModifyPseudo(false);
+      } catch (error) {
+        console.error("Update failed:", error);
+      }
     }
     setIsModifyPseudo(!isModifyPseudo);
   }
   async function clickEmailHandler() {
-    try {
-      updateUser.mutate({
-        id: userId,
-        pseudo: pseudo,
-        email: email,
-      });
-    } catch (error) {
-      console.error("Update failed:", error);
+    if (userData.userEmail !== email) {
+      try {
+        updateUser.mutate({
+          id: userId,
+          pseudo: pseudo,
+          email: email,
+        });
+      } catch (error) {
+        console.error("Update failed:", error);
+      }
     }
     setIsModifyEmail(!isModifyEmail);
   }
@@ -102,7 +108,6 @@ const Profil = () => {
   function closeHandler() {
     setIsModal(false);
   }
-  console.log(isLoading);
 
   return (
     <>
@@ -122,14 +127,31 @@ const Profil = () => {
               >
                 <EditIcon fill="white" />
               </label>
-              <input
-                id="avatar-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleFileSelect}
-                className="hidden"
-              />
+
+              <form>
+                <input
+                  id="avatar-upload"
+                  className="hidden"
+                  type="file"
+                  {...register("avatar", {
+                    required: "Please select a file",
+                    validate: {
+                      lessThan5MB: (files) =>
+                        files[0].size < 5000000 || "Max 5MB",
+                      acceptedFormats: (files) =>
+                        ["image/jpeg", "image/png", "image/jpg"].includes(
+                          files[0]?.type
+                        ) || "Only PNG, JPG, JPEG",
+                    },
+                  })}
+                />
+              </form>
             </div>
+          </div>
+          <div className="flex justify-center items-center -mt-5 mb-2">
+            {errors.avatar && (
+              <p className=" text-red-500">{errors.avatar.message}</p>
+            )}
           </div>
 
           <div className="space-y-6">
@@ -139,7 +161,7 @@ const Profil = () => {
               </label>
               {isModifyPseudo ? (
                 isLoading && (
-                  <div className="relative flex justify-center items-centerp-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
+                  <div className="relative flex justify-center items-centerp-2 border border-bl mue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
                     <input
                       type="text"
                       id="pseudo"
@@ -156,7 +178,7 @@ const Profil = () => {
               ) : (
                 <div className="relative">
                   <p className="text-blue-12 font-semibold">{pseudo}</p>
-                  <div className="absolute top-0 right-2">
+                  <div className="absolute -top-1 right-2">
                     <EditButton
                       clickHandler={() => setIsModifyPseudo(!isModifyPseudo)}
                     />
@@ -188,7 +210,7 @@ const Profil = () => {
               ) : (
                 <div className="relative">
                   <p className="text-blue-12 font-semibold">{email}</p>
-                  <div className="absolute top-0 right-2">
+                  <div className="absolute -top-1 right-2">
                     <EditButton
                       clickHandler={() => setIsModifyEmail(!isModifyEmail)}
                     />
@@ -204,6 +226,7 @@ const Profil = () => {
                     cards={cards}
                     passwordCount={Object.keys(cards.data).length}
                     userCount={3}
+                    vaultId={parseInt(cards.vaultId)}
                     clickHandler={clickHandler}
                   />
                 ))}

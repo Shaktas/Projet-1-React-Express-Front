@@ -37,8 +37,13 @@ const vault = {
       body: JSON.stringify(name),
     });
   },
-  async deleteUser(id) {
-    return fetchAPI(`/user/${id}`, {
+  async deleteVault(id) {
+    return fetchAPI(`/vault/${id}`, {
+      method: "DELETE",
+    });
+  },
+  async deleteCardByVault(vaultId, cardId) {
+    return fetchAPI(`/vault/${vaultId}/card/${cardId}`, {
       method: "DELETE",
     });
   },

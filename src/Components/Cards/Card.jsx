@@ -5,11 +5,13 @@ import BackCard from "./BackCard";
 import PropTypes from "prop-types";
 import Modal from "../Modals/Modal";
 import UpdateEntry from "../Modals/UpdateEntry";
+import { useDeleteCardByVault } from "../../hooks/vault/useVaultData";
 
 const Card = ({ name, url, username, password, type, cardId, vaultId }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const { pasteHandler } = useContext(TooltipContext);
+  const deleteCard = useDeleteCardByVault();
 
   function handleFlip() {
     setIsFlipped(!isFlipped);
@@ -21,6 +23,15 @@ const Card = ({ name, url, username, password, type, cardId, vaultId }) => {
 
   function setCloseHandler() {
     setIsOpened(false);
+  }
+
+  function deleteCardHandler() {
+    const confirmation = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer cette carte ?"
+    );
+    if (confirmation) {
+      deleteCard.mutate({ vaultId, cardId });
+    }
   }
 
   return (
@@ -61,7 +72,7 @@ const Card = ({ name, url, username, password, type, cardId, vaultId }) => {
           <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
             <BackCard
               onModify={setModifyHandler}
-              onDelete={() => alert("Voulez vraiment supprimer cette carte ?")}
+              onDelete={deleteCardHandler}
               clickFlipHandler={handleFlip}
             />
           </div>
