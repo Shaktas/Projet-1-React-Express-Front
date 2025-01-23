@@ -30,6 +30,11 @@ export const TooltipProvider = ({ children }) => {
       condtion: "error",
       isVisible: tooltipSuccess,
     },
+    errorAuth: {
+      message: "Erreur lors de l'authentification",
+      condtion: "error",
+      isVisible: tooltipSuccess,
+    },
   };
 
   return (

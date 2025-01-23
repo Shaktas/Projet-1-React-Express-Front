@@ -8,6 +8,7 @@ function Tooltip({
   },
 }) {
   let bgColor = "";
+
   switch (properties.condition) {
     case "success":
       bgColor = "bg-green-400";
@@ -21,6 +22,7 @@ function Tooltip({
       bgColor = "bg-transparent";
       break;
   }
+  console.log(properties, bgColor);
 
   return (
     <div

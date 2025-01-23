@@ -39,8 +39,6 @@ const Vault = ({ cards, passwordCount, userCount, vaultId, clickHandler }) => {
   }, []);
 
   function updateVaultHandler() {
-    console.log("update vault");
-
     try {
       vaultUpdate.mutate({ title: vaultTitle, id: cards.vaultId });
     } catch (error) {
@@ -71,7 +69,6 @@ const Vault = ({ cards, passwordCount, userCount, vaultId, clickHandler }) => {
     const passwords = cardsData.map((card) => card.cardPassword);
     setPwdStrength(countStrengthPassword(passwords));
   }, [cards.vaultTitle, cardsData]);
-  console.log(isOpen, "isOpen");
 
   return (
     <div className="bg-blue-3 rounded-lg p-4 shadow-lg">

@@ -1,3 +1,4 @@
+import ResetPassword from "../Components/Authentication/ResetPassword";
 import { fetchAPI } from "./api";
 
 const auth = {
@@ -28,6 +29,20 @@ const auth = {
   async refreshToken() {
     return fetchAPI("/refresh", {
       method: "POST",
+    });
+  },
+  async resetPassword(email) {
+    return fetchAPI("/reset-password", {
+      method: "POST",
+      body: JSON.stringify({ userEmail: email, action: "reset-password" }),
+    });
+  },
+  async updatePassword(token, password) {
+    console.log(token, password);
+
+    return fetchAPI("/updatePassword/", {
+      method: "PUT",
+      body: JSON.stringify({ token, password }),
     });
   },
 };

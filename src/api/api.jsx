@@ -3,18 +3,22 @@ import card from "./card";
 import user from "./user";
 import vault from "./vault";
 import upload from "./upload";
+import avatar from "./avatar";
 
 const BASE_URL = "http://localhost:4000";
 
 export async function fetchAPI(endpoint, options = {}) {
-  const headers =
-    options.body instanceof FormData
-      ? { ...options.headers }
-      : {
-          "Content-Type": "application/json",
-          ...options.headers,
-        };
-
+  let headers = {};
+  if (!(options.body instanceof FormData)) {
+    headers = {
+      "Content-Type": "application/json",
+      ...options.headers,
+    };
+  } else {
+    headers = {
+      ...options.headers,
+    };
+  }
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     credentials: "include",
@@ -23,6 +27,12 @@ export async function fetchAPI(endpoint, options = {}) {
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  if (response.headers.get("Content-Type").includes("image")) {
+    const blob = await response.blob();
+    const imageUrl = URL.createObjectURL(blob);
+    return imageUrl;
   }
   return response.json();
 }
@@ -33,4 +43,5 @@ export const api = {
   vault,
   card,
   upload,
+  avatar,
 };

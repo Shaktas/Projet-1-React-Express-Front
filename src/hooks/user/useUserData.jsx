@@ -34,3 +34,12 @@ export function useUpdateUser() {
     },
   });
 }
+
+export function useGetAvatar() {
+  const { data } = useQuery({
+    queryKey: ["avatar"],
+    queryFn: () => api.avatar.getAvatar(),
+  });
+
+  return data;
+}

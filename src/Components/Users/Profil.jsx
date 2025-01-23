@@ -8,7 +8,11 @@ import UserControl from "../Modals/UserControl";
 import { useContext, useEffect } from "react";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { Navigate } from "react-router-dom";
-import { useUpdateUser, useUserData } from "../../hooks/user/useUserData";
+import {
+  useGetAvatar,
+  useUpdateUser,
+  useUserData,
+} from "../../hooks/user/useUserData";
 import { VaultContext } from "../../Context/VaultContext";
 import { useForm } from "react-hook-form";
 import { useUploadFile } from "../../hooks/upload/useUploadFile";
@@ -23,18 +27,24 @@ const Profil = () => {
   const [isModifyPseudo, setIsModifyPseudo] = useState(false);
   const [isModifyEmail, setIsModifyEmail] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const avatarData = useGetAvatar();
   const [avatar, setAvatar] = useState(() => {
     return baseAvatar;
   });
   const {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm();
   const userData = useUserData();
   const updateUser = useUpdateUser();
   const uploadAvatar = useUploadFile();
   const { cardsFromVault: cardsVaults } = useContext(VaultContext);
+
+  useEffect(() => {
+    if (avatarData) {
+      setAvatar(avatarData);
+    }
+  }, [avatarData]);
 
   useEffect(() => {
     if (userData && userData.userPseudo && userData.userEmail) {
@@ -47,19 +57,6 @@ const Profil = () => {
     setIsLoading(cardsVaults && cardsVaults.length > 0);
   }, [cardsVaults]);
 
-  async function onSubmit(data) {
-    console.log(data.avatar[0]);
-
-    const file = data.avatar[0];
-    if (file) {
-      try {
-        uploadAvatar.mutate(file);
-      } catch (error) {
-        console.error("Upload failed:", error);
-      }
-    }
-  }
-
   async function clickPseudoHandler() {
     if (userData.userPseudo !== pseudo) {
       try {
@@ -68,7 +65,6 @@ const Profil = () => {
           pseudo: pseudo,
           email: email,
         });
-        setIsModifyPseudo(false);
       } catch (error) {
         console.error("Update failed:", error);
       }
@@ -90,6 +86,13 @@ const Profil = () => {
     setIsModifyEmail(!isModifyEmail);
   }
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadAvatar.mutate(file);
+    }
+  };
+
   function isModifyPseudoHandler(e) {
     if (e.key === "Enter") {
       clickPseudoHandler();
@@ -98,7 +101,7 @@ const Profil = () => {
 
   function isModifyEmailHandler(e) {
     if (e.key === "Enter") {
-      setIsModifyEmail();
+      clickEmailHandler();
     }
   }
 
@@ -127,25 +130,22 @@ const Profil = () => {
               >
                 <EditIcon fill="white" />
               </label>
-
-              <form>
-                <input
-                  id="avatar-upload"
-                  className="hidden"
-                  type="file"
-                  {...register("avatar", {
-                    required: "Please select a file",
-                    validate: {
-                      lessThan5MB: (files) =>
-                        files[0].size < 5000000 || "Max 5MB",
-                      acceptedFormats: (files) =>
-                        ["image/jpeg", "image/png", "image/jpg"].includes(
-                          files[0]?.type
-                        ) || "Only PNG, JPG, JPEG",
-                    },
-                  })}
-                />
-              </form>
+              <input
+                id="avatar-upload"
+                className="hidden"
+                type="file"
+                {...register("avatar", {
+                  onChange: handleFileChange,
+                  validate: {
+                    lessThan5MB: (files) =>
+                      files[0].size < 5000000 || "Max 5MB",
+                    acceptedFormats: (files) =>
+                      ["image/jpeg", "image/png", "image/jpg"].includes(
+                        files[0]?.type
+                      ) || "Only PNG, JPG, JPEG",
+                  },
+                })}
+              />
             </div>
           </div>
           <div className="flex justify-center items-center -mt-5 mb-2">
@@ -163,13 +163,31 @@ const Profil = () => {
                 isLoading && (
                   <div className="relative flex justify-center items-centerp-2 border border-bl mue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2">
                     <input
+                      {...register("pseudoProfil", {
+                        required: true,
+                        minLength: {
+                          value: 3,
+                          message:
+                            "Le pseudo doit contenir au moins 3 caractères",
+                        },
+                        maxLength: {
+                          value: 20,
+                          message:
+                            "Le pseudo doit contenir au maximum 20 caractères",
+                        },
+                        onChange: (e) => setPseudo(e.target.value),
+                      })}
+                      onKeyDown={isModifyPseudoHandler}
                       type="text"
                       id="pseudo"
                       value={pseudo}
-                      onChange={(e) => setPseudo(e.target.value)}
-                      onKeyDown={isModifyPseudoHandler}
                       className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
                     />
+                    {errors.pseudoProfil && (
+                      <span className="text-red-500 text-sm">
+                        {errors.pseudoProfil.message}
+                      </span>
+                    )}
                     <div className="absolute top-2 right-2 z-10">
                       <EditButton clickHandler={clickPseudoHandler} />
                     </div>
@@ -195,13 +213,28 @@ const Profil = () => {
                 isLoading && (
                   <div className="relative">
                     <input
-                      type="text"
-                      id="email"
+                      {...register("emailProfil", {
+                        required: {
+                          value: true,
+                          message: "L'email est requis",
+                        },
+                        pattern: {
+                          value: /^\S+@\S+\.\S+$/,
+                          message: "L'email n'est pas valide",
+                        },
+                        onChange: (e) => setEmail(e.target.value),
+                      })}
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      type="email"
+                      id="email"
                       onKeyDown={isModifyEmailHandler}
                       className="w-full p-2 border border-blue-5 rounded-lg focus:outline-none focus:border-blue-9 bg-blue-2"
                     />
+                    {errors.emailProfil && (
+                      <span className="text-red-500 text-sm">
+                        {errors.emailProfil.message}
+                      </span>
+                    )}
                     <div className="absolute top-2 right-2">
                       <EditButton clickHandler={clickEmailHandler} />
                     </div>

@@ -6,9 +6,13 @@ import { api } from "../../api/api";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
+import Tooltip from "../Tooltip";
+import { TooltipContext } from "../../Context/TooltipContext";
 
 function Login() {
   const { isAuthenticate, setIsAuthenticate } = useContext(AuthenticateContext);
+  const { tooltips, setTooltipSuccess } = useContext(TooltipContext);
+  const [errorAuth, setErrorAuth] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [rgpd, setRgpd] = useState(false);
   const {
@@ -37,6 +41,7 @@ function Login() {
         pwd: form[1],
       };
       const login = await api.auth.login(data);
+      console.log(login.success);
 
       if (login.success) {
         sessionStorage.setItem("userId", login.user.userId);
@@ -66,11 +71,15 @@ function Login() {
   }
 
   function onError(errors) {
-    console.log(errors);
+    setErrorAuth(true);
+    setTooltipSuccess(true);
   }
+
+  console.log(tooltips.errorAuth);
 
   return (
     <>
+      <Tooltip properties={tooltips.errorAuth} />
       <div className="flex flex-col items-center justify-center gap-8 p-8">
         <h2 className="text-3xl font-bold">
           {isLogin ? "Connexion" : "Inscription"}
@@ -115,7 +124,6 @@ function Login() {
                       value: /^\S+@\S+\.\S+$/,
                       message: "L'email n'est pas valide",
                     },
-                    // validate: checkEmail,
                   })}
                   type="email"
                   placeholder="Email *"
@@ -224,6 +232,16 @@ function Login() {
             </div>
           )}
         </form>
+        {errorAuth ? (
+          <NavLink
+            className="text-blue-9 hover:underline"
+            to={"/forget-password"}
+          >
+            Mot de passe oublié ? cliquez ici
+          </NavLink>
+        ) : (
+          ""
+        )}
         <button
           onClick={() => setIsLogin(!isLogin)}
           className="text-blue-9 hover:underline"

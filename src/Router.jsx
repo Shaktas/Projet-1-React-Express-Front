@@ -8,6 +8,8 @@ import Login from "./Components/Authentication/Login";
 import Profil from "./Components/Users/Profil";
 import Test from "./Components/Test";
 import PolitiqueProtection from "./Components/RGPD/PolitiqueProtection";
+import ResetPassword from "./Components/Authentication/ResetPassword";
+import ForgetPassword from "./Components/Authentication/ForgetPassword";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +60,14 @@ const router = createBrowserRouter([
       {
         path: "politiqueProtection",
         element: <PolitiqueProtection />,
+      },
+      {
+        path: "reset-password/:reset",
+        element: <ResetPassword />,
+      },
+      {
+        path: "forget-password",
+        element: <ForgetPassword />,
       },
     ],
   },
