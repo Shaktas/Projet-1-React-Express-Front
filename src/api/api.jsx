@@ -5,7 +5,7 @@ import vault from "./vault";
 import upload from "./upload";
 import avatar from "./avatar";
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://brmic.dipsw-ccicampus.dev:4000";
 
 export async function fetchAPI(endpoint, options = {}) {
   let headers = {};
