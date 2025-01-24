@@ -5,7 +5,6 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { VaultContext } from "../../Context/VaultContext";
-import card from "../../api/card";
 
 const Cards = ({ filter = "" }) => {
   const { searchTerm } = useContext(SearchContext);

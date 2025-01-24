@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import CheckPwd from "./Components/password/CheckPwd";
+import CheckPwd from "./Components/Password/CheckPwd";
 import Layout from "./Components/Layout";
 import ErrorPage from "./Components/ErrorPage";
-import GenPwd from "./Components/password/GenPwd";
+import GenPwd from "./Components/Password/GenPwd";
 import Cards from "./Components/Cards/Cards";
 import Login from "./Components/Authentication/Login";
 import Profil from "./Components/Users/Profil";

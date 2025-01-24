@@ -1,6 +1,5 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
 import { countStrengthPassword } from "../../libs/function";
 import PwdLevels from "../Users/PwdLevels";
 import { KeyIcon } from "../../assets/Svg";

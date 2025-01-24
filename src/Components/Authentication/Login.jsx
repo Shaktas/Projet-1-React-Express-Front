@@ -6,7 +6,6 @@ import { api } from "../../api/api";
 import { AuthenticateContext } from "../../Context/AuthenticateContext";
 import { useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import Tooltip from "../Tooltip";
 import { TooltipContext } from "../../Context/TooltipContext";
 
 function Login() {
