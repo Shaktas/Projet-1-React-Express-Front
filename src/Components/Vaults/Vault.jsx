@@ -120,10 +120,7 @@ const Vault = ({ cards, passwordCount, userCount, vaultId, clickHandler }) => {
         )}
       </div>
 
-      <div className="flex justify-between items-center w-full">
-        <span className="text-blue-12">Users:</span>
-        <span className="font-medium text-blue-12">{userCount}</span>
-      </div>
+      <div className="flex justify-between items-center w-full"></div>
 
       <div className="space-y-2">
         <div className="flex justify-between items-center">

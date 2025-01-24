@@ -29,7 +29,7 @@ const ResetPassword = () => {
 
       setMessage("Mot de passe réinitialisé avec succès");
       setTimeout(() => {
-        navigate("/login");
+        navigate("/auth");
       }, 2000);
     } catch (e) {
       setError("Erreur lors de la réinitialisation du mot de passe");
