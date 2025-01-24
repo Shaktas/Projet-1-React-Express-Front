@@ -6,7 +6,6 @@ import GenPwd from "./Components/Password/GenPwd";
 import Cards from "./Components/Cards/Cards";
 import Login from "./Components/Authentication/Login";
 import Profil from "./Components/Users/Profil";
-import Test from "./Components/Test";
 import PolitiqueProtection from "./Components/RGPD/PolitiqueProtection";
 import ResetPassword from "./Components/Authentication/ResetPassword";
 import ForgetPassword from "./Components/Authentication/ForgetPassword";
@@ -52,10 +51,6 @@ const router = createBrowserRouter([
       {
         path: "myVault",
         element: <Cards />,
-      },
-      {
-        path: "test",
-        element: <Test />,
       },
       {
         path: "politiqueProtection",
