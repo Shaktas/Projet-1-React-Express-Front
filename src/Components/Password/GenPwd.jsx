@@ -87,6 +87,14 @@ function GenPwd() {
     setIsToggled(isToggled);
   }
 
+  function handleCopyButton() {
+    pasteHandler(pwd, "success");
+  }
+
+  function handleCopyButtonCustom() {
+    pasteHandler(pwdCustom, "success");
+  }
+
   return (
     <>
       <div className="my-10">
@@ -98,12 +106,12 @@ function GenPwd() {
             {isToggled ? pwdCustom : pwd}
             {isToggled ? (
               pwdCustom.length != 0 ? (
-                <CopyButton pasteHandler={() => pasteHandler(pwdCustom)} />
+                <CopyButton pasteHandler={handleCopyButtonCustom} />
               ) : (
                 ""
               )
             ) : pwd.length != 0 ? (
-              <CopyButton pasteHandler={() => pasteHandler(pwd)} />
+              <CopyButton pasteHandler={handleCopyButton} />
             ) : (
               ""
             )}

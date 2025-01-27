@@ -2,45 +2,45 @@ import { createContext, useState } from "react";
 import PropTypes from "prop-types";
 
 export const TooltipContext = createContext({
-  popupSuccess: false,
-  setPopupSuccess: () => {},
-  tooltips: {},
   pasteHandler: () => {},
+  selectTooltip: {},
 });
 
 export const TooltipProvider = ({ children }) => {
-  const [tooltipSuccess, setTooltipSuccess] = useState(false);
-
-  const pasteHandler = (string) => {
-    navigator.clipboard.writeText(string);
-    setTooltipSuccess(true);
-    setTimeout(() => {
-      setTooltipSuccess(false);
-    }, 2000);
-  };
-
+  const [selectTooltip, setSelectTooltip] = useState({});
   const tooltips = {
     success: {
       message: "Texte copié !",
-      condtion: "success",
-      isVisible: tooltipSuccess,
+      condition: "success",
+      isVisible: true,
     },
     deco: {
       message: "Vous avez été déconnecté car vous avez été inactif",
-      condtion: "error",
-      isVisible: tooltipSuccess,
+      condition: "error",
+      isVisible: true,
     },
     errorAuth: {
       message: "Erreur lors de l'authentification",
-      condtion: "error",
-      isVisible: tooltipSuccess,
+      condition: "error",
+      isVisible: true,
     },
   };
 
+  const pasteHandler = (string, choice) => {
+    console.log("pasteHandler", string, choice);
+
+    navigator.clipboard.writeText(string);
+    setSelectTooltip(tooltips[choice]);
+    setTimeout(() => {
+      setSelectTooltip({
+        ...tooltips[choice],
+        isVisible: false,
+      });
+    }, 2000);
+  };
+
   return (
-    <TooltipContext.Provider
-      value={{ tooltipSuccess, setTooltipSuccess, pasteHandler, tooltips }}
-    >
+    <TooltipContext.Provider value={{ pasteHandler, selectTooltip }}>
       {children}
     </TooltipContext.Provider>
   );

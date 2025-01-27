@@ -68,7 +68,7 @@ const FrontCard = ({
             <button
               className="hover:scale-105 ease-in-out duration-100"
               role="button"
-              onClick={() => pasteHandler(password)}
+              onClick={() => pasteHandler(password, "success")}
             >
               <strong className="text-blue-12">Password :</strong>{" "}
               {password.length < 10

@@ -10,7 +10,7 @@ import { TooltipContext } from "../../Context/TooltipContext";
 
 function Login() {
   const { isAuthenticate, setIsAuthenticate } = useContext(AuthenticateContext);
-  const { tooltips, setTooltipSuccess } = useContext(TooltipContext);
+  const { pasteHandler } = useContext(TooltipContext);
   const [errorAuth, setErrorAuth] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [rgpd, setRgpd] = useState(false);
@@ -40,7 +40,6 @@ function Login() {
         pwd: form[1],
       };
       const login = await api.auth.login(data);
-      console.log(login.success);
 
       if (login.success) {
         sessionStorage.setItem("userId", login.user.userId);
@@ -71,10 +70,9 @@ function Login() {
 
   function onError(errors) {
     setErrorAuth(true);
-    setTooltipSuccess(true);
+    pasteHandler("", "errorAuth");
+    console.console.error("Error in login:", errors);
   }
-
-  console.log(tooltips.errorAuth);
 
   return (
     <>

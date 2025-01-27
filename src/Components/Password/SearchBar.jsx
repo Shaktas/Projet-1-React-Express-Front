@@ -8,7 +8,7 @@ import Tooltip from "../Tooltip";
 function SearchBar() {
   const { searchTerm, setSearchTerm, setIsSearching } =
     useContext(SearchContext);
-  const { tooltips } = useContext(TooltipContext);
+  const { selectTooltip } = useContext(TooltipContext);
   const navigate = useNavigate();
 
   function onChangeHandler(e) {
@@ -20,11 +20,12 @@ function SearchBar() {
       setIsSearching(false);
     }
   }
+  console.log(selectTooltip);
 
   return (
     <div className="relative flex w-full py-5 justify-center h-auto">
       <div className="absolute top-4 left-10 z-50">
-        <Tooltip properties={tooltips.success} />
+        <Tooltip properties={selectTooltip} />
       </div>
       <div className="flex justify-center items-center bg-blue-8 text-blue-12 md:w-1/2 rounded-3xl relative">
         <input

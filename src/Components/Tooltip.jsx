@@ -4,10 +4,12 @@ function Tooltip({
   properties = {
     message: "Hello World",
     condition: "",
-    isVisible: true,
+    isVisible: false,
   },
 }) {
   let bgColor = "";
+
+  console.log(properties);
 
   switch (properties.condition) {
     case "success":
@@ -22,7 +24,7 @@ function Tooltip({
       bgColor = "bg-transparent";
       break;
   }
-  console.log(properties, bgColor);
+  console.log(properties.isVisible);
 
   return (
     <div
@@ -41,5 +43,6 @@ Tooltip.propTypes = {
   properties: PropTypes.shape({
     message: PropTypes.string,
     condition: PropTypes.string,
+    isVisible: PropTypes.bool,
   }),
 };
